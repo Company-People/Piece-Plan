@@ -36,6 +36,7 @@
   --shadow-purple-3: 0px 4px 12px 0px rgba(133, 111, 182, 0.5);
   --shadow-purple-neon: 0px 4px 12px 0px rgba(227, 214, 255, 0.75);
   --shadow-3d: -4px -4px 12px 0px rgba(228, 231, 255, 1), 4px 4px 8px 0px rgba(131, 113, 214, 1);
+  --shadow-3d-gray: -4px -4px 8px 0px rgba(209, 209, 209, 1), 4px 4px 8px 0px rgba(95, 95, 95, 1);
 
   /* text size */
   --sm: 12px;
@@ -86,7 +87,8 @@ body {
   background: var(--gradient-bg-main);
   font-family: 'Gmarket Sans';
   font-weight: 500;
-  letter-spacing: -0.08em;
+  color: var(--black-2);
+  letter-spacing: -0.04em;
 }
 
 h1,
@@ -104,7 +106,22 @@ a {
 }
 
 ul {
+  padding: 0;
+  margin: 0;
   list-style: none;
+}
+
+p {
+  margin: 0;
+}
+
+select {
+  appearance: none;
+}
+
+button {
+  background: none;
+  cursor: pointer;
 }
 
 button,
@@ -116,12 +133,12 @@ textarea {
   font-size: 100%;
   line-height: 1.15;
   margin: 0;
-  cursor: pointer;
 }
 
 button,
 input {
-  overflow: visible;
+  border: none;
+  appearance: none;
 }
 
 button,
@@ -148,4 +165,11 @@ legend {
 /* hidden */
 .hidden {
   display: none;
+}
+
+/* text gradient */
+.text-gradient {
+  background: var(--gradient-button-2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
