@@ -1,0 +1,95 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+
+  font-family: 'Gmarket Sans';
+  font-style: normal;
+
+  background: linear-gradient(180deg, #E1E9FF 0%, #EAE5FF 100%);
+}
+ul {
+  list-style: none;
+  padding-left: 0px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 373px;
+}
+
+.main-logo {
+  width: 175px;
+  height: 200px;
+  background-color: #3d6cef;
+  margin-bottom: 28px;
+}
+.main-catchphrase {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 28px;
+}
+
+.main-catchphrase .former {
+  margin-left: 18px;
+  font-weight: 300;
+  font-size: 40px;
+  letter-spacing: -0.08em;
+  color: #5C82DA;
+  text-shadow: 0px 4px 4px rgba(140, 113, 231, 0.2);
+}
+
+.main-catchphrase .latter {
+  margin-right: 18px;
+  align-self: flex-end;
+  font-weight: 300;
+  font-size: 56px;
+  letter-spacing: -0.04em;
+  color: #9275EF;
+  text-shadow: 0px 4px 8px rgba(140, 113, 231, 0.2);
+}
+
+.main-button-list {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  padding: 16px 24px;
+
+  border: none;
+  background: linear-gradient(288.24deg, #728CF0 14.12%, #9176FF 82.73%);
+  box-shadow: 4px 4px 12px #7560D1, -4px -4px 12px #AEB6FF;
+  border-radius: 300px;
+
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: -0.08em;
+
+  color: #FFFFFF;
+
+  cursor: pointer;
+}
+
+.main-button-list .button {
+  padding: 24px 36px;
+  font-size: 32px;
+}
+
+.hidden {
+  display: none !important;
+}
