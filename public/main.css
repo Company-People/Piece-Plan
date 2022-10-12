@@ -1,0 +1,103 @@
+/* variables */
+:root {
+  /* color */
+  --white: #ffffff;
+  --black-1: #323232;
+  --black-2: #505050;
+  --gray-1: #ccd2da;
+  --gray-2: #e6e9ed;
+  --red-1: #f64d4d;
+  --red-2: #f64d4d;
+  --red-3: #ff8086;
+  --pink-1: #ff8ec5;
+  --orange-1: #ffa439;
+  --yellow-1: #fed894;
+  --yellow-2: #fdc55f;
+  --green-1: #89e7b3;
+  --green-2: #4eda8c;
+  --skyblue-1: #89dcff;
+  --skyblue-2: #48c8ff;
+  --blue-1: #3a80e9;
+  --blue-2: #99b3ff;
+  --blue-3: #668cff;
+  --purple-1: #bfadf7;
+  --purple-2: #9e84f3;
+
+  /* box shadow */
+  --shadow-purple-1: 0px 4px 12px 0px rgba(197, 170, 255, 0.5);
+  --shadow-purple-2: 0px 4px 8px 0px rgba(90, 72, 129, 0.5);
+  --shadow-purple-3: 0px 4px 12px 0px rgba(133, 111, 182, 0.5);
+  --shadow-purple-neon: 0px 4px 12px 0px rgba(227, 214, 255, 0.75);
+  --shadow-3d: -4px -4px 12px 0px rgba(228, 231, 255, 1), 4px 4px 8px 0px rgba(131, 113, 214, 1);
+
+  /* text size */
+  --sm: 12px;
+  --md: 16px;
+  --lg: 20px;
+  --xl: 32px;
+  --xxl: 40px;
+  --xxxl: 56px;
+}
+
+/* normalize */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+  cursor: pointer;
+}
+
+button,
+input {
+  overflow: visible;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: button;
+}
+
+legend {
+  box-sizing: border-box; /* 1 */
+  color: inherit; /* 2 */
+  display: table; /* 1 */
+  max-width: 100%; /* 1 */
+  padding: 0; /* 3 */
+  white-space: normal; /* 1 */
+}
+
+/* hidden */
+.hidden {
+  display: none;
+}
