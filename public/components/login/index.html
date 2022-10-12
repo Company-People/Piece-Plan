@@ -6,5 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <form class="auth login" novalidate>
+      <div class="auth-title"></div>
+      <div class="auth-input-container">
+        <input type="text" id="login-userid" name="userid" placeholder="아이디" required autocomplete="off" />
+        <label for="login-userid hidden">아이디</label>
+        <div class="auth-error"></div>
+      </div>
+      <div class="auth-input-container">
+        <input type="password" id="login-password" name="password" placeholder="비밀번호" required autocomplete="off" />
+        <label for="login-password hidden">비밀번호</label>
+        <div class="auth-error"></div>
+      </div>
+      <button class="login-button button">로그인</button>
+      <div class="auth-callout"><div class="auth-callout-desc">계정이 없으신가요?</div><button class="signup-button button">가입하기</button></div>
+    </form>
+  </body>
 </html>
