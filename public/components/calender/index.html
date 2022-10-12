@@ -10,31 +10,39 @@
   <body>
     <div id="root">
       <!-- nav -->
-      <div style="height: 124px; background: #eee"></div>
+      <!-- <div style="height: 124px; background: #eee"></div> -->
+      <div class="nav">
+        <div class="logo"></div>
+        <div class="user-container">
+          <div class="user-info text-gradient">Welcome, Nalsae!</div>
+          <button class="logout">로그아웃</button>
+        </div>
+      </div>
+      <!-- calendar -->
       <div class="calendar-container">
         <div class="calendar-nav">
           <div class="calendar-year">
-            <button class="calendar-year-prev">&lt</button>
+            <button class="calendar-year-prev"></button>
             <div class="calendar-current-year">2022</div>
-            <button class="calendar-year-next">&gt</button>
+            <button class="calendar-year-next"></button>
           </div>
-          <div class="calendar-month">
-            <div>January</div>
-            <div>February</div>
-            <div>March</div>
-            <div>April</div>
-            <div>May</div>
-            <div>June</div>
-            <div>July</div>
-            <div>August</div>
-            <div>September</div>
-            <div>October</div>
-            <div>November</div>
-            <div>December</div>
-          </div>
+          <ol class="calendar-month">
+            <li>January</li>
+            <li>February</li>
+            <li>March</li>
+            <li>April</li>
+            <li>May</li>
+            <li>June</li>
+            <li>July</li>
+            <li>August</li>
+            <li>September</li>
+            <li class="is-selected">October</li>
+            <li>November</li>
+            <li>December</li>
+          </ol>
         </div>
         <div class="calendar-main">
-          <div class="calendar-current-month">October</div>
+          <div class="calendar-current-month text-gradient">October</div>
           <div class="calendar-grid">
             <div class="day">Sun</div>
             <div class="day">Mon</div>
@@ -54,13 +62,13 @@
             <div class="date">9</div>
             <div class="date">10</div>
             <div class="date">11</div>
-            <div class="date">12</div>
+            <div class="date today">12</div>
             <div class="date">13</div>
-            <div class="date">14</div>
+            <div class="date study-schedule">14</div>
             <div class="date">15</div>
             <div class="date">16</div>
             <div class="date">17</div>
-            <div class="date">18</div>
+            <div class="date health-schedule">18</div>
             <div class="date">19</div>
             <div class="date">20</div>
             <div class="date">21</div>
@@ -72,7 +80,7 @@
             <div class="date">27</div>
             <div class="date">28</div>
             <div class="date">29</div>
-            <div class="date">30</div>
+            <div class="date date-schedule">30</div>
             <div class="date">31</div>
             <div class="date">32</div>
             <div class="date">33</div>
