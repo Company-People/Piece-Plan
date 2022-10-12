@@ -5,15 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="../../main.css" />
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <div id="root">
       <!-- nav -->
-      <div style="height: 124px; background: #eee"></div>
+      <div class="nav">
+        <div class="logo"></div>
+        <div class="user-container">
+          <div class="user-info text-gradient">Welcome, Nalsae!</div>
+          <button class="logout">로그아웃</button>
+        </div>
+      </div>
       <!-- plan -->
       <div class="plan">
         <div class="plan-piece">
-          <input type="text" placeholder="검색어를 입력하세요." />
+          <form class="plan-search-form">
+            <input class="plan-search-input" type="text" placeholder="검색어를 입력하세요." />
+            <button class="plan-search-btn"></button>
+          </form>
           <div class="plan-filter">
             <button class="plan-filter-all">전체 보기</button>
             <button class="plan-filter-my">MY 피스</button>
@@ -31,133 +42,149 @@
             <!-- 피스 id 값 넣어주며 map 돌리기 -->
             <li id="1" class="plan-piece-item" draggable="true">
               <!-- 모달 띄우기 -->
-              <a class="plan-piece-link" href="/">
+              <div class="plan-piece-link">
                 <p class="plan-piece-title">이두 운동</p>
-                <span>헤머컬로 이두를 조져 봅시다 🔥</span>
-                <span>3h</span>
-                <span>1,004</span>
-              </a>
+                <p class="plan-piece-sub">헤머컬로 이두를 조져 봅시다 🔥</p>
+                <span class="plan-piece-time">3h</span>
+                <span class="plan-piece-fav">1,004</span>
+              </div>
             </li>
+
             <li id="2" class="plan-piece-item" draggable="true">
               <!-- 모달 띄우기 -->
-              <a class="plan-piece-link" href="/">
+              <div class="plan-piece-link">
                 <p class="plan-piece-title">코딩 테스트 정복</p>
-                <span>프로그래머스 완전 탐색 문제 부수기 👊</span>
-                <span>3h</span>
-                <span>1,004</span>
-              </a>
+                <p class="plan-piece-sub">프로그래머스 완전 탐색 문제 부수기 👊</p>
+                <span class="plan-piece-time">3h</span>
+                <span class="plan-piece-fav">1,004</span>
+              </div>
             </li>
             <li id="3" class="plan-piece-item" draggable="true">
-              <!-- 모달 띄우기 -->
-              <a class="plan-piece-link" href="/">
+              <div class="plan-piece-link">
                 <p class="plan-piece-title">석촌호수 산책 코스</p>
-                <span>러버덕과 함께 사랑을 키워 보세요 ❤</span>
-                <span>1h</span>
-                <span>849</span>
-              </a>
+                <p class="plan-piece-sub">러버덕과 함께 사랑을 키워 보세요 ❤</p>
+                <span class="plan-piece-time">1h</span>
+                <span class="plan-piece-fav">849</span>
+              </div>
             </li>
           </ul>
         </div>
         <div class="plan-daily">
-          <h2 class="plan-daily-title">22. 10. 11</h2>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오전 0시</span>
-            <div id="drop0" draggable="true" class="plan-daily-piece"></div>
+          <h2 class="plan-daily-title text-gradient">22. 10. 11</h2>
+          <div class="plan-daily-scroll">
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오전 12시</span>
+              <div id="drop0" draggable="true" class="plan-daily-piece"></div>
+              <button class="plan-daily-add"></button>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오전 1시</span>
+              <div id="drop1" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오전 2시</span>
+              <div id="drop2" draggable="true" class="plan-daily-piece">
+                <div id="pieceId1" class="plan-daily-link">
+                  <p class="plan-daily-piece-title">석촌호수 산책 코스</p>
+                </div>
+              </div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오전 3시</span>
+              <div id="drop3" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오전 4시</span>
+              <div id="drop4" draggable="true" class="plan-daily-piece">
+                <div id="pieceId2" class="plan-daily-link">
+                  <p class="plan-daily-piece-title">코딩 테스트 정복</p>
+                </div>
+              </div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오전 5시</span>
+              <div id="drop5" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오전 6시</span>
+              <div id="drop6" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오전 7시</span>
+              <div id="drop7" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오전 8시</span>
+              <div id="drop8" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오전 9시</span>
+              <div id="drop9" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오전 10시</span>
+              <div id="drop10" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오전 11시</span>
+              <div id="drop11" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 12시</span>
+              <div id="drop12" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 1시</span>
+              <div id="drop13" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 2시</span>
+              <div id="drop14" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 3시</span>
+              <div id="drop15" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 4시</span>
+              <div id="drop16" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 5시</span>
+              <div id="drop17" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 6시</span>
+              <div id="drop18" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 7시</span>
+              <div id="drop19" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 8시</span>
+              <div id="drop20" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 9시</span>
+              <div id="drop21" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 10시</span>
+              <div id="drop22" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 11시</span>
+              <div id="drop23" draggable="true" class="plan-daily-piece"></div>
+            </div>
+            <div class="plan-daily-time">
+              <span class="plan-daily-hour">오후 12시</span>
+              <div id="drop24" draggable="true" class="plan-daily-piece"></div>
+            </div>
           </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오전 1시</span>
-            <div id="drop1" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오전 2시</span>
-            <div id="drop2" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오전 3시</span>
-            <div id="drop3" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오전 4시</span>
-            <div id="drop4" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오전 5시</span>
-            <div id="drop5" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오전 6시</span>
-            <div id="drop6" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오전 7시</span>
-            <div id="drop7" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오전 8시</span>
-            <div id="drop8" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오전 9시</span>
-            <div id="drop9" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오전 10시</span>
-            <div id="drop10" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오전 11시</span>
-            <div id="drop11" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오후 12시</span>
-            <div id="drop12" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오후 1시</span>
-            <div id="drop13" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오후 2시</span>
-            <div id="drop14" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오후 3시</span>
-            <div id="drop15" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오후 4시</span>
-            <div id="drop16" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오후 5시</span>
-            <div id="drop17" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오후 6시</span>
-            <div id="drop18" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오후 7시</span>
-            <div id="drop19" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오후 8시</span>
-            <div id="drop20" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오후 9시</span>
-            <div id="drop21" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오후 10시</span>
-            <div id="drop22" draggable="true" class="plan-daily-piece"></div>
-          </div>
-          <div class="plan-daily-time">
-            <span class="plan-daily-hour">오후 11시</span>
-            <div id="drop23" draggable="true" class="plan-daily-piece"></div>
-          </div>
+          <button class="plan-submit-btn">완료</button>
         </div>
-        <button class="plan-cancel-btn">X</button>
+        <button class="plan-cancel-btn"></button>
       </div>
     </div>
   </body>
