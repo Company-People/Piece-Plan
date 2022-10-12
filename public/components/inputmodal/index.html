@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="modal-background">
+      <form action="#" method="post" class="inputmodal">
+        <h1 class="inputmodal-title">피스 등록</h1>
+
+        <input type="text" id="piece-title" name="piece-title" placeholder="제목을 입력해 주세요." required autocomplete="off" />
+        <label for="piece-title" class="hidden">제목을 입력해 주세요.</label>
+        
+        <div class="piece-dropdown-list">
+          <label for="piece-time-select" class="hidden">시간 선택</label>
+          <select name="piece-time" id="piece-time-select">
+              <option value="">시간 선택</option>
+              <option value="1">1시간</option>
+              <option value="2">2시간</option>
+              <option value="3">3시간</option>
+              <option value="4">4시간</option>
+              <option value="5">5시간</option>
+              <option value="6">6시간</option>
+              <option value="7">7시간</option>
+              <option value="8">8시간</option>
+              <option value="9">9시간</option>
+              <option value="10">10시간</option>
+              <option value="11">11시간</option>
+              <option value="12">12시간</option>
+              <option value="13">13시간</option>
+              <option value="14">14시간</option>
+              <option value="15">15시간</option>
+              <option value="16">16시간</option>
+              <option value="17">17시간</option>
+              <option value="18">18시간</option>
+              <option value="19">19시간</option>
+              <option value="20">20시간</option>
+              <option value="21">21시간</option>
+              <option value="22">22시간</option>
+              <option value="23">23시간</option>
+              <option value="24">24시간</option>
+          </select>
+
+          <label for="piece-category-select" class="hidden">카테고리 선택</label>
+          <select name="piece-category" id="piece-category-select">
+              <option value="">카테고리 선택</option>
+              <option value="exercise">운동</option>
+              <option value="study">공부</option>
+              <option value="date">데이트</option>
+              <option value="trip">여행</option>
+              <option value="art">예술</option>
+              <option value="play">놀이</option>
+              <option value="rest">휴식</option>
+              <option value="work">업무</option>
+              <option value="parenting">육아</option>
+          </select>
+        </div>
+        
+        <input type="text" id="piece-subtitle" name="piece-subtitle" placeholder="제목을 입력해 주세요." required autocomplete="off" />
+        <label for="piece-subtitle" class="hidden">소제목을 입력해 주세요.</label>
+        
+        <textarea name="piece-content" id="piece-content" cols="30" rows="10"></textarea>
+        <label for="piece-content" class="hidden">내용을 입력해 주세요.</label>
+        
+
+        <input type="checkbox" id="scales" name="scales" checked>
+        <label for="scales" class="">나만의 피스로 등록</label>
+
+        <button class="piece-add-button button">등록</button>
+        <button class="piece-close-button button">X</button>
+
+
+      </form>
+    </div>
+  </body>
+</html>
