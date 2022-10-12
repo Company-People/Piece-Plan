@@ -10,14 +10,14 @@
   <body>
     <div class="modal-background">
       <form action="#" method="post" class="inputmodal">
-        <h1 class="inputmodal-title">피스 등록</h1>
-
-        <input type="text" id="piece-title" name="piece-title" placeholder="제목을 입력해 주세요." required autocomplete="off" />
+        <h1 class="inputmodal-title text-gradient">피스 등록</h1>
+        
+        <input type="text" id="piece-title" class="piece-input" name="piece-title" placeholder="제목을 입력해 주세요." required autocomplete="off" />
         <label for="piece-title" class="hidden">제목을 입력해 주세요.</label>
         
         <div class="piece-dropdown-list">
           <label for="piece-time-select" class="hidden">시간 선택</label>
-          <select name="piece-time" id="piece-time-select">
+          <select name="piece-time" id="piece-time-select" class="piece-input">
               <option value="">시간 선택</option>
               <option value="1">1시간</option>
               <option value="2">2시간</option>
@@ -46,7 +46,7 @@
           </select>
 
           <label for="piece-category-select" class="hidden">카테고리 선택</label>
-          <select name="piece-category" id="piece-category-select">
+          <select name="piece-category" id="piece-category-select" class="piece-input">
               <option value="">카테고리 선택</option>
               <option value="exercise">운동</option>
               <option value="study">공부</option>
@@ -60,18 +60,19 @@
           </select>
         </div>
         
-        <input type="text" id="piece-subtitle" name="piece-subtitle" placeholder="제목을 입력해 주세요." required autocomplete="off" />
+        <input type="text" id="piece-subtitle" class="piece-input" name="piece-subtitle" placeholder="제목을 입력해 주세요." required autocomplete="off" />
         <label for="piece-subtitle" class="hidden">소제목을 입력해 주세요.</label>
         
-        <textarea name="piece-content" id="piece-content" cols="30" rows="10"></textarea>
+        <textarea name="piece-content" id="piece-content" class="piece-input" cols="30" rows="10" placeholder="내용을 입력해 주세요."></textarea>
         <label for="piece-content" class="hidden">내용을 입력해 주세요.</label>
         
-
-        <input type="checkbox" id="scales" name="scales" checked>
-        <label for="scales" class="">나만의 피스로 등록</label>
+        <div class="checkbox-container">
+          <input type="checkbox" id="my-piece" name="my-piece" checked>
+          <label for="my-piece" class="my-piece-desc text-gradient">나만의 피스로 등록</label>
+        </div>
 
         <button class="piece-add-button button">등록</button>
-        <button class="piece-close-button button">X</button>
+        <button class="piece-close-button"></button>
 
 
       </form>

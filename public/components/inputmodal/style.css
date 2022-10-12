@@ -1,0 +1,137 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+select,
+option {
+  appearance: none;
+}
+
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+
+  font-family: 'Gmarket Sans';
+  font-style: normal;
+
+  background: linear-gradient(180deg, #E1E9FF 0%, #EAE5FF 100%);
+}
+
+.modal-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(25, 35, 65, 0.8) 0%, rgba(32, 26, 57, 0.8) 100%);
+  backdrop-filter: blur(4px);
+}
+
+.inputmodal {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 548px;
+  padding: 24px 24px 32px 24px;
+
+  background: #FFFFFF;
+  box-shadow: 0px 4px 12px rgba(227, 214, 255, 0.75);
+  border-radius: 12px;
+}
+.inputmodal-title {
+  margin-bottom: 26px;
+  margin-top: 0;
+
+  font-weight: 500;
+  font-size: 40px;
+  letter-spacing: -0.04em;
+}
+
+#piece-title,
+.piece-dropdown-list,
+#piece-subtitle {
+  margin-bottom: 8px;
+}
+
+.piece-input {
+  padding: 16px;
+  border-radius: 4px;
+  border: 1px solid #9176ff;
+
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: -0.08em;
+
+  color: #505050;
+}
+
+select {
+  padding-right: 38px !important;
+  background: url('../../assets/btn_dropdown.png') no-repeat 91% 50%/15px auto;
+}
+
+.checkbox-container {
+  display: flex;
+}
+
+#piece-content {
+  margin-bottom: 28px;
+  resize: none;
+}
+
+.my-piece-desc {
+  margin-left: 8px;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: -0.08em;
+}
+
+.button {
+  padding: 16px 24px;
+
+  border: none;
+  background: linear-gradient(288.24deg, #728CF0 14.12%, #9176FF 82.73%);
+  box-shadow: 4px 4px 12px #7560D1, -4px -4px 12px #AEB6FF;
+  border-radius: 300px;
+
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: -0.08em;
+
+  color: #FFFFFF;
+}
+
+.piece-add-button {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.piece-close-button {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 21px;
+  height: 21px;
+  background: url('../../assets/btn_close.png') no-repeat center/contain;
+  border: none;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
