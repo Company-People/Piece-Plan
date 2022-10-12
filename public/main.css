@@ -23,6 +23,13 @@
   --purple-1: #bfadf7;
   --purple-2: #9e84f3;
 
+  /* gradient */
+  --gradient-bg-main: linear-gradient(180deg, #e1e9ff 0%, #eae5ff 100%);
+  --gradient-bg-modal: linear-gradient(180deg, rgba(25, 35, 65, 0.8) 0%, rgba(32, 26, 57, 0.8) 100%);
+  --gradient-button-1: linear-gradient(99.66deg, #9ab6fb 11.33%, #af9df7 90.25%);
+  --gradient-button-2: linear-gradient(288.24deg, #728cf0 14.12%, #9176ff 82.73%);
+  --gradient-button-3: linear-gradient(107.08deg, #5a5a5a 11.26%, #7c7c7c 95.08%);
+
   /* box shadow */
   --shadow-purple-1: 0px 4px 12px 0px rgba(197, 170, 255, 0.5);
   --shadow-purple-2: 0px 4px 8px 0px rgba(90, 72, 129, 0.5);
@@ -47,7 +54,10 @@
 }
 
 body {
+  width: 100vw;
+  height: 100vh;
   margin: 0;
+  background: var(--gradient-bg-main);
 }
 
 a {
