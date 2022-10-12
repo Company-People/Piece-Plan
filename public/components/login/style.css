@@ -24,7 +24,7 @@ body {
   flex-direction: column;
   align-items: center;
   min-width: 508px;
-  padding: 35px;
+  padding: 36px;
   background: linear-gradient(99.66deg, #9AB6FB 11.33%, #AF9DF7 90.25%);
   box-shadow: 0px 4px 8px rgba(90, 72, 129, 0.5);
   border-radius: 20px;
@@ -78,19 +78,22 @@ body {
   color: #FFFFFF;
 }
 
-.login-button {
+.main-button {
   margin-top: 20px;
-  margin-bottom: 28px;
 }
+
 .auth-callout {
   display: flex;
   flex-direction: column;
   align-items: center;
   
+  margin-top: 28px;
+
   width: 100%;
-  padding: 20px;
+  padding: 20px 20px 0px 20px;
   border-top: 1px solid #FFFFFF;
 }
+
 .auth-callout-desc {
   margin-bottom: 16px;
   font-weight: 400;
@@ -98,6 +101,7 @@ body {
   letter-spacing: -0.04em;
   color: #FFFFFF;
 }
+
 .hidden {
   display: none !important;
 }
