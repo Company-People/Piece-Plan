@@ -9,8 +9,8 @@ const pieces = [
     share: true,
     favoriteCnt: 30,
     time: 4,
-    writeDate: '2022-10-04',
-    userId: '08ee5b01-5edd-48c8-ab0d-78ab5c40edb9',
+    writeDate: '2022-10-04',    
+   userId: '08ee5b01-5edd-48c8-ab0d-78ab5c40edb9',
   },
   {
     pieceId: 'ec6a2e97-2b33-43b0-adbc-2ac0abf07c05',
