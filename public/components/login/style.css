@@ -283,6 +283,19 @@ body {
   color: #ffffff;
 }
 
+.auth.vibration {
+  animation: vibration .1s 6;
+}
+
+@keyframes vibration {
+  from {
+    transform: rotate(1deg);
+  }
+  to {
+    transform: rotate(-1deg);
+  }
+}
+
 .hidden {
   display: none !important;
 }
