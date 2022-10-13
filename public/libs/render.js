@@ -11,6 +11,10 @@ import reconciliation from './diff.js';
 //   { path: '/plan', component: Plan },
 // ];
 
+
+// const render = path => {
+//  const _path = path ?? window.location.pathname;
+
 const render = Component => {
   // const _path = path ?? window.location.pathname;
   // console.log(_path);
@@ -21,6 +25,7 @@ const render = Component => {
   $virtual.innerHTML = domString;
 
   reconciliation($root, $virtual);
+
   // try {
   //   const Component = routes.find(route => route.path === _path)?.component || Main;
   //   const $virtual = $root.cloneNode();
