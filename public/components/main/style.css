@@ -1,3 +1,179 @@
+/* variables */
+:root {
+  /* color */
+  --white: #ffffff;
+  --black-1: #323232;
+  --black-2: #505050;
+  --gray-1: #ccd2da;
+  --gray-2: #e6e9ed;
+  --red-1: #f64d4d;
+  --red-2: #f64d4d;
+  --red-3: #ff8086;
+  --pink-1: #ff8ec5;
+  --orange-1: #ffa439;
+  --yellow-1: #fed894;
+  --yellow-2: #fdc55f;
+  --green-1: #89e7b3;
+  --green-2: #4eda8c;
+  --skyblue-1: #89dcff;
+  --skyblue-2: #48c8ff;
+  --blue-1: #3a80e9;
+  --blue-2: #99b3ff;
+  --blue-3: #668cff;
+  --purple-1: #bfadf7;
+  --purple-2: #9e84f3;
+
+  /* gradient */
+  --gradient-bg-main: linear-gradient(180deg, #e1e9ff 0%, #eae5ff 100%);
+  --gradient-bg-modal: linear-gradient(180deg, rgba(25, 35, 65, 0.8) 0%, rgba(32, 26, 57, 0.8) 100%);
+  --gradient-button-1: linear-gradient(99.66deg, #9ab6fb 11.33%, #af9df7 90.25%);
+  --gradient-button-2: linear-gradient(288.24deg, #728cf0 14.12%, #9176ff 82.73%);
+  --gradient-button-3: linear-gradient(107.08deg, #5a5a5a 11.26%, #7c7c7c 95.08%);
+
+  /* box shadow */
+  --shadow-purple-1: 0px 4px 12px 0px rgba(197, 170, 255, 0.5);
+  --shadow-purple-2: 0px 4px 8px 0px rgba(90, 72, 129, 0.5);
+  --shadow-purple-3: 0px 4px 12px 0px rgba(133, 111, 182, 0.5);
+  --shadow-purple-neon: 0px 4px 12px 0px rgba(227, 214, 255, 0.75);
+  --shadow-3d: -4px -4px 12px 0px rgba(228, 231, 255, 1), 4px 4px 8px 0px rgba(131, 113, 214, 1);
+  --shadow-3d-gray: -4px -4px 8px 0px rgba(209, 209, 209, 1), 4px 4px 8px 0px rgba(95, 95, 95, 1);
+
+  /* text size */
+  --sm: 12px;
+  --md: 16px;
+  --lg: 20px;
+  --xl: 32px;
+  --xxl: 40px;
+  --xxxl: 56px;
+}
+
+/* font */
+@font-face {
+  font-family: 'Gmarket Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Gmarket Sans Bold'), local('GmarketSans-Bold'),
+    url('http://script.ebay.co.kr/fonts/GmarketSansBold.woff2') format('woff2'),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */ url('http://script.ebay.co.kr/fonts/GmarketSansBold.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+@font-face {
+  font-family: 'Gmarket Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Gmarket Sans Medium'), local('GmarketSans-Medium'),
+    url('http://script.ebay.co.kr/fonts/GmarketSansMedium.woff2') format('woff2'),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */ url('http://script.ebay.co.kr/fonts/GmarketSansMedium.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+@font-face {
+  font-family: 'Gmarket Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Gmarket Sans Light'), local('GmarketSans-Light'),
+    url('http://script.ebay.co.kr/fonts/GmarketSansLight.woff2') format('woff2'),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */ url('http://script.ebay.co.kr/fonts/GmarketSansLight.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* normalize */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background: var(--gradient-bg-main);
+  font-family: 'Gmarket Sans';
+  font-weight: 500;
+  color: var(--black-2);
+  letter-spacing: -0.04em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+p {
+  margin: 0;
+}
+
+select {
+  appearance: none;
+}
+
+button {
+  background: none;
+  cursor: pointer;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+button,
+input {
+  border: none;
+  appearance: none;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: button;
+}
+
+legend {
+  box-sizing: border-box; /* 1 */
+  color: inherit; /* 2 */
+  display: table; /* 1 */
+  max-width: 100%; /* 1 */
+  padding: 0; /* 3 */
+  white-space: normal; /* 1 */
+}
+
+/* hidden */
+.hidden {
+  display: none;
+}
+
+/* text gradient */
+.text-gradient {
+  background: var(--gradient-button-2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 *,
 *::after,
 *::before {
@@ -16,7 +192,7 @@ body {
   font-family: 'Gmarket Sans';
   font-style: normal;
 
-  background: linear-gradient(180deg, #E1E9FF 0%, #EAE5FF 100%);
+  background: linear-gradient(180deg, #e1e9ff 0%, #eae5ff 100%);
 }
 ul {
   list-style: none;
@@ -31,11 +207,13 @@ ul {
 }
 
 .main-logo {
-  width: 175px;
-  height: 200px;
-  background-color: #3d6cef;
+  width: 200px;
+  height: 220px;
+  background: url(../../assets/logo_shadow.png) no-repeat;
+  background-size: cover;
   margin-bottom: 28px;
 }
+
 .main-catchphrase {
   display: flex;
   flex-direction: column;
@@ -45,10 +223,11 @@ ul {
 
 .main-catchphrase .former {
   margin-left: 18px;
+  margin-bottom: 16px;
   font-weight: 300;
   font-size: 40px;
   letter-spacing: -0.08em;
-  color: #5C82DA;
+  color: #5c82da;
   text-shadow: 0px 4px 4px rgba(140, 113, 231, 0.2);
 }
 
@@ -58,7 +237,7 @@ ul {
   font-weight: 300;
   font-size: 56px;
   letter-spacing: -0.04em;
-  color: #9275EF;
+  color: #9275ef;
   text-shadow: 0px 4px 8px rgba(140, 113, 231, 0.2);
 }
 
@@ -72,21 +251,21 @@ ul {
   padding: 16px 24px;
 
   border: none;
-  background: linear-gradient(288.24deg, #728CF0 14.12%, #9176FF 82.73%);
-  box-shadow: 4px 4px 12px #7560D1, -4px -4px 12px #AEB6FF;
+  background: linear-gradient(288.24deg, #728cf0 14.12%, #9176ff 82.73%);
+  box-shadow: 4px 4px 12px #7560d1, -4px -4px 12px #aeb6ff;
   border-radius: 300px;
 
   font-weight: 400;
   font-size: 20px;
   letter-spacing: -0.08em;
 
-  color: #FFFFFF;
+  color: #ffffff;
 
   cursor: pointer;
 }
 
 .main-button-list .button {
-  padding: 24px 36px;
+  padding: 22px 36px;
   font-size: 32px;
 }
 
