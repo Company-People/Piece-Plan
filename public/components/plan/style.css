@@ -174,8 +174,8 @@ p {
 
 .plan-search-btn {
   width: 68px;
-  background: var(--gradient-button-2);
   border-radius: 0px var(--xl) var(--xl) 0px;
+  background: url('../../assets/icon_search.png') no-repeat 45%, var(--gradient-button-2);
 }
 
 .plan-filter {
@@ -270,7 +270,7 @@ p {
   background: var(--gradient-button-2);
   box-shadow: var(--shadow-purple-2);
   border-radius: 16px;
-  font-size: 15px;
+  font-size: 14px;
   top: 6px;
   text-align: center;
 }
@@ -281,6 +281,8 @@ p {
 }
 
 .plan-piece-fav {
+  display: flex;
+  align-items: center;
   width: 71px;
   right: 8px;
 }
@@ -291,7 +293,9 @@ p {
   width: 13px;
   height: 13px;
   margin-right: 5px;
+  vertical-align: middle;
   background-image: url('../../assets/icon_star_fill.png');
+  background-size: contain;
 }
 
 /* --------------------------------- */
@@ -340,7 +344,7 @@ p {
 
 .plan-daily-hour {
   width: 65px;
-  font-size: 16px;
+  font-size: 15px;
   margin-top: -8px;
 }
 
@@ -355,22 +359,26 @@ p {
   background-color: #50505080;
 }
 
-.plan-daily-add {
-  display: none;
+.plan-daily-add,
+.plan-daily-remove {
   position: absolute;
   top: 50%;
-  right: 32px;
   width: 28px;
   height: 28px;
   transform: translate3d(0px, -50%, 0px);
-  background-image: url('../../assets/btn_add.png');
   background-size: contain;
   background-repeat: no-repeat;
   z-index: 1;
 }
 
-.plan-daily-piece:hover ~ button {
-  display: block;
+.plan-daily-add {
+  right: 34px;
+  background-image: url('../../assets/btn_add.png');
+}
+
+.plan-daily-remove {
+  right: 20px;
+  background-image: url('../../assets/btn_remove.png');
 }
 
 .plan-daily-link {
