@@ -1,3 +1,4 @@
+import App from '../components/detail-modal/App.js';
 import addEventHandlers from '../libs/eventHolder.js';
 import render from '../libs/render.js';
 
@@ -13,8 +14,9 @@ class Component {
    */
   setState(newState) {
     this.state = { ...this.state, ...newState };
+    console.log(this.state);
 
-    render();
+    render(App);
   }
 }
 
