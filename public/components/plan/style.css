@@ -127,6 +127,43 @@ p {
   bottom: 0;
   background: var(--gradient-button-1);
 }
+
+.exercise {
+  background-color: #48c8ff;
+}
+
+.study {
+  background-color: #89e7b3;
+}
+
+.date {
+  background-color: #bfadf7;
+}
+
+.trip {
+  background-color: var(--yellow-1);
+}
+
+.art {
+  background-color: var(--red-3);
+}
+
+.play {
+  background-color: var(--pink-1);
+}
+
+.rest {
+  background-color: #ff8086;
+}
+
+.work {
+  background-color: aquamarine;
+}
+
+.parenting {
+  background-color: var(--purple-1);
+}
+
 /* --------------------------------- */
 
 .plan {
@@ -205,7 +242,7 @@ p {
 }
 
 .plan-category option {
-  color: #eee;
+  color: #999;
 }
 
 .plan-category:focus {
@@ -234,18 +271,10 @@ p {
   margin-bottom: 16px;
   border-radius: 12px;
   box-shadow: var(--shadow-purple-2);
-  background: var(--blue-3);
-}
-
-/* 임시 */
-.plan-piece-item:first-child {
-  background: var(--orange-1);
 }
 
 .plan-piece-item:last-child {
   margin-bottom: 0px;
-  /* 임시 */
-  background: var(--pink-1);
 }
 
 .plan-piece-link {
@@ -259,8 +288,19 @@ p {
 }
 
 .plan-piece-title {
+  width: 290px;
   height: 24px;
   font-size: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.plan-piece-sub {
+  width: 95%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .plan-piece-link > span {
@@ -352,9 +392,13 @@ p {
   width: 385px;
   margin-left: 21px;
   border-top: 1px solid var(--gray-1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-use-select: none;
+  user-select: none;
 }
 
-.plan-daily-piece:hover {
+.hover {
   border-radius: 12px;
   background-color: #50505080;
 }
@@ -382,28 +426,23 @@ p {
 }
 
 .plan-daily-link {
+  height: 47px;
   position: relative;
   border-radius: 12px;
   z-index: 10;
   box-shadow: var(--shadow-purple-2);
 }
 
-#pieceId1 {
-  height: 47px;
-  background: var(--pink-1);
-}
-
-#pieceId2 {
-  height: 141px;
-  background: var(--blue-3);
-}
-
 .plan-daily-piece-title {
+  width: 300px;
   position: absolute;
   top: 50%;
   transform: translate3d(28px, -50%, 0px);
   font-size: 24px;
   color: var(--white);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .plan-submit-btn {

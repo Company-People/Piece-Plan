@@ -20,7 +20,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-html": "^7.1.0",
     "eslint-plugin-import": "^2.26.0",
-    "prettier": "2.7.1",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "prettier": "2.7.1"
   }
 }

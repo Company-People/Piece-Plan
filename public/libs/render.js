@@ -13,7 +13,7 @@
 
 const render = path => {
   const _path = path ?? window.location.pathname;
-  console.log(_path);
+
   // try {
   //   const Component = routes.find(route => route.path === _path)?.component || Main;
   //   const $virtual = $root.cloneNode();
