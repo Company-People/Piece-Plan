@@ -170,7 +170,7 @@ legend {
   background: var(--white);
   border-radius: 12px;
   box-shadow: var(--shadow-purple-neon);
-  transition: transform 1s;
+  transition: transform 0.7s;
 }
 
 .daily {
@@ -207,12 +207,12 @@ legend {
   box-shadow: var(--shadow-purple-3);
 }
 
-#study {
+.study {
   background: var(--blue-3);
   height: 144px;
 }
 
-#date {
+.date {
   background: var(--pink-1);
   height: 48px;
 }
