@@ -244,7 +244,7 @@ legend {
 }
 
 .logo {
-  width: 60px;
+  width: 68px;
   height: 68px;
   background: url(./../../assets/logo_color.png) no-repeat;
   background-size: cover;
@@ -405,7 +405,7 @@ legend {
 }
 
 .calendar-grid > .date:hover {
-  background-color: rgb(186, 186, 186);
+  background: var(--gradient-bg-main);
 }
 
 .today::before {
@@ -692,10 +692,6 @@ span[data-time='23'] {
 
 .piece-time {
   background: var(--black-2);
-}
-
-.piece-category {
-  background: var(--blue-3);
 }
 
 .piece-favorite {
