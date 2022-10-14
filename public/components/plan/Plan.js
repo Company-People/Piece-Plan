@@ -25,21 +25,25 @@ class Plan extends Component {
       ],
       filterId: 'all',
       categoryId: 'all',
-      searchText: '',
     };
   }
 
   async render() {
-    const { data } = await axios.post('/plan');
-    this.state = { ...this.state, pieces: data.pieces, plans: data.plans };
+    const { data } = await axios.post('/plan/2022-09-22', {
+      filterId: this.state.filterId,
+      searchText: this.state.searchText,
+    });
+    this.state = { ...this.state, pieces: data.pieces, plan: data.plan };
+
     const planPiece = new PlanPiece({
       state: this.state,
       events: {
         dragPiece: this.dragPiece,
       },
     }).render();
+
     const planDaily = new PlanDaily({
-      plans: this.state.plans,
+      plan: this.state.plan,
       events: {
         hoverPlan: this.hoverPlan,
         leavePlan: this.leavePlan,
@@ -89,9 +93,5 @@ class Plan extends Component {
     console.log(e.target);
   }
 }
-
-const plan = new Plan();
-
-document.querySelector('#root').innerHTML = await plan.render();
 
 export default Plan;

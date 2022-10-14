@@ -1,5 +1,15 @@
 import render from './libs/render.js';
 
+window.addEventListener('click', e => {
+  if (!e.target.matches('.tmp')) return;
+
+  e.preventDefault();
+
+  const path = e.target.getAttribute('href');
+  window.history.pushState(null, null, path);
+  render(path);
+});
+
 /*
  * popstate 이벤트는 pushState에 의해 발생하지 않고 앞으로/뒤로 가기 버튼을 클릭하거나
  * history.forward/back/go(n)에 의해 history entry가 변경되면 발생한다.

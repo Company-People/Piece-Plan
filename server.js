@@ -4,9 +4,8 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
 const users = require('./models/users.js');
-const pieces = require('./models/pieces.js');
-const plans = require('./models/plans.js');
-const favorites = require('./models/favorites.js');
+const { pieces, getFilterPieces } = require('./models/pieces.js');
+const { getMyPlans, getSelectPlan } = require('./models/plans.js');
 
 require('dotenv').config();
 
@@ -14,7 +13,6 @@ const app = express();
 const PORT = process.env.PORT || 5500;
 
 app.use(express.static('public'));
-app.use('/plan', express.static('public/components/plan'));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -60,8 +58,26 @@ app.get('/', (req, res) => {
   res.send();
 });
 
-app.post('/plan', (req, res) => {
-  res.send({ pieces, plans });
+app.get('/calender', ,(req, res) => {
+  // 로그인 된 id, 닉네임 토큰 해석해서 사용
+  const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
+  const tokenName = '김팀장';
+
+  res.send({ name: tokenName, pieces, plans: getMyPlans(tokenId) });
+});
+
+app.post('/plan/:date', (req, res) => {
+  // 로그인 된 id, 닉네임 토큰 해석해서 사용
+  const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
+  const tokenName = '김팀장';
+  const { filterId, searchText } = req.body;
+  const { date } = req.params;
+
+  res.send({ name: tokenName, pieces: getFilterPieces(tokenId, filterId, searchText), plan: getSelectPlan(date) });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 // listen (port번호, callback) - 언제올지 모르는 요청을 위해 무한루프를 돌며 켜져있어야 한다.
