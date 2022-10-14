@@ -9,6 +9,12 @@ class PlanForm extends Component {
       </form>
     `;
   }
+
+  setEvent() {
+    const { searchPieces } = this.props.events;
+
+    return [{ type: 'submit', selector: '.plan-search-form', handler: searchPieces }];
+  }
 }
 
 export default PlanForm;

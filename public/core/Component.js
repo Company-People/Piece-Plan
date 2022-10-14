@@ -16,6 +16,11 @@ class Component {
 
     render();
   }
+
+  async patchState(callback, param) {
+    await callback(param);
+    render();
+  }
 }
 
 export default Component;
