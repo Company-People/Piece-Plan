@@ -1,19 +1,15 @@
 import Component from '../../core/Component.js';
 import Daily from './js/Daily.js';
 import Detail from './js/Detail.js';
-import pieces from '../../../models/pieces.js';
-import plans from '../../../models/plans.js';
 
 class Modal extends Component {
-  constructor() {
-    super();
-
-    this.state = { plans: this.fetchPlans(), pieces: this.fetchPieces() };
-  }
-
   render() {
-    const daily = new Daily({ ...this.state }).render();
-    const detail = new Detail({ ...this.state }).render();
+    if (this.props.selectedDate === undefined) return '';
+
+    this.state = this.props;
+
+    const daily = new Daily(this.state).render();
+    const detail = new Detail(this.state).render();
 
     // prittier-ignore
     return `
@@ -23,18 +19,6 @@ class Modal extends Component {
         ${detail}
       </div>
       `;
-  }
-
-  fetchPlans() {
-    const allPlans = plans;
-
-    return allPlans;
-  }
-
-  fetchPieces() {
-    const allPieces = pieces;
-
-    return allPieces;
   }
 
   filterPieces(target) {
