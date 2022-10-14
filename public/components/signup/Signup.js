@@ -17,31 +17,34 @@ class Signup extends Component {
     virtualDOM.id = 'root';
 
     virtualDOM.innerHTML = `
-      <form class="auth signup ${this.state.isSignupError ? 'vibration' : ''}" novalidate>
-      <div class="auth-logo"></div>
-      <h1 class="hidden">로그인</h1>
-      ${
-        [['userid', '이메일', 'text'], ['username', '닉네임', 'text'], ['password', '비밀번호', 'password'], ['confirm-password', '비밀번호 확인', 'password']].map((formInfo, index) => `
-          <div class="auth-input-container">
-          <input
-            type="${formInfo[2]}"
-            id="signup-${formInfo[0]}"
-            class="auth-input"
-            name="${formInfo[0]}"
-            placeholder="${formInfo[1]}"
-            required
-            autocomplete="off" />
-          <label for="signup-${formInfo[0]}" class="hidden">${formInfo[1]}</label>
-          <div class="auth-error error">${this.state.errorMessages[index]}</div>
-        </div> 
-        `).join('')
-      }
-      <button class="main-button signup-button button">가입하기</button>
-      <div class="auth-callout">
-        <div class="auth-callout-desc">계정이 없으신가요?</div>
-        <button type="button" class="signup-button button">로그인</button>
+      <div class="auth-wrapper">
+        <form class="auth signup ${this.state.isSignupError ? 'vibration' : ''}" novalidate>
+          <div class="auth-logo"></div>
+          <h1 class="hidden">로그인</h1>
+          ${
+            [['userid', '이메일', 'text'], ['username', '닉네임', 'text'], ['password', '비밀번호', 'password'], ['confirm-password', '비밀번호 확인', 'password']].map((formInfo, index) => `
+              <div class="auth-input-container">
+              <input
+                type="${formInfo[2]}"
+                id="signup-${formInfo[0]}"
+                class="auth-input"
+                name="${formInfo[0]}"
+                placeholder="${formInfo[1]}"
+                required
+                autocomplete="off" />
+              <label for="signup-${formInfo[0]}" class="hidden">${formInfo[1]}</label>
+              <div class="auth-error error">${this.state.errorMessages[index]}</div>
+            </div> 
+            `).join('')
+          }
+          <button class="main-button signup-button button">가입하기</button>
+          <div class="auth-callout">
+            <div class="auth-callout-desc">계정이 없으신가요?</div>
+            <button type="button" class="signup-button button">로그인</button>
+          </div>
+        </form>
       </div>
-    </form>
+
     `;
 
     return virtualDOM;

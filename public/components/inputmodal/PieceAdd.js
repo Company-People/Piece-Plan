@@ -98,7 +98,7 @@ class PieceAdd extends Component {
   }
 
   hideErrorMsg(e) {
-    if (this.state.isErrorMessageArr.some(errMsg => true)) {
+    if (this.state.isErrorMessageArr.some(errMsg => errMsg === true)) {
       this.setState({isErrorMessageArr: this.state.isErrorMessageArr.map(errorMessage => false)});
       clearTimeout(this.timerId)
     }
@@ -107,6 +107,7 @@ class PieceAdd extends Component {
   validate(e) {
     // 디바운스도...
     if (e.target.matches('#my-piece')) return;
+    console.log(111)
     const {value, name} = e.target;
     schema[name].value = value.trim();
     schema[name].dirty = schema[name].value === '' ? false : true;
@@ -129,6 +130,7 @@ class PieceAdd extends Component {
   }
 
   request(e) {
+    console.log(222)
     e.preventDefault();
     const $PieceAdd = e.target;
     // 수정해야함

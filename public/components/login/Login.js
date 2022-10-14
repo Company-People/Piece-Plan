@@ -1,5 +1,5 @@
-import Component from './Component.js';
-// import Component from '../../core/Component.js';
+// import Component from './Component.js';
+import Component from '../../core/Component.js';
 import { signinSchema as schema } from './schema.js';
 
 class Login extends Component {
@@ -18,31 +18,34 @@ class Login extends Component {
     virtualDOM.id = 'root';
 
     virtualDOM.innerHTML = `
-      <form class="auth login ${this.state.isLoginError ? 'vibration' : ''}" novalidate>
-      <div class="auth-logo"></div>
-      <h1 class="hidden">로그인</h1>
-      ${
-        [['userid', '아이디'], ['password', '비밀번호']].map((formInfo, index) => `
-          <div class="auth-input-container">
-          <input
-            type="text"
-            id="login-${formInfo[0]}"
-            class="auth-input"
-            name="${formInfo[0]}"
-            placeholder="${formInfo[1]}"
-            required
-            autocomplete="off" />
-          <label for="login-${formInfo[0]}" class="hidden">${formInfo[1]}</label>
-          <div class="auth-error error">${this.state.errorMessages[index]}</div>
-        </div> 
-        `).join('')
-      }
-      <button class="main-button login-button button">로그인</button>
-      <div class="auth-callout">
-        <div class="auth-callout-desc">계정이 없으신가요?</div>
-        <button type="button" class="signup-button button">가입하기</button>
+      <div class="auth-wrapper">
+        <form class="auth login ${this.state.isLoginError ? 'vibration' : ''}" novalidate>
+          <div class="auth-logo"></div>
+          <h1 class="hidden">로그인</h1>
+          ${
+            [['userid', '아이디'], ['password', '비밀번호']].map((formInfo, index) => `
+              <div class="auth-input-container">
+              <input
+                type="text"
+                id="login-${formInfo[0]}"
+                class="auth-input"
+                name="${formInfo[0]}"
+                placeholder="${formInfo[1]}"
+                required
+                autocomplete="off" />
+              <label for="login-${formInfo[0]}" class="hidden">${formInfo[1]}</label>
+              <div class="auth-error error">${this.state.errorMessages[index]}</div>
+            </div> 
+            `).join('')
+          }
+          <button class="main-button login-button button">로그인</button>
+          <div class="auth-callout">
+            <div class="auth-callout-desc">계정이 없으신가요?</div>
+            <button type="button" class="signup-button button">가입하기</button>
+          </div>
+        </form>
       </div>
-    </form>
+
     `;
 
     return virtualDOM;

@@ -730,6 +730,14 @@ span[data-time='23'] {
 
 /* ------------------ */
 /* 현진이꺼 >_< */
+.auth-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .modal-background {
   display: flex;
   justify-content: center;
@@ -816,6 +824,7 @@ select {
 
 #my-piece {
   accent-color: #9176ff;
+  appearance: auto;
 }
 
 .my-piece-desc {
@@ -844,9 +853,8 @@ select {
   position: absolute;
   bottom: 24px;
   right: 24px;
-  padding: 12px 20px;
-  font-size: var(--md);
-  cursor: pointer;
+  padding: 12px 20px !important;
+  font-size: var(--md) !important;
 }
 
 .piece-close-button {
@@ -882,7 +890,7 @@ select {
 .auth-logo {
   width: 72px;
   height: 80px;
-  background: url(../../assets/logo_white_neon.png);
+  background: url(./assets/logo_white_neon.png);
   background-size: cover;
   margin-top: 24px;
   margin-bottom: 16px;
