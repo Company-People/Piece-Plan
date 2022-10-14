@@ -6,22 +6,24 @@
   --black-2: #505050;
   --gray-1: #ccd2da;
   --gray-2: #e6e9ed;
+  --grat-3: #7d7d7d;
   --red-1: #f64d4d;
   --red-2: #f64d4d;
   --red-3: #ff8086;
-  --pink-1: #ff8ec5;
-  --orange-1: #ffa439;
+  --pink-1: #ff9bbe;
+  --orange-1: #ffae52;
   --yellow-1: #fed894;
-  --yellow-2: #fdc55f;
-  --green-1: #89e7b3;
-  --green-2: #4eda8c;
+  --yellow-2: #fdd35f;
+  --green-1: #82e88c;
+  --green-2: #6bdc7a;
   --skyblue-1: #89dcff;
-  --skyblue-2: #48c8ff;
+  --skyblue-2: #61cffe;
   --blue-1: #3a80e9;
   --blue-2: #99b3ff;
   --blue-3: #668cff;
   --purple-1: #bfadf7;
   --purple-2: #9e84f3;
+  --brown-1: #8f7663;
 
   /* gradient */
   --gradient-bg-main: linear-gradient(180deg, #e1e9ff 0%, #eae5ff 100%);
@@ -172,4 +174,40 @@ legend {
   background: var(--gradient-button-2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.exercise {
+  background: var(--blue-3);
+}
+
+.study {
+  background: var(--brown-1);
+}
+
+.date {
+  background: var(--pink-1);
+}
+
+.trip {
+  background: var(--skyblue-2);
+}
+
+.art {
+  background: var(--purple-2);
+}
+
+.play {
+  background: var(--orange-1);
+}
+
+.rest {
+  background: var(--green-2);
+}
+
+.work {
+  background: var(--gray-3);
+}
+
+.parenting {
+  background: var(--yellow-2);
 }
