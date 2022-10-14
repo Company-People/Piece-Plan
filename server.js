@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
   res.send();
 });
 
-app.get('/calender', ,(req, res) => {
+app.get('/calender', (req, res) => {
   // 로그인 된 id, 닉네임 토큰 해석해서 사용
   const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
   const tokenName = '김팀장';
