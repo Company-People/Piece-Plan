@@ -35,31 +35,28 @@ class Daily extends Component {
     </section>`
   }
 
-  hideModal({ target }) {
-    if (target.matches('.daily > .btn-close') || target.matches('.btn-cancel') || !target.closest('.modal')) {
-      document.querySelector('.modal')?.classList.add('hidden');
-      document.querySelector('.modal-bg')?.classList.add('hidden');
-    }
-  }
-
-  moveModal({ target }) {
-    if (!target.matches('.daily-plan-container')) return;
-
-    const $modal = document.querySelector('.modal');
-    $modal?.classList.remove('moving');
-  }
-
   setEvent() {
+    const { closeDailyModal, openDetailModal, closeDetailModal, goToEditPage } = this.props;
     return [
       {
         type: 'click',
         selector: '.daily',
-        handler: this.hideModal,
+        handler: closeDailyModal,
+      },
+      {
+        type: 'click',
+        selector: '.piece-plan',
+        handler: openDetailModal,
       },
       {
         type: 'click',
         selector: '.daily-plan-container',
-        handler: this.moveModal,
+        handler: closeDetailModal,
+      },
+      {
+        type: 'click',
+        selector: '.btn-edit',
+        handler: goToEditPage,
       },
     ];
   }
