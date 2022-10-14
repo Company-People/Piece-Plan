@@ -1,3 +1,5 @@
+const favorites = require('./favorites.js');
+
 const pieces = [
   {
     pieceId: '88ef1bc9-f037-4eaa-aaaa-5f94b0997285',
@@ -9,8 +11,8 @@ const pieces = [
     share: true,
     favoriteCnt: 30,
     time: 4,
-    writeDate: '2022-10-04',    
-   userId: '08ee5b01-5edd-48c8-ab0d-78ab5c40edb9',
+    writeDate: '2022-10-04',
+    userId: 'f3c01bd3-c491-4034-a961-bf63e988ccbf',
   },
   {
     pieceId: 'ec6a2e97-2b33-43b0-adbc-2ac0abf07c05',
@@ -23,7 +25,7 @@ const pieces = [
     favoriteCnt: 62,
     time: 2,
     writeDate: '2022-10-04',
-    userId: '08ee5b01-5edd-48c8-ab0d-78ab5c40edb9',
+    userId: 'f3c01bd3-c491-4034-a961-bf63e988ccbf',
   },
   {
     pieceId: '55863ecc-6370-4517-99c2-f695aea6b394',
@@ -35,7 +37,7 @@ const pieces = [
     favoriteCnt: 790,
     time: 3,
     writeDate: '2022-10-04',
-    userId: '08ee5b01-5edd-48c8-ab0d-78ab5c40edb9',
+    userId: 'f3c01bd3-c491-4034-a961-bf63e988ccbf',
   },
   {
     pieceId: '2d527f22-6cf6-4d47-8b04-604dc0e10b6c',
@@ -102,7 +104,22 @@ const pieces = [
   },
 ];
 
-module.exports = pieces;
+const getFilterPieces = (userId, filterId, search) => {
+  if (search) return pieces.filter(piece => piece.title.includes(search));
+  if (filterId === 'all') {
+    return pieces;
+  }
+  if (filterId === 'my') {
+    return pieces.filter(piece => piece.pieceId === userId);
+  }
+  if (filterId === 'favorite') {
+    return pieces.filter(piece =>
+      favorites.filter(favorite => favorite.userId === userId).find(favorite => favorite.pieceId === piece.pieceId)
+    );
+  }
+};
+
+module.exports = { pieces, getFilterPieces };
 
 // category
 

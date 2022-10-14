@@ -2,7 +2,8 @@ import Component from '../../core/Component.js';
 
 class PlanDaily extends Component {
   render() {
-    const { date, pieces } = this.props.plans[0];
+    const [{ date, pieces }] = this.props.plan;
+    console.log(this.props);
     const [yy, mm, dd] = date.split('-');
 
     // prettier-ignore
