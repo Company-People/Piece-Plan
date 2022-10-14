@@ -27,7 +27,7 @@ const render = async path => {
 
     const $virtual = $root.cloneNode();
     const domString = await component.render();
-    console.log(domString);
+    // console.log(domString);
     $virtual.innerHTML = domString;
 
     reconciliation($root, $virtual);

@@ -6,12 +6,25 @@ class PlanFilter extends Component {
 
     return `
       <div class="plan-filter">
-        ${filters.map(([filter, content]) => `<button class="plan-filter-${filter}">${content}</button>`).join('')}
+        ${filters
+          .map(
+            ([filter, content]) => `<button data-filter="${filter}" class="plan-filter-${filter}">${content}</button>`
+          )
+          .join('')}
         <select class="plan-category">
           ${categories.map(([cate, content]) => `<option value="${cate}">${content}</option>`).join('')}
         </select>
       </div>
     `;
+  }
+
+  setEvent() {
+    const { filterPieces, filterCategory } = this.props.events;
+
+    return [
+      { type: 'click', selector: '.plan-filter', handler: filterPieces },
+      { type: 'change', selector: '.plan-category', handler: filterCategory },
+    ];
   }
 }
 
