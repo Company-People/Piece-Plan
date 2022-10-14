@@ -3,9 +3,11 @@ import Daily from './js/Daily.js';
 import Detail from './js/Detail.js';
 
 class Modal extends Component {
-  async render() {
-    const { data } = await axios.get('/calender');
-    this.state = { ...this.state, pieces: data.pieces, plan: data.plans };
+  render() {
+    if (this.props.selectedDate === undefined) return '';
+
+    this.state = this.props;
+
     const daily = new Daily(this.state).render();
     const detail = new Detail(this.state).render();
 

@@ -5,8 +5,10 @@ class Daily extends Component {
     const TIME_COUNT = 24;
     const PLAN_HEIGHT = 48;
 
-    const [{ pieces, date }] = this.props.plan;
-    const [yy, mm, dd] = date.split('-');
+    // console.log(this.props.filteredPlan);
+    const pieces = this.props.filteredPlan ? this.props.filteredPlan.pieces : '';
+    // console.log(pieces);
+    const [yy, mm, dd] = this.props.selectedDate.split('-');
 
     // prettier-ignore
     return `
@@ -17,7 +19,7 @@ class Daily extends Component {
             ${Array.from({length: TIME_COUNT}).map((_, index) => `
             <span class="daily-time">${index / 12 < 1 ? '오전' : '오후'} ${index % 12 === 0 ? '12' : index}시</span>
             <div data-time="${index}" class="daily-plan-container">
-              ${pieces.map(piece => {
+              ${!pieces ? '' : pieces.map(piece => {
                 const { pieceId, title, category, startTime, endTime} = piece;
                 return index === startTime ? `<div data-piece-id="${pieceId}" class="piece-plan ${category}" style="height: ${PLAN_HEIGHT * (endTime - startTime)}px">${title}</div>` : '';
               }).join("")}

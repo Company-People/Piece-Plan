@@ -98,6 +98,20 @@ body {
   letter-spacing: -0.04em;
 }
 
+#root {
+  width: inherit;
+  height: inherit;
+}
+
+.modal-bg {
+  width: inherit;
+  height: inherit;
+}
+
+/* body * {
+  touch-action: none;
+} */
+
 h1,
 h2,
 h3,
@@ -189,7 +203,7 @@ legend {
   background: var(--brown-1);
 }
 
-.date {
+.love {
   background: var(--pink-1);
 }
 
@@ -491,15 +505,18 @@ legend {
 .modal-bg {
   position: absolute;
   top: 0;
-  width: 100vw;
-  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
   background: var(--gradient-bg-modal);
   backdrop-filter: blur(2px);
 }
 
 /* modal */
 .modal {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
   width: 548px;
   margin: 0 auto;
 }
@@ -600,7 +617,7 @@ legend {
   border-top: 1px solid var(--gray-2);
 }
 
-.daily-plan-container:has(> .piece-plan) {
+.daily-plan-container:has(.piece-plan) {
   z-index: 10;
 }
 
