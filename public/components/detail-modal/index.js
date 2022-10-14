@@ -1,4 +1,4 @@
-import App from './App.js';
+import Modal from './Modal.js';
 // import reconciliation from '../../libs/diff.js';
 import render from '../../libs/render.js';
 
@@ -12,4 +12,4 @@ import render from '../../libs/render.js';
 //   reconciliation($root, $virtual);
 // };
 
-render(App);
+render(Modal);
