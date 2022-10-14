@@ -57,6 +57,11 @@ option {
   appearance: none;
 }
 
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
 
 body {
   display: flex;
@@ -71,6 +76,11 @@ body {
   font-style: normal;
 
   background: var(--gradient-bg-main);
+}
+
+#root {
+  width: 100%;
+  height: 100%;
 }
 
 .modal-background {
@@ -96,6 +106,8 @@ body {
   background: #FFFFFF;
   box-shadow: var(--shadow-purple-neon);
   border-radius: 12px;
+
+  
 }
 .inputmodal-title {
   margin-bottom: 26px;
@@ -106,10 +118,30 @@ body {
   letter-spacing: -0.04em;
 }
 
-#piece-title,
-.piece-dropdown-list,
-#piece-subtitle {
+.inputmodal-item-container,
+.piece-dropdown-list {
   margin-bottom: 8px;
+}
+
+
+.piece-dropdown-list {
+  display: flex;
+  gap: 8px;
+}
+.inputmodal-item-container,
+.piece-dropdown-item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.pieceadd-error-messages {
+  position: absolute;
+  background-color: #89dcff;
+  padding: 10px;
+  bottom: -50px;
+  z-index: 2;
+  white-space: nowrap;
 }
 
 .piece-input {
@@ -131,10 +163,10 @@ select {
 
 .checkbox-container {
   display: flex;
+  margin-top: 20px;
 }
 
 #piece-content {
-  margin-bottom: 28px;
   resize: none;
 }
 
@@ -184,8 +216,9 @@ select {
   cursor: pointer;
 }
 
+
 .hidden {
-  display: none !important;
+  display: none;
 }
 
 .text-gradient {
