@@ -30,7 +30,6 @@ class Calendar extends Component {
   }
 
   async render() {
-    console.log(this.state);
     const monthList = {
       1: 'January',
       2: 'February',
@@ -54,7 +53,6 @@ class Calendar extends Component {
     const [filteredPlan] = data.plans.filter(({ date }) => date === this.state.selectedDate);
 
     const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
-    console.log(this.state.currentDate);
     return `
       ${new Nav().render()}
       <div class="calendar-container">
