@@ -730,6 +730,7 @@ span[data-time='23'] {
 
 /* ------------------ */
 /* 현진이꺼 >_< */
+.main-wrapper,
 .auth-wrapper {
   width: 100vw;
   height: 100vh;
