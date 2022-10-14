@@ -22,7 +22,7 @@ class Nav extends Component {
         selector: '.logo',
         handler: ({ target }) => {
           if (!target.matches('.logo')) return;
-          window.history.pushState(null, null, '/calender');
+          window.history.pushState(null, null, '/calendar');
           render();
         },
       },

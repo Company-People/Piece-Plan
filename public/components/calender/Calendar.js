@@ -55,8 +55,9 @@ class Calendar extends Component {
 
     const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
     console.log(this.state.currentDate);
+    console.log('data: ', data);
     return `
-      ${new Nav().render()}
+      ${new Nav(data).render()}
       <div class="calendar-container">
         <div class="calendar-nav">
           <div class="calendar-year">
