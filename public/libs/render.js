@@ -1,9 +1,9 @@
 import reconciliation from './diff.js';
-import { Plan } from '../components/index.js';
+import { Plan, Login } from '../components/index.js';
 
 const routes = [
   // { path: '/', component: Main },
-  // { path: '/login', component: Login },
+  { path: '/login', component: Login },
   // { path: '/signup', component: Signup },
   // { path: '/calender', component: Calender },
   { path: '/plan', component: Plan },
