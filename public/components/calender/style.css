@@ -5,6 +5,8 @@
   padding: 0;
 }
 
+/* 네비게이션 */
+
 .nav {
   margin-left: auto;
   margin-right: auto;
@@ -55,6 +57,8 @@
   background: var(--gradient-button-1);
 }
 
+/* 캘린더 */
+
 .calendar-container {
   display: flex;
   width: 1096px;
@@ -98,7 +102,7 @@
 }
 
 .calendar-current-year {
-  font-size: 32px;
+  font-size: var(--xl);
   font-weight: 700;
 }
 
@@ -110,6 +114,11 @@
   text-align: center;
   padding: 9px 0px;
   font-weight: 300;
+  cursor: pointer;
+}
+
+.calendar-month > li:hover {
+  background-color: #7573ff;
 }
 
 .calendar-month > li.is-selected {
@@ -128,7 +137,7 @@
 .calendar-current-month {
   margin-top: 32px;
   margin-bottom: 18px;
-  font-size: 40px;
+  font-size: var(--xxl);
   font-weight: 700;
   text-align: center;
 }
@@ -165,6 +174,15 @@
   align-items: center;
 }
 
+.calendar-grid > .date {
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+.calendar-grid > .date:hover {
+  background-color: rgb(186, 186, 186);
+}
+
 .today::before {
   content: '';
   position: absolute;
@@ -174,12 +192,13 @@
   border-radius: 4px;
 }
 
-.date.health-schedule {
+/* schedule point list */
+.date.exercise-schedule {
   color: var(--white);
   margin: auto;
   width: 32px;
   height: 32px;
-  background-color: var(--green-2);
+  background-color: blue;
   border-radius: 16px;
 }
 
@@ -188,7 +207,7 @@
   margin: auto;
   width: 32px;
   height: 32px;
-  background-color: var(--yellow-2);
+  background-color: brown;
   border-radius: 16px;
 }
 
@@ -197,6 +216,60 @@
   margin: auto;
   width: 32px;
   height: 32px;
-  background-color: var(--red-3);
+  background-color: pink;
+  border-radius: 16px;
+}
+
+.date.trip-schedule {
+  color: var(--white);
+  margin: auto;
+  width: 32px;
+  height: 32px;
+  background-color: skyblue;
+  border-radius: 16px;
+}
+
+.date.art-schedule {
+  color: var(--white);
+  margin: auto;
+  width: 32px;
+  height: 32px;
+  background-color: purple;
+  border-radius: 16px;
+}
+
+.date.play-schedule {
+  color: var(--white);
+  margin: auto;
+  width: 32px;
+  height: 32px;
+  background-color: orange;
+  border-radius: 16px;
+}
+
+.date.rest-schedule {
+  color: var(--white);
+  margin: auto;
+  width: 32px;
+  height: 32px;
+  background-color: green;
+  border-radius: 16px;
+}
+
+.date.work-schedule {
+  color: var(--white);
+  margin: auto;
+  width: 32px;
+  height: 32px;
+  background-color: gray;
+  border-radius: 16px;
+}
+
+.date.parenting-schedule {
+  color: var(--white);
+  margin: auto;
+  width: 32px;
+  height: 32px;
+  background-color: yellow;
   border-radius: 16px;
 }
