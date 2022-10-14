@@ -1,20 +1,28 @@
 import Component from '../../core/Component.js';
-import { Modal } from './js/index.js';
+import Daily from './js/Daily.js';
+import Detail from './js/Detail.js';
 import pieces from '../../../models/pieces.js';
 import plans from '../../../models/plans.js';
 
-class App extends Component {
+class Modal extends Component {
   constructor() {
     super();
 
     this.state = { plans: this.fetchPlans(), pieces: this.fetchPieces() };
-    console.log(this.state);
   }
 
   render() {
-    const modal = new Modal({ ...this.state }).render();
+    const daily = new Daily({ ...this.state }).render();
+    const detail = new Detail({ ...this.state }).render();
 
-    return `${modal}`;
+    // prittier-ignore
+    return `
+      <div class="modal-bg"></div>
+      <div class="modal">
+        ${daily}
+        ${detail}
+      </div>
+      `;
   }
 
   fetchPlans() {
@@ -35,6 +43,7 @@ class App extends Component {
     const targetPiece = this.state.pieces.find(({ pieceId }) => pieceId === +targetId);
 
     this.setState({ targetPiece });
+    console.log(this.state);
   }
 
   openPieceDetail({ target }) {
@@ -57,4 +66,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Modal;

@@ -2,7 +2,6 @@ import Component from '../../../core/Component.js';
 
 class Detail extends Component {
   render() {
-    console.log(this.props);
     const { category, title, subTitle, content, favoriteCnt, time } = this.props.targetPiece || this.props.pieces[0];
 
     // prettier-ignore
