@@ -1,11 +1,12 @@
 import reconciliation from './diff.js';
-import { Plan } from '../components/index.js';
+import { Calendar, Plan } from '../components/index.js';
 
+// console.log(Calendar);
 const routes = [
   // { path: '/', component: Main },
   // { path: '/login', component: Login },
   // { path: '/signup', component: Signup },
-  // { path: '/calender', component: Calender },
+  { path: '/calendar', component: Calendar },
   { path: '/plan', component: Plan },
 ];
 
@@ -27,7 +28,7 @@ const render = async path => {
 
     const $virtual = $root.cloneNode();
     const domString = await component.render();
-    console.log(domString);
+    // console.log(domString);
     $virtual.innerHTML = domString;
 
     reconciliation($root, $virtual);
