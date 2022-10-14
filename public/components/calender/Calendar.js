@@ -53,8 +53,9 @@ class Calendar extends Component {
     const [filteredPlan] = data.plans.filter(({ date }) => date === this.state.selectedDate);
 
     const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
+
     return `
-      ${new Nav().render()}
+      ${new Nav(data).render()}
       <div class="calendar-container">
         <div class="calendar-nav">
           <div class="calendar-year">

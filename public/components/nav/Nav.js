@@ -1,31 +1,5 @@
 import Component from '../../core/Component.js';
-
-const users = [
-  {
-    userId: 4,
-    email: 'queen@abc.com',
-    name: '김팀장',
-    password: '1q2w3e4r',
-  },
-  {
-    userId: 3,
-    email: '10rlatkdtn@abc.com',
-    name: '김차장',
-    password: '1q2w3e4r',
-  },
-  {
-    userId: 2,
-    email: 'eunoo@abc.com',
-    name: '김과장',
-    password: '1q2w3e4r',
-  },
-  {
-    userId: 1,
-    email: 'heejun@abc.com',
-    name: '전부장',
-    password: '1q2w3e4r',
-  },
-];
+import render from '../../libs/render.js';
 
 class Nav extends Component {
   render() {
@@ -33,7 +7,7 @@ class Nav extends Component {
       <div class="nav">
         <div class="logo"></div>
         <div class="user-container">
-          <div class="user-info text-gradient">Welcome, ${users[0].name}!</div>
+          <div class="user-info text-gradient">Welcome, ${this.props.name}!</div>
           <button class="logout">로그아웃</button>
         </div>
       </div>
@@ -48,7 +22,8 @@ class Nav extends Component {
         selector: '.logo',
         handler: ({ target }) => {
           if (!target.matches('.logo')) return;
-          console.log('메인으로 가기');
+          window.history.pushState(null, null, '/calendar');
+          render();
         },
       },
       {
@@ -57,7 +32,9 @@ class Nav extends Component {
         selector: '.logout',
         handler: ({ target }) => {
           if (!target.matches('.logout')) return;
-          console.log('초기화면으로 가기');
+          // logout 처리 요청 보낸 후 완료되면 메인으로
+          window.history.pushState(null, null, '/');
+          render();
         },
       },
     ];

@@ -1,7 +1,10 @@
-const plans = [
+const { v4: uuid } = require('uuid');
+const { pieces } = require('./pieces.js');
+
+let plans = [
   {
-    planId: 'd3af9015-3272-4bae-9a8a-8fdc71663848',
     date: '2022-09-22',
+    planId: 'd3af9015-3272-4bae-9a8a-8fdc71663848',
     pieces: [
       {
         pieceId: 'c544dfaa-5b6c-4c87-b290-c2f857f5bae5',
@@ -33,4 +36,30 @@ const getMyPlans = id => plans.filter(plan => plan.userId === id);
 
 const getSelectPlan = date => plans.filter(plan => plan.date === date);
 
-module.exports = { getMyPlans, getSelectPlan };
+const addPlans = ({ date, pieceId, startTime }, userId) => {
+  const plan = plans.find(plan => plan.date === date);
+  // console.log(plan);
+  const { pieceId: id, title, category, time } = pieces.find(piece => piece.pieceId === pieceId);
+  const endTime = +startTime + time;
+
+  const newPiece = { pieceId: id, title, category, startTime: +startTime, endTime };
+
+  if (plan) {
+    // 시간이 겹치는지 여부 확인
+    const newTimes = Array.from({ length: time }).map((_, i) => i + +startTime);
+    const checked = plan.pieces.every(({ startTime, endTime }) => {
+      const times = Array.from({ length: endTime - startTime }).map((_, i) => i + startTime);
+      return newTimes.length + times.length === new Set([...newTimes, ...times]).size;
+    });
+
+    if (!checked || endTime > 24) return;
+
+    plan.pieces = [newPiece, ...plan.pieces];
+  } else {
+    plans = [{ date, planId: uuid(), pieces: [newPiece], userId }, ...plans];
+  }
+  // console.log(plans);
+  // console.log(plans, plan);
+};
+
+module.exports = { addPlans, getMyPlans, getSelectPlan };
