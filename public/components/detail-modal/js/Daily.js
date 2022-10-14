@@ -5,8 +5,8 @@ class Daily extends Component {
     const TIME_COUNT = 24;
     const PLAN_HEIGHT = 48;
 
-    const [yy, mm, dd] = this.props.plans[0].date.split('-');
-    const { pieces } = this.props.plans[0];
+    const [{ pieces, date }] = this.props.plan;
+    const [yy, mm, dd] = date.split('-');
 
     // prettier-ignore
     return `
