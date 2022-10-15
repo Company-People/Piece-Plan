@@ -13,6 +13,7 @@ class Login extends Component {
 
   // 2. render 정하기
   render() {
+    console.log(this);
     return `
       <div class="auth-wrapper">
         <form class="auth login ${this.state.isLoginError ? 'vibration' : ''}" novalidate>
@@ -50,6 +51,22 @@ class Login extends Component {
     `;
   }
 
+  setEvent() {
+    // console.log(this);
+    return [
+      {
+        type: 'input',
+        seletor: '.form.signin',
+        handler: this.validate.bind(this),
+      },
+      {
+        type: 'submit',
+        seletor: '.form.signin',
+        handler: this.request.bind(this),
+      },
+    ];
+  }
+
   validate(e) {
     const { name, value } = e.target;
     schema[name].value = value.trim();
@@ -60,6 +77,7 @@ class Login extends Component {
         .filter(name => name !== 'valid')
         .map(e => (schema[e].dirty && !schema[e].valid ? schema[e].error : '')),
     });
+    console.log(this);
   }
 
   request(e) {
@@ -79,22 +97,6 @@ class Login extends Component {
         clearTimeout(timerId);
       }, 100);
     }
-  }
-
-  setEvent() {
-    console.log(this);
-    return [
-      {
-        type: 'input',
-        seletor: '.form.signin',
-        handler: this.validate.bind(this),
-      },
-      {
-        type: 'submit',
-        seletor: '.form.signin',
-        handler: this.request.bind(this),
-      },
-    ];
   }
 }
 
