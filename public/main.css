@@ -378,10 +378,6 @@ legend {
   font-weight: 400;
 }
 
-.date {
-  position: relative;
-}
-
 .day:nth-child(1),
 .date:nth-child(7n + 1) {
   color: var(--red-2);
@@ -400,6 +396,7 @@ legend {
 }
 
 .calendar-grid > .date {
+  position: relative;
   cursor: pointer;
   border-radius: 12px;
 }
@@ -418,81 +415,99 @@ legend {
 }
 
 /* schedule point list */
-.date.exercise-schedule {
+.date-day.exercise-schedule {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--white);
-  margin: auto;
   width: 32px;
   height: 32px;
   background-color: blue;
   border-radius: 16px;
 }
 
-.date.study-schedule {
+.date-day.study-schedule {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--white);
-  margin: auto;
   width: 32px;
   height: 32px;
   background-color: brown;
   border-radius: 16px;
 }
 
-.date.date-schedule {
+.date-day.date-schedule {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--white);
-  margin: auto;
   width: 32px;
   height: 32px;
   background-color: pink;
   border-radius: 16px;
 }
 
-.date.trip-schedule {
+.date-day.trip-schedule {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--white);
-  margin: auto;
   width: 32px;
   height: 32px;
   background-color: skyblue;
   border-radius: 16px;
 }
 
-.date.art-schedule {
+.date-day.art-schedule {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--white);
-  margin: auto;
   width: 32px;
   height: 32px;
   background-color: purple;
   border-radius: 16px;
 }
 
-.date.play-schedule {
+.date-day.play-schedule {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--white);
-  margin: auto;
   width: 32px;
   height: 32px;
   background-color: orange;
   border-radius: 16px;
 }
 
-.date.rest-schedule {
+.date-day.rest-schedule {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--white);
-  margin: auto;
   width: 32px;
   height: 32px;
   background-color: green;
   border-radius: 16px;
 }
 
-.date.work-schedule {
+.date-day.work-schedule {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--white);
-  margin: auto;
   width: 32px;
   height: 32px;
   background-color: gray;
   border-radius: 16px;
 }
 
-.date.parenting-schedule {
+.date-day.parenting-schedule {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: var(--white);
-  margin: auto;
   width: 32px;
   height: 32px;
   background-color: yellow;

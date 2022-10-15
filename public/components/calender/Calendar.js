@@ -33,6 +33,7 @@ class Calendar extends Component {
 
     const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
 
+    // prettier-ignore
     return `
       ${new Nav(data).render()}
       <div class="calendar-container">
@@ -43,26 +44,22 @@ class Calendar extends Component {
             <button class="calendar-year-next"></button>
           </div>
           <ol class="calendar-month">
-            ${Object.values(monthList)
-              .map(
-                (month, i) =>
-                  `<li data-month=${i + 1} ${this.currentMonth === i ? `class="is-selected"` : ''}>${month}</li>`
-              )
-              .join('')}
+            ${Object.values(monthList).map((month, i) =>
+              `<li data-month=${i + 1} ${this.currentMonth === i ? `class="is-selected"` : ''}>${month}</li>`
+              ).join('')}
           </ol>
         </div>
         <div class="calendar-main">
           <div class="calendar-current-month text-gradient">${monthList[this.currentMonth + 1]}</div>
           <div class="calendar-grid">
             ${dayList.map(day => `<div class='day'>${day}</div>`).join('')}
-            ${this.getCalendarDate()
-              .map(
-                (date, i) =>
-                  `<div ${i >= firstDay ? `class="${this.classNames(date, plans)}"` : ''} ${
-                    i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''
-                  }>${i >= firstDay ? date.getDate() : ''}</div>`
-              )
-              .join('')}
+            ${this.getCalendarDate().map((date, i) =>
+              `<div ${i >= firstDay ? `class="${this.classNames(date, plans)}"` : ''} 
+              ${i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''}>
+                <div ${i >= firstDay ? `class="date-day ${this.planClassNames(date, plans)}"`:''} 
+                  ${i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''}>${i >= firstDay ? date.getDate() : ''}</div>
+              </div>`
+              ).join('')}
           </div>
         </div>
       </div>
@@ -110,6 +107,16 @@ class Calendar extends Component {
     const classList = ['date'];
 
     if (this.isEqualDate(today, date)) classList.push('today');
+    // plans.forEach(plan =>
+    //   plan.date === this.formatDate(date) ? classList.push(`${plan.pieces[0].category}-schedule`) : ''
+    // );
+
+    return classList.join(' ');
+  }
+
+  planClassNames(date, plans) {
+    const classList = [];
+
     plans.forEach(plan =>
       plan.date === this.formatDate(date) ? classList.push(`${plan.pieces[0].category}-schedule`) : ''
     );
@@ -146,7 +153,7 @@ class Calendar extends Component {
   }
 
   selectDate(e) {
-    if (!e.target.matches('.date')) return;
+    if (!e.target.matches('.date') && !e.target.matches('.date-day')) return;
     console.log(e.target.dataset.date);
     this.setState({ selectedDate: e.target.dataset.date });
   }
