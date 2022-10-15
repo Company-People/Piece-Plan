@@ -2,27 +2,6 @@ import Component from '../../core/Component.js';
 import Nav from '../nav/Nav.js';
 import Modal from '../detail-modal/Modal.js';
 
-// const plans = [
-//   {
-//     planId: 1,
-//     date: '2022-09-22',
-//     pieces: [{ pieceId: 1, title: '이두 조지기!', category: 'exercise', startTime: 1, endTime: 3 }],
-//     userId: 2,
-//   },
-//   {
-//     planId: 2,
-//     date: '2022-10-22',
-//     pieces: [{ pieceId: 1, title: '공부 ㄱㄱ', category: 'study', startTime: 1, endTime: 3 }],
-//     userId: 2,
-//   },
-//   {
-//     planId: 3,
-//     date: '2022-10-29',
-//     pieces: [{ pieceId: 1, title: '데이트 ㄱㄱ', category: 'date', startTime: 1, endTime: 3 }],
-//     userId: 2,
-//   },
-// ];
-
 class Calendar extends Component {
   constructor() {
     super();
@@ -49,8 +28,6 @@ class Calendar extends Component {
 
     const { data } = await axios.get('/calender');
     const { pieces, plans } = data;
-    // console.log('plans: ', plans.forEach(plan=>console.log(plan)));
-    plans.forEach(plan => console.log(plan));
 
     const [filteredPlan] = data.plans.filter(({ date }) => date === this.state.selectedDate);
 
