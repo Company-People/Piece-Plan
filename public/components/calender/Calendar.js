@@ -1,5 +1,6 @@
 import Component from '../../core/Component.js';
 import Nav from '../nav/Nav.js';
+import Modal from '../detail-modal/Modal.js';
 
 const plans = [
   {
@@ -23,16 +24,12 @@ const plans = [
 ];
 
 class Calendar extends Component {
-  constructor(props) {
+  constructor() {
     super();
-
-    this.state = props;
-
-    console.log('[STATE]: ', this.state);
-    console.log(plans[0].pieces[0].category);
+    this.state = { currentDate: new Date(), selectedDate: undefined };
   }
 
-  render() {
+  async render() {
     const monthList = {
       1: 'January',
       2: 'February',
@@ -50,12 +47,15 @@ class Calendar extends Component {
 
     const dayList = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+    const { data } = await axios.get('/calender');
+    const { pieces } = data;
+
+    const [filteredPlan] = data.plans.filter(({ date }) => date === this.state.selectedDate);
+
     const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
 
-    const nav = new Nav();
-
     return `
-      ${nav.render()}
+      ${new Nav(data).render()}
       <div class="calendar-container">
         <div class="calendar-nav">
           <div class="calendar-year">
@@ -87,6 +87,7 @@ class Calendar extends Component {
           </div>
         </div>
       </div>
+      ${new Modal({ ...this.state, filteredPlan, pieces }).render()}
     `;
   }
 
@@ -154,7 +155,7 @@ class Calendar extends Component {
     const classList = ['date'];
 
     if (this.isEqualDate(today, date)) classList.push('today');
-    plans.find(plan =>
+    plans.forEach(plan =>
       plan.date === this.formatDate(date) ? classList.push(this.getCategoryClass(plan.pieces[0].category)) : ''
     );
 
@@ -166,6 +167,7 @@ class Calendar extends Component {
     if (!e.target.matches('.calendar-year-prev')) return;
     this.setState({
       currentDate: new Date(this.state.currentDate.getFullYear() - 1, this.state.currentDate.getMonth()),
+      selectedDate: undefined,
     });
     console.log('this.state: ', this.state);
   }
@@ -174,19 +176,24 @@ class Calendar extends Component {
     if (!e.target.matches('.calendar-year-next')) return;
     this.setState({
       currentDate: new Date(this.state.currentDate.getFullYear() + 1, this.state.currentDate.getMonth()),
+      selectedDate: undefined,
     });
     console.log('this.state: ', this.state);
   }
 
   selectMonth(e) {
     if (!e.target.matches('.calendar-month > li')) return;
-    this.setState({ currentDate: new Date(this.state.currentDate.getFullYear(), e.target.dataset.month - 1) });
+    this.setState({
+      currentDate: new Date(this.state.currentDate.getFullYear(), e.target.dataset.month - 1),
+      selectedDate: undefined,
+    });
     console.log('this.state: ', this.state);
   }
 
   selectDate(e) {
     if (!e.target.matches('.date')) return;
-    console.log('Date Click!!!');
+    console.log(e.target.dataset.date);
+    this.setState({ selectedDate: e.target.dataset.date });
   }
 
   setEvent() {
@@ -213,7 +220,7 @@ class Calendar extends Component {
       {
         type: 'click',
         selector: '.date',
-        handler: this.selectDate,
+        handler: e => this.selectDate(e),
       },
     ];
   }

@@ -5,14 +5,14 @@ import PieceList from './PieceList.js';
 
 class PlanPiece extends Component {
   render() {
-    const { pieces, filters, categories } = this.props.state;
+    const { pieces, filters, categories, categoryId } = this.props.state;
 
     // prettier-ignore
     return `
       <div class="plan-piece">
-        ${new PlanForm().render()}
-        ${new PlanFilter({filters, categories}).render()}
-        ${new PieceList({pieces, events: this.props.events}).render()}
+        ${new PlanForm({events: this.props.events}).render()}
+        ${new PlanFilter({filters, categories, events: this.props.events}).render()}
+        ${new PieceList({pieces, categoryId, events: this.props.events}).render()}
       </div>  
     `;
   }

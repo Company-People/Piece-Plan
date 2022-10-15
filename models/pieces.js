@@ -110,7 +110,7 @@ const getFilterPieces = (userId, filterId, search) => {
     return pieces;
   }
   if (filterId === 'my') {
-    return pieces.filter(piece => piece.pieceId === userId);
+    return pieces.filter(piece => piece.userId === userId);
   }
   if (filterId === 'favorite') {
     return pieces.filter(piece =>

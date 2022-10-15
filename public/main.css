@@ -98,6 +98,20 @@ body {
   letter-spacing: -0.04em;
 }
 
+#root {
+  width: inherit;
+  height: inherit;
+}
+
+.modal-bg {
+  width: inherit;
+  height: inherit;
+}
+
+/* body * {
+  touch-action: none;
+} */
+
 h1,
 h2,
 h3,
@@ -189,7 +203,7 @@ legend {
   background: var(--brown-1);
 }
 
-.date {
+.love {
   background: var(--pink-1);
 }
 
@@ -230,7 +244,7 @@ legend {
 }
 
 .logo {
-  width: 60px;
+  width: 68px;
   height: 68px;
   background: url(./../../assets/logo_color.png) no-repeat;
   background-size: cover;
@@ -391,7 +405,7 @@ legend {
 }
 
 .calendar-grid > .date:hover {
-  background-color: rgb(186, 186, 186);
+  background: var(--gradient-bg-main);
 }
 
 .today::before {
@@ -491,15 +505,18 @@ legend {
 .modal-bg {
   position: absolute;
   top: 0;
-  width: 100vw;
-  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
   background: var(--gradient-bg-modal);
   backdrop-filter: blur(2px);
 }
 
 /* modal */
 .modal {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
   width: 548px;
   margin: 0 auto;
 }
@@ -600,7 +617,7 @@ legend {
   border-top: 1px solid var(--gray-2);
 }
 
-.daily-plan-container:has(> .piece-plan) {
+.daily-plan-container:has(.piece-plan) {
   z-index: 10;
 }
 
@@ -675,10 +692,6 @@ span[data-time='23'] {
 
 .piece-time {
   background: var(--black-2);
-}
-
-.piece-category {
-  background: var(--blue-3);
 }
 
 .piece-favorite {
@@ -1170,6 +1183,13 @@ select {
   margin-bottom: 0px;
 }
 
+.plan-piece-item.drag {
+  width: 385px;
+  opacity: 0.1;
+  box-shadow: none;
+  background-color: rgba(164, 164, 164, 0.7);
+}
+
 .plan-piece-link {
   display: flex;
   flex-flow: column;
@@ -1184,6 +1204,7 @@ select {
   width: 290px;
   height: 24px;
   font-size: 24px;
+  font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1234,6 +1255,7 @@ select {
 /* --------------------------------- */
 
 .plan-daily {
+  position: relative;
   width: 548px;
   margin: 24px 0px 24px;
   padding: 0px 24px 0px 20px;
@@ -1293,7 +1315,7 @@ select {
 
 .hover {
   border-radius: 12px;
-  background-color: #50505080;
+  background-color: #92929280;
 }
 
 .plan-daily-add,
@@ -1332,6 +1354,7 @@ select {
   top: 50%;
   transform: translate3d(28px, -50%, 0px);
   font-size: 24px;
+  font-weight: 700;
   color: var(--white);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1339,9 +1362,11 @@ select {
 }
 
 .plan-submit-btn {
+  position: absolute;
+  left: 50%;
   width: 70px;
   height: 40px;
-  margin: 0 auto;
+  transform: translate3d(-50%, 0px, 0px);
   border-radius: 300px;
   background: var(--gradient-button-2);
   box-shadow: var(--shadow-3d);
