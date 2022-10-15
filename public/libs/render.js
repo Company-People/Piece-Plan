@@ -10,7 +10,8 @@ const routes = [
   { path: '/plan', component: Plan },
 ];
 
-let component = null;
+const components = {};
+let prevPath = null;
 
 class NotFound {
   render() {
@@ -21,13 +22,20 @@ class NotFound {
 const render = async path => {
   const _path = path ?? window.location.pathname;
 
+  const CurrentComponent = routes.find(route => route.path === _path)?.component || NotFound;
+
   try {
     const $root = document.getElementById('root');
-    const pathComponent = new (routes.find(route => route.path === _path)?.component || NotFound)();
-    if (!component || component.constructor !== pathComponent.constructor) component = pathComponent;
+
+    if (!components[_path]) components[_path] = new CurrentComponent();
+
+    if (prevPath !== _path) {
+      components[_path].state = new CurrentComponent().state;
+    }
+    prevPath = _path;
 
     const $virtual = $root.cloneNode();
-    const domString = await component.render();
+    const domString = await components[_path].render();
     // console.log(domString);
     $virtual.innerHTML = domString;
 
