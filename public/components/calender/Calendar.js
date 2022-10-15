@@ -102,14 +102,11 @@ class Calendar extends Component {
     );
   }
 
-  classNames(date, plans) {
+  classNames(date) {
     const today = new Date();
     const classList = ['date'];
 
     if (this.isEqualDate(today, date)) classList.push('today');
-    // plans.forEach(plan =>
-    //   plan.date === this.formatDate(date) ? classList.push(`${plan.pieces[0].category}-schedule`) : ''
-    // );
 
     return classList.join(' ');
   }
