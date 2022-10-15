@@ -141,6 +141,7 @@ class Plan extends Component {
 
   filterPieces(e) {
     if (!e.target.matches('.plan-filter > button')) return;
+
     this.setState({ filterId: e.target.dataset.filter });
   }
 
