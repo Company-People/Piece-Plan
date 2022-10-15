@@ -5,7 +5,7 @@ const addEventHandlers = events => {
     if (eventHolder.some(({ type, selector }) => event.type === type && event.selector === selector)) return;
 
     window.addEventListener(event.type, event.handler);
-
+    // console.log(event.type, event.handler);
     eventHolder = [...eventHolder, event];
   }
 };
