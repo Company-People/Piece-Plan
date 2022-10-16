@@ -25,10 +25,13 @@ class PieceDetail extends Component {
           <h2 class="piece-title text-gradient">${title}</h2>
           <div class="piece-info">
             <div class="piece-label">
-              <span class="piece-time ">${time}h</span>
+              <span class="piece-time">${time}h</span>
               <span class="${category}">${CATEGORY_LIST[category]}</span>
             </div>
-            <button class="piece-favorite">${favoriteCnt}</button>
+            <button class="detail-favorite">
+              <span class="detail-star"></span>
+              <span>${favoriteCnt}</span>
+            </button>
           </div>
           <section class="piece-content">
             <h3 class="piece-subtitle">${subTitle}</h3>
@@ -36,7 +39,7 @@ class PieceDetail extends Component {
               ${content.replaceAll("\n", "<br>")}
             </p>
           </section>
-          <button class="btn-close"></button>
+          <button class="btn-close detail-close"></button>
         </section>
       </div>
       `;

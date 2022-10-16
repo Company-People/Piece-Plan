@@ -25,7 +25,7 @@ class Plan extends Component {
 
       const {
         data: { plan, name },
-      } = await axios.get(`/plan/${selectedDate}`);
+      } = await axios.get(`/plans?date=${selectedDate}`);
 
       this.state = { ...this.state, pieces, plan, selectedDate };
 
@@ -217,7 +217,7 @@ class Plan extends Component {
     if (this.isOverlap(this.state.plan, +e.target.id, time) || newPiece.endTime > 24) return;
 
     // 서버에 업데이트 된 pieces를 보내 서버 상태 패치
-    this.patchState(({ planId, pieces }) => axios.patch(`/plan/${planId}`, { pieces }), {
+    this.patchState(({ planId, pieces }) => axios.patch(`/plans/${planId}`, { pieces }), {
       planId: this.state.plan.planId,
       pieces: [...this.state.plan.pieces, newPiece],
     });
@@ -230,7 +230,7 @@ class Plan extends Component {
     const startTime = e.target.parentNode.parentNode.id;
 
     // 서버에 업데이트 된 pieces를 보내 서버 상태 패치
-    this.patchState(({ planId, pieces }) => axios.patch(`/plan/${planId}`, { pieces }), {
+    this.patchState(({ planId, pieces }) => axios.patch(`/plans/${planId}`, { pieces }), {
       planId: this.state.plan.planId,
       pieces: this.state.plan.pieces.filter(piece => piece.pieceId !== pieceId || piece.startTime !== +startTime),
     });
@@ -247,7 +247,7 @@ class Plan extends Component {
   }
 
   closeDetail(e) {
-    if (!e.target.matches('.detail-bg') && !e.target.matches('.btn-close')) return;
+    if (!e.target.matches('.detail-bg') && !e.target.matches('.detail-close')) return;
 
     this.setState({ selectedPiece: null });
   }

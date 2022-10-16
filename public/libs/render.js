@@ -21,7 +21,6 @@ class NotFound {
 
 const render = async path => {
   let _path = path ?? window.location.pathname;
-
   if (_path.lastIndexOf('/') !== 0) {
     _path = _path.substring(0, _path.lastIndexOf('/'));
   }
@@ -33,9 +32,8 @@ const render = async path => {
 
     if (!components[_path]) components[_path] = new CurrentComponent();
 
-    if (prevPath !== _path) {
-      components[_path].state = new CurrentComponent().state;
-    }
+    if (prevPath !== _path) components[_path].state = new CurrentComponent().state;
+
     prevPath = _path;
 
     const $virtual = $root.cloneNode();

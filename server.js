@@ -13,6 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 5500;
 
 app.use(express.static('public'));
+app.use('/plan', express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -70,7 +71,7 @@ app.get('/pieces', (req, res) => {
   res.send({ pieces: getFilterPieces(tokenId, filterId, searchText) });
 });
 
-app.post('/plan', (req, res) => {
+app.post('/plans', (req, res) => {
   // 로그인 된 id, 닉네임 토큰 해석해서 사용
   const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
   const { date } = req.body;
@@ -78,16 +79,16 @@ app.post('/plan', (req, res) => {
   res.send(createPlan(date, tokenId));
 });
 
-app.get('/plan/:date', (req, res) => {
+app.get('/plans', (req, res) => {
   // 로그인 된 id, 닉네임 토큰 해석해서 사용
   const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
   const tokenName = '김팀장';
-  const { date } = req.params;
+  const { date } = req.query;
 
   res.send({ name: tokenName, plan: getSelectPlan(tokenId, date) });
 });
 
-app.patch('/plan/:planId', (req, res) => {
+app.patch('/plans/:planId', (req, res) => {
   const { planId } = req.params;
   const { pieces } = req.body;
 
