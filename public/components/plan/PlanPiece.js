@@ -5,7 +5,7 @@ import PieceList from './PieceList.js';
 
 class PlanPiece extends Component {
   render() {
-    const { pieces, categoryId } = this.props.state;
+    const { pieces, categoryId } = this.props;
 
     // prettier-ignore
     return `

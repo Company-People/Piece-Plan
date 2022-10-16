@@ -105,18 +105,16 @@ const pieces = [
 ];
 
 const getFilterPieces = (userId, filterId, search) => {
-  if (search) return pieces.filter(piece => piece.title.includes(search));
-  if (filterId === 'all') {
-    return pieces.filter(piece => piece.share);
-  }
-  if (filterId === 'my') {
-    return pieces.filter(piece => piece.userId === userId);
-  }
-  if (filterId === 'favorite') {
+  if (search !== '') return pieces.filter(piece => piece.title.includes(search));
+
+  if (filterId === 'all') return pieces.filter(piece => piece.share);
+
+  if (filterId === 'my') return pieces.filter(piece => piece.userId === userId);
+
+  if (filterId === 'favorite')
     return pieces.filter(piece =>
       favorites.filter(favorite => favorite.userId === userId).find(favorite => favorite.pieceId === piece.pieceId)
     );
-  }
 };
 
 module.exports = { pieces, getFilterPieces };

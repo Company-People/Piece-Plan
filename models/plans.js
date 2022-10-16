@@ -39,7 +39,7 @@ const createPlan = (date, userId) => {
 
 const getMyPlans = id => plans.filter(plan => plan.userId === id);
 
-const getSelectPlan = date => plans.find(plan => plan.date === date);
+const getSelectPlan = (userId, date) => plans.find(plan => plan.date === date && plan.userId === userId);
 
 const patchPlan = (planId, pieces) => {
   const plan = plans.find(plan => plan.planId === planId);

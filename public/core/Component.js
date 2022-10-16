@@ -29,11 +29,7 @@ class Component {
 
   changePage(path) {
     window.history.pushState(null, null, path);
-    render();
-  }
 
-  changePage(path) {
-    window.history.pushState(null, null, path);
     render();
   }
 }

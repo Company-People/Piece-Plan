@@ -764,6 +764,16 @@ span[data-time='23'] {
   font-weight: 500;
 }
 
+.detail-bg {
+  position: absolute;
+  top: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  background: var(--gradient-bg-modal);
+  backdrop-filter: blur(2px);
+  z-index: 20;
+}
+
 /* ------------------ */
 /* 현진이꺼 >_< */
 .main-wrapper,

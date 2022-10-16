@@ -62,6 +62,14 @@ app.get('/calender', (req, res) => {
   res.send({ name: tokenName, pieces, plans: getMyPlans(tokenId) });
 });
 
+app.get('/pieces', (req, res) => {
+  // 로그인 된 id, 닉네임 토큰 해석해서 사용
+  const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
+  const { filterId, searchText } = req.query;
+
+  res.send({ pieces: getFilterPieces(tokenId, filterId, searchText) });
+});
+
 app.post('/plan', (req, res) => {
   // 로그인 된 id, 닉네임 토큰 해석해서 사용
   const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
@@ -70,14 +78,13 @@ app.post('/plan', (req, res) => {
   res.send(createPlan(date, tokenId));
 });
 
-app.post('/plan/:date', (req, res) => {
+app.get('/plan/:date', (req, res) => {
   // 로그인 된 id, 닉네임 토큰 해석해서 사용
   const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
   const tokenName = '김팀장';
-  const { filterId, searchText } = req.body;
   const { date } = req.params;
 
-  res.send({ name: tokenName, pieces: getFilterPieces(tokenId, filterId, searchText), plan: getSelectPlan(date) });
+  res.send({ name: tokenName, plan: getSelectPlan(tokenId, date) });
 });
 
 app.patch('/plan/:planId', (req, res) => {
