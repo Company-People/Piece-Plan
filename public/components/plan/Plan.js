@@ -2,6 +2,7 @@ import Component from '../../core/Component.js';
 import Nav from '../nav/Nav.js';
 import PlanDaily from './PlanDaily.js';
 import PlanPiece from './PlanPiece.js';
+import PieceDetail from './PieceDetail.js';
 
 class Plan extends Component {
   constructor(props) {
@@ -9,53 +10,69 @@ class Plan extends Component {
     this.state = {
       filterId: 'all',
       categoryId: 'all',
-      searchText: null,
+      searchText: '',
+      selectedPiece: null,
     };
   }
 
   async render() {
     const selectedDate = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
 
-    const { data } = await axios.post(`/plan/${selectedDate}`, {
-      filterId: this.state.filterId,
-      searchText: this.state.searchText,
-    });
+    try {
+      const {
+        data: { pieces },
+      } = await axios.get(`/pieces?filterId=${this.state.filterId}&searchText=${this.state.searchText}`);
 
-    this.state = { ...this.state, pieces: data.pieces, plan: data.plan, selectedDate };
+      const {
+        data: { plan, name },
+      } = await axios.get(`/plan/${selectedDate}`);
 
-    const nav = new Nav({ name: data.name }).render();
+      this.state = { ...this.state, pieces, plan, selectedDate };
 
-    const planPiece = new PlanPiece({
-      state: this.state,
-      events: {
-        dragPiece: this.dragPiece,
-        searchPieces: this.searchPieces.bind(this),
-        filterPieces: this.filterPieces.bind(this),
-        filterCategory: this.filterCategory.bind(this),
-      },
-    }).render();
+      const nav = new Nav({ name }).render();
 
-    const planDaily = new PlanDaily({
-      plan: this.state.plan,
-      selectedDate: this.state.selectedDate,
-      events: {
-        hoverPlan: this.hoverPlan,
-        leavePlan: this.leavePlan,
-        leavePiece: this.leavePiece,
-        useDrop: this.useDrop,
-        completeEdit: this.completeEdit.bind(this),
-        addPiece: this.addPiece.bind(this),
-        removePiece: this.removePiece.bind(this),
-      },
-    }).render();
+      const planPiece = new PlanPiece({
+        pieces: this.state.pieces,
+        categoryId: this.state.categoryId,
+        events: {
+          dragPiece: this.dragPiece,
+          searchPieces: this.searchPieces.bind(this),
+          filterPieces: this.filterPieces.bind(this),
+          filterCategory: this.filterCategory.bind(this),
+          openDetail: this.openDetail.bind(this),
+        },
+      }).render();
 
-    return `
+      const planDaily = new PlanDaily({
+        plan: this.state.plan,
+        selectedDate: this.state.selectedDate,
+        events: {
+          hoverPlan: this.hoverPlan,
+          leavePlan: this.leavePlan,
+          leavePiece: this.leavePiece,
+          useDrop: this.useDrop,
+          completeEdit: this.completeEdit.bind(this),
+          addPiece: this.addPiece.bind(this),
+          removePiece: this.removePiece.bind(this),
+        },
+      }).render();
+
+      const pieceDetail = new PieceDetail({
+        selectedPiece: this.state.selectedPiece,
+        events: { closeDetail: this.closeDetail.bind(this) },
+      }).render();
+
+      return `
     ${nav}
     <div class="plan">
     ${planPiece}
     ${planDaily}
     </div>
+    ${pieceDetail}
     `;
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   // =============== hover 관련 이벤트 ===============
@@ -131,9 +148,10 @@ class Plan extends Component {
     const [$input] = e.target;
 
     if ($input.value.trim() === '') return;
+
     this.setState({ searchText: $input.value });
     $input.value = '';
-    this.state.searchText = null;
+    this.state.searchText = '';
   }
 
   filterPieces(e) {
@@ -216,6 +234,22 @@ class Plan extends Component {
       planId: this.state.plan.planId,
       pieces: this.state.plan.pieces.filter(piece => piece.pieceId !== pieceId || piece.startTime !== +startTime),
     });
+  }
+
+  // =============== modal 관련 메서드 ===============
+
+  openDetail(e) {
+    if (!e.target.closest('.plan-piece-item')) return;
+
+    const pieceId = e.target.closest('.plan-piece-item').id;
+
+    this.setState({ selectedPiece: this.state.pieces.find(piece => piece.pieceId === pieceId) });
+  }
+
+  closeDetail(e) {
+    if (!e.target.matches('.detail-bg') && !e.target.matches('.btn-close')) return;
+
+    this.setState({ selectedPiece: null });
   }
 }
 
