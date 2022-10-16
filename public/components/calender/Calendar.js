@@ -5,7 +5,7 @@ import Modal from '../detail-modal/Modal.js';
 class Calendar extends Component {
   constructor() {
     super();
-    this.state = { currentDate: new Date(), selectedDate: undefined };
+    this.state = { currentDate: new Date(), selectedDate: undefined, targetPiece: undefined };
   }
 
   async render() {
@@ -28,6 +28,8 @@ class Calendar extends Component {
 
     const { data } = await axios.get('/calender');
     const { pieces, plans } = data;
+
+    this.state.pieces = pieces;
 
     const [filteredPlan] = data.plans.filter(({ date }) => date === this.state.selectedDate);
 
@@ -63,8 +65,15 @@ class Calendar extends Component {
           </div>
         </div>
       </div>
-      ${new Modal({ ...this.state, filteredPlan, pieces }).render()}
-    `;
+      ${new Modal({ ...this.state, filteredPlan, pieces, filterPieces: this.filterPieces.bind(this), resetModalData: this.resetModalData.bind(this) }).render()}
+      `;
+  }
+  // ${this.initializeDate()}
+
+  initializeDate() {
+    this.state.selectedDate = undefined;
+
+    return '';
   }
 
   get currentYear() {
@@ -119,6 +128,19 @@ class Calendar extends Component {
     );
 
     return classList.join(' ');
+  }
+
+  // Modal - Click piece
+  filterPieces(target) {
+    const targetId = target.dataset.pieceId;
+
+    const targetPiece = this.state.pieces.find(({ pieceId }) => pieceId === targetId);
+
+    this.setState({ selectedDate: this.state.selectedDate, targetPiece });
+  }
+
+  resetModalData() {
+    this.setState({ selectedDate: undefined, targetPiece: undefined });
   }
 
   // Event handlers

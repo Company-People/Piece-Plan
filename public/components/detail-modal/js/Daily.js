@@ -5,9 +5,7 @@ class Daily extends Component {
     const TIME_COUNT = 24;
     const PLAN_HEIGHT = 48;
 
-    // console.log(this.props.filteredPlan);
     const pieces = this.props.filteredPlan ? this.props.filteredPlan.pieces : '';
-    // console.log(pieces);
     const [yy, mm, dd] = this.props.selectedDate.split('-');
 
     // prettier-ignore
@@ -37,6 +35,7 @@ class Daily extends Component {
 
   setEvent() {
     const { closeDailyModal, openDetailModal, closeDetailModal, goToEditPage } = this.props;
+
     return [
       {
         type: 'click',

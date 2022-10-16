@@ -14,7 +14,6 @@ const CATEGORY_LIST = {
 
 class Detail extends Component {
   render() {
-    console.log(this.props);
     const { category, title, subTitle, content, favoriteCnt, time } = this.props.targetPiece || this.props.pieces[0];
 
     // prettier-ignore
@@ -31,7 +30,7 @@ class Detail extends Component {
         <section class="piece-content">
           <h3 class="piece-subtitle">${subTitle}</h3>
           <p class="piece-describtion">
-            ${content}
+            ${content.replaceAll("\n", "<br>")}
           </p>
         </section>
         <button class="btn-close"></button>
