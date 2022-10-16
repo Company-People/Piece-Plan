@@ -1,46 +1,49 @@
 import Component from './Component.js';
-import { PieceAddSchema as schema } from './schema.js';
 
 class PieceAdd extends Component {
   constructor() {
     super();
     this.state = {
+      values: {},
       isErrorMessageArr: [false, false, false, false, false],
-      errorMessages: Object.keys(schema)
-        .filter(name => name !== 'valid')
-        .map(name => schema[name].error),
-      timeArr: Array.from({ length: 24 }, (_, index) => index + 1),
-      categoryArr: [
-        ['exercise', '운동'],
-        ['study', '공부'],
-        ['date', '데이트'],
-        ['trip', '여행'],
-        ['art', '예술'],
-        ['play', '놀이'],
-        ['reset', '휴식'],
-        ['work', '업무'],
-        ['parenting', '육아'],
-      ],
     };
-    this.timerId;
+    this.formInfoArr = ['title', 'time', 'category', 'subtitle', 'content'];
+    this.timeArr = Array.from({ length: 24 }, (_, index) => index + 1);
+    this.categoryArr = [
+      ['exercise', '운동'],
+      ['study', '공부'],
+      ['date', '데이트'],
+      ['trip', '여행'],
+      ['art', '예술'],
+      ['play', '놀이'],
+      ['reset', '휴식'],
+      ['work', '업무'],
+      ['parenting', '육아'],
+    ];
+    this.errors = {
+      title: '제목 1~20자 입력해 주세요.',
+      time: '시간을 선택해 주세요',
+      category: '카테고리를 선택해 주세요',
+      subtitle: '소제목 1~20자 입력해 주세요.',
+      content: '내용을 입력해 주세요.',
+    };
+    this.timerId = 0;
   }
 
   // 2. render 정하기
   render() {
-    // console.log(this.state)
-    const virtualDOM = document.createElement('div');
-    virtualDOM.id = 'root';
-
-    virtualDOM.innerHTML = `
+    return `
       <div class="modal-background">
         <form action="#" method="post" class="inputmodal">
           <h1 class="inputmodal-title text-gradient">피스 등록</h1>
 
           <div class="inputmodal-item-container">
-            <input type="text" id="piece-title" class="piece-input" name="title" placeholder="제목을 입력해 주세요."  autocomplete="off" />
+            <input type="text" id="piece-title" class="piece-input" name="title" placeholder="제목을 입력해 주세요."  autocomplete="off" value="${
+              this.state.values[this.formInfoArr[0]] ?? ''
+            }"/>
             <label for="piece-title" class="pieceadd-error-messages ${
               this.state.isErrorMessageArr[0] ? '' : 'hidden'
-            }">${schema.title.error}</label>
+            }">${this.errors.title}</label>
           </div>
 
           
@@ -48,37 +51,55 @@ class PieceAdd extends Component {
             <li class="piece-dropdown-item"> 
               <select name="time" id="piece-time-select" class="piece-input" >
                 <option value="">시간 선택</option>
-                ${this.state.timeArr.map(time => `<option value="${time}">${time} 시간</option>`)}
+                ${this.timeArr
+                  .map(
+                    time =>
+                      `<option value="${time}" ${
+                        +time === +this.state.values[this.formInfoArr[1]] ? 'selected' : ''
+                      }>${time} 시간</option>`
+                  )
+                  .join('')}
               </select>
               <label for="piece-time-select" class="pieceadd-error-messages ${
                 this.state.isErrorMessageArr[1] ? '' : 'hidden'
-              }">${schema.time.error}</label>
+              }">${this.errors.time}</label>
             </li>
 
             <li class="piece-dropdown-item">
               <select name="category" id="piece-category-select" class="piece-input" >
                 <option value="">카테고리 선택</option>
-                ${this.state.categoryArr.map(category => `<option value="${category[0]}">${category[1]}</option>`)}
+                ${this.categoryArr
+                  .map(
+                    category =>
+                      `<option value="${category[0]}" ${
+                        category[0] === this.state.values[this.formInfoArr[2]] ? 'selected' : ''
+                      }>${category[1]}</option>`
+                  )
+                  .join('')}
               </select>
               <label for="piece-category-select" class="pieceadd-error-messages ${
                 this.state.isErrorMessageArr[2] ? '' : 'hidden'
-              }">${schema.category.error}</label>
+              }">${this.errors.category}</label>
             </li>
 
           </ul>
           
           <div class="inputmodal-item-container">
-            <input type="text" id="piece-subtitle" class="piece-input" name="subtitle" placeholder="소제목을 입력해 주세요."  autocomplete="off" />
+            <input type="text" id="piece-subtitle" class="piece-input" name="subtitle" placeholder="소제목을 입력해 주세요."  autocomplete="off" value="${
+              this.state.values[this.formInfoArr[3]] ?? ''
+            }"/>
             <label for="piece-subtitle" class="pieceadd-error-messages ${
               this.state.isErrorMessageArr[3] ? '' : 'hidden'
-            }">${schema.subtitle.error}</label>
+            }">${this.errors.subtitle}</label>
           </div>
 
           <div class="inputmodal-item-container">
-            <textarea name="content" id="piece-content" class="piece-input" cols="30" rows="10" placeholder="내용을 입력해 주세요." ></textarea>
+            <textarea name="content" id="piece-content" class="piece-input" cols="30" rows="10" placeholder="내용을 입력해 주세요." value="${
+              this.state.values[this.formInfoArr[4]] ?? ''
+            }"></textarea>
             <label for="piece-content" class="pieceadd-error-messages ${
               this.state.isErrorMessageArr[4] ? '' : 'hidden'
-            }">${schema.content.error}</label>
+            }">${this.errors.content}</label>
           </div>
 
           <div class="checkbox-container">
@@ -91,8 +112,6 @@ class PieceAdd extends Component {
         </form>
       </div>
     `;
-
-    return virtualDOM;
   }
 
   setEvent() {
@@ -115,40 +134,89 @@ class PieceAdd extends Component {
     ];
   }
 
-  hideErrorMsg(e) {
+  getValid(inputType) {
+    const value = this.state.values[inputType] ?? '';
+    const schema = {
+      title: {
+        get valid() {
+          return /^.{1,20}$/.test(value);
+        },
+      },
+      time: {
+        get valid() {
+          return !!value;
+        },
+      },
+      category: {
+        get valid() {
+          return !!value;
+        },
+      },
+      subtitle: {
+        get valid() {
+          return /^.{1,20}$/.test(value);
+        },
+      },
+      content: {
+        get valid() {
+          return !!value;
+        },
+      },
+    };
+    return inputType !== undefined
+      ? schema[inputType].valid
+      : this.formInfoArr.every(formInfo => this.getValid(formInfo));
+  }
+
+  hideErrorMsg() {
     if (this.state.isErrorMessageArr.some(errMsg => errMsg === true)) {
-      this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map(errorMessage => false) });
+      this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map(() => false) });
       clearTimeout(this.timerId);
     }
   }
 
   validate(e) {
-    // 디바운스도...
     if (e.target.matches('#my-piece')) return;
-    console.log(111);
     const { value, name } = e.target;
-    schema[name].value = value.trim();
-    schema[name].dirty = schema[name].value !== '';
+    const trimedValue = value.trim();
+
+    const values = { ...this.state.values };
+    values[name] = trimedValue;
+
+    this.setState({
+      values,
+    });
   }
 
+  // !this.getValid(formInfo)
   showErrorMsg() {
-    Object.keys(schema)
-      .filter(name => name !== 'valid')
-      .some((validInfo, index) => {
-        if (!schema[validInfo].dirty && !schema[validInfo].valid) {
-          this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map((_, idx) => index === idx) });
-          this.timerId = setTimeout(() => {
-            this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map(errorMessage => false) });
-            clearTimeout(this.timerId);
-          }, 4000);
-          return true;
-        }
-        return false;
-      });
+    const setErrorMsg = index => {
+      this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map((_, idx) => index === idx) });
+      this.timerId = setTimeout(() => {
+        this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map(() => false) });
+        clearTimeout(this.timerId);
+      }, 4000);
+    };
+
+    // eslint-disable-next-line no-unused-expressions
+    !this.formInfoArr.some((formInfo, index) => {
+      if (this.state.values[formInfo] === '' || this.state.values[formInfo] === undefined) {
+        setErrorMsg(index);
+        return true;
+      }
+      return false;
+    })
+      ? this.formInfoArr.some((formInfo, index) => {
+          if (!this.getValid(formInfo)) {
+            setErrorMsg(index);
+            return true;
+          }
+          return false;
+        })
+      : null;
   }
 
   request(e) {
-    console.log(222);
     e.preventDefault();
     const $PieceAdd = e.target;
     // 수정해야함
@@ -158,10 +226,10 @@ class PieceAdd extends Component {
       category: $PieceAdd.category.value,
       subtitle: $PieceAdd.subtitle.value,
     };
-    if (schema.valid) {
+    if (this.getValid()) {
       // 요청
       // 페이지 이동
-      this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map(errorMessage => false) }); // 필요한가?
+      this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map(() => false) }); // 필요한가?
       console.log(`POST /signin`, payload);
     } else {
       // 실패 처리
