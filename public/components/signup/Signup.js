@@ -13,6 +13,12 @@ class Signup extends Component {
       ['password', '비밀번호', 'password'],
       ['confirm-password', '비밀번호 확인', 'password'],
     ];
+    this.errors = {
+      userid: '아이디 영문 또는 숫자를 6~12자 입력하세요.',
+      password: '비밀번호 영문 또는 숫자를 6~12자 입력하세요.',
+      username: '이름을 입력해 주세요.',
+      'confirm-password': '패스워드가 일치하지 않습니다.',
+    };
   }
 
   // 2. render 정하기
@@ -98,16 +104,10 @@ class Signup extends Component {
   }
 
   getError(inputType) {
-    const Errors = {
-      userid: '아이디 영문 또는 숫자를 6~12자 입력하세요.',
-      password: '비밀번호 영문 또는 숫자를 6~12자 입력하세요.',
-      username: '이름을 입력해 주세요.',
-      'confirm-password': '패스워드가 일치하지 않습니다.',
-    };
     return this.state.values[inputType] !== '' &&
       this.state.values[inputType] !== undefined &&
       !this.getValid(inputType)
-      ? Errors[inputType]
+      ? this.errors[inputType]
       : '';
   }
 
