@@ -764,16 +764,6 @@ span[data-time='23'] {
   font-weight: 500;
 }
 
-.detail-bg {
-  position: absolute;
-  top: 0;
-  min-width: 100vw;
-  min-height: 100vh;
-  background: var(--gradient-bg-modal);
-  backdrop-filter: blur(2px);
-  z-index: 20;
-}
-
 /* ------------------ */
 /* 현진이꺼 >_< */
 .main-wrapper,
@@ -1285,8 +1275,6 @@ select {
   background-size: contain;
 }
 
-/* --------------------------------- */
-
 .plan-daily {
   position: relative;
   width: 548px;
@@ -1416,6 +1404,45 @@ select {
   top: 21px;
   right: 21px;
   background-image: url('../../assets/btn_close.png');
+  background-size: contain;
+}
+
+.detail-bg {
+  position: absolute;
+  top: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  background: var(--gradient-bg-modal);
+  backdrop-filter: blur(2px);
+  z-index: 20;
+}
+
+.detail-favorite {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 87px;
+  background: var(--gradient-button-2);
+  border-radius: 16px;
+  vertical-align: middle;
+  color: var(--white);
+}
+
+.detail-favorite span {
+  padding: 8px 6px;
+}
+
+.detail-star {
+  width: 20px;
+  height: 20px;
+  background: url(../../assets/icon_star_nofill.png) no-repeat;
+  background-size: contain;
+}
+
+.detail-star.fill {
+  width: 20px;
+  height: 20px;
+  background: url(../../assets/icon_star_fill.png) no-repeat;
   background-size: contain;
 }
 
