@@ -422,7 +422,7 @@ legend {
   color: var(--white);
   width: 32px;
   height: 32px;
-  background-color: blue;
+  background-color: var(--blue-3);
   border-radius: 16px;
 }
 
@@ -433,7 +433,7 @@ legend {
   color: var(--white);
   width: 32px;
   height: 32px;
-  background-color: brown;
+  background-color: var(--brown-1);
   border-radius: 16px;
 }
 
@@ -444,7 +444,7 @@ legend {
   color: var(--white);
   width: 32px;
   height: 32px;
-  background-color: pink;
+  background-color: var(--pink-1);
   border-radius: 16px;
 }
 
@@ -455,7 +455,7 @@ legend {
   color: var(--white);
   width: 32px;
   height: 32px;
-  background-color: skyblue;
+  background-color: var(--skyblue-2);
   border-radius: 16px;
 }
 
@@ -466,7 +466,7 @@ legend {
   color: var(--white);
   width: 32px;
   height: 32px;
-  background-color: purple;
+  background-color: var(--purple-2);
   border-radius: 16px;
 }
 
@@ -477,7 +477,7 @@ legend {
   color: var(--white);
   width: 32px;
   height: 32px;
-  background-color: orange;
+  background-color: var(--orange-1);
   border-radius: 16px;
 }
 
@@ -488,7 +488,7 @@ legend {
   color: var(--white);
   width: 32px;
   height: 32px;
-  background-color: green;
+  background-color: var(--green-2);
   border-radius: 16px;
 }
 
@@ -499,7 +499,7 @@ legend {
   color: var(--white);
   width: 32px;
   height: 32px;
-  background-color: gray;
+  background-color: var(--gray-3);
   border-radius: 16px;
 }
 
@@ -510,7 +510,7 @@ legend {
   color: var(--white);
   width: 32px;
   height: 32px;
-  background-color: yellow;
+  background-color: var(--yellow-2);
   border-radius: 16px;
 }
 
@@ -591,7 +591,11 @@ legend {
 /* daily modal */
 .daily-date,
 .piece-title {
+  width: 460px;
   margin: 24px 0 0 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: var(--xxl);
   font-weight: 700;
 }
@@ -733,7 +737,11 @@ span[data-time='23'] {
 }
 
 .piece-subtitle {
+  margin-bottom: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-align: center;
+  white-space: nowrap;
   font-size: 28px;
 }
 
@@ -745,7 +753,7 @@ span[data-time='23'] {
   border-radius: 12px;
   font-size: var(--lg);
   font-weight: 300;
-  line-height: 140%;
+  line-height: 150%;
 }
 
 .piece-describtion::-webkit-scrollbar {
