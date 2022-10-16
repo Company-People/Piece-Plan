@@ -1,28 +1,30 @@
-import Component from './Component.js';
-// import Component from '../../core/Component.js';
-import { signupSchema as schema } from './schema.js';
+import Component from '../../core/Component.js';
 
 class Signup extends Component {
   constructor() {
     super();
     this.state = {
-      errorMessages: ['', '', '', ''],
+      values: {},
       isSignupError: false,
-    }
+    };
+    this.formInfoArr = [
+      ['userid', '이메일', 'text'],
+      ['username', '닉네임', 'text'],
+      ['password', '비밀번호', 'password'],
+      ['confirm-password', '비밀번호 확인', 'password'],
+    ];
   }
 
   // 2. render 정하기
   render() {
-    const virtualDOM = document.createElement('div');
-    virtualDOM.id = 'root';
-
-    virtualDOM.innerHTML = `
+    return `
       <div class="auth-wrapper">
         <form class="auth signup ${this.state.isSignupError ? 'vibration' : ''}" novalidate>
           <div class="auth-logo"></div>
           <h1 class="hidden">로그인</h1>
-          ${
-            [['userid', '이메일', 'text'], ['username', '닉네임', 'text'], ['password', '비밀번호', 'password'], ['confirm-password', '비밀번호 확인', 'password']].map((formInfo, index) => `
+          ${this.formInfoArr
+            .map(
+              formInfo => `
               <div class="auth-input-container">
               <input
                 type="${formInfo[2]}"
@@ -31,12 +33,14 @@ class Signup extends Component {
                 name="${formInfo[0]}"
                 placeholder="${formInfo[1]}"
                 required
-                autocomplete="off" />
+                autocomplete="off" 
+                value='${this.state.values[formInfo[0]] ?? ''}'/>
               <label for="signup-${formInfo[0]}" class="hidden">${formInfo[1]}</label>
-              <div class="auth-error error">${this.state.errorMessages[index]}</div>
+              <div class="auth-error error">${this.getError(formInfo[0])}</div>
             </div> 
-            `).join('')
-          }
+            `
+            )
+            .join('')}
           <button class="main-button signup-button button">가입하기</button>
           <div class="auth-callout">
             <div class="auth-callout-desc">계정이 없으신가요?</div>
@@ -46,53 +50,100 @@ class Signup extends Component {
       </div>
 
     `;
-
-    return virtualDOM;
   }
 
   setEvent() {
     return [
       {
         type: 'input',
-        seletor: '.form.signin',
+        selector: '.auth.signup .auth-input',
         handler: this.validate.bind(this),
       },
       {
         type: 'submit',
-        seletor: '.form.signin',
-        handler: this.request.bind(this)
+        selector: '.auth.signup',
+        handler: this.request.bind(this),
       },
     ];
   }
 
+  getValid(inputType) {
+    const value = this.state.values[inputType] ?? '';
+    const password = this.state.values.password ?? '';
+    const schema = {
+      userid: {
+        get valid() {
+          return /^[a-z|A-Z|0-9|]{6,12}$/.test(value);
+        },
+      },
+      password: {
+        get valid() {
+          return /^[A-Za-z0-9]{6,12}$/.test(value);
+        },
+      },
+      username: {
+        get valid() {
+          return !!value;
+        },
+      },
+      'confirm-password': {
+        get valid() {
+          return password === value;
+        },
+      },
+    };
+    return inputType !== undefined
+      ? schema[inputType].valid
+      : this.formInfoArr.every(formInfo => this.getValid(formInfo[0]));
+  }
+
+  getError(inputType) {
+    const Errors = {
+      userid: '아이디 영문 또는 숫자를 6~12자 입력하세요.',
+      password: '비밀번호 영문 또는 숫자를 6~12자 입력하세요.',
+      username: '이름을 입력해 주세요.',
+      'confirm-password': '패스워드가 일치하지 않습니다.',
+    };
+    return this.state.values[inputType] !== '' &&
+      this.state.values[inputType] !== undefined &&
+      !this.getValid(inputType)
+      ? Errors[inputType]
+      : '';
+  }
 
   validate(e) {
+    console.log('회원가입 validate');
+    if (!e.target.matches('.auth.signup .auth-input')) return;
     const { name, value } = e.target;
-    schema[name].value = value.trim();
-    schema[name].dirty = schema[name].value === '' ? false : true;
+    const trimedValue = value.trim();
+
+    const values = { ...this.state.values };
+    values[name] = trimedValue;
     // 수정!!!
-    this.setState({ errorMessages: Object.keys(schema)
-      .filter(name => name !== 'valid').map(e => schema[e].dirty && !schema[e].valid ? schema[e].error : '')})
+    this.setState({
+      values,
+    });
   }
 
   request(e) {
     e.preventDefault();
+    if (!e.target.matches('.auth.signup')) return;
     const $signinForm = e.target;
     const payload = { email: $signinForm.userid.value, password: $signinForm.password.value };
-    if (schema.valid) {
+    if (this.getValid()) {
       // 요청
       // 페이지 이동
       console.log(`POST /signin`, payload);
     } else {
       // 실패 처리
-      this.setState({isSignupError: true})
-      const timerId = setTimeout(() =>{
-        alert("회원정보 정확히 입력해주세요.");
-        this.setState({isSignupError: false})
-        clearTimeout(timerId)
-      },100)
+      this.setState({ isSignupError: true });
+      const timerId = setTimeout(() => {
+        alert('회원정보 정확히 입력해주세요.');
+        this.setState({ isSignupError: false });
+        clearTimeout(timerId);
+      }, 100);
     }
-  };
+  }
 }
 
 export default Signup;

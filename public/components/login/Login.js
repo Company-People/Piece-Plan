@@ -1,41 +1,40 @@
-// import Component from './Component.js';
 import Component from '../../core/Component.js';
-import { signinSchema as schema } from './schema.js';
 
 class Login extends Component {
   constructor() {
     super();
     this.state = {
-      errorMessages: ['', ''],
+      values: {},
       isLoginError: false,
     };
+    this.formInfoArr = [
+      ['userid', '아이디', 'text'],
+      ['password', '비밀번호', 'password'],
+    ];
   }
 
   // 2. render 정하기
   render() {
-    console.log(this);
     return `
       <div class="auth-wrapper">
         <form class="auth login ${this.state.isLoginError ? 'vibration' : ''}" novalidate>
           <div class="auth-logo"></div>
           <h1 class="hidden">로그인</h1>
-          ${[
-            ['userid', '아이디'],
-            ['password', '비밀번호'],
-          ]
+          ${this.formInfoArr
             .map(
-              (formInfo, index) => `
+              formInfo => `
               <div class="auth-input-container">
               <input
-                type="text"
+                type="${formInfo[2]}"
                 id="login-${formInfo[0]}"
                 class="auth-input"
                 name="${formInfo[0]}"
                 placeholder="${formInfo[1]}"
                 required
-                autocomplete="off" />
+                autocomplete="off" 
+                value='${this.state.values[formInfo[0]] ?? ''}'/>
               <label for="login-${formInfo[0]}" class="hidden">${formInfo[1]}</label>
-              <div class="auth-error error">${this.state.errorMessages[index]}</div>
+              <div class="auth-error error">${this.getError(formInfo[0])}</div>
             </div> 
             `
             )
@@ -47,7 +46,6 @@ class Login extends Component {
           </div>
         </form>
       </div>
-
     `;
   }
 
@@ -56,35 +54,67 @@ class Login extends Component {
     return [
       {
         type: 'input',
-        seletor: '.form.signin',
+        selector: '.auth.login .auth-input',
         handler: this.validate.bind(this),
       },
       {
         type: 'submit',
-        seletor: '.form.signin',
+        selector: '.auth.login',
         handler: this.request.bind(this),
       },
     ];
   }
 
+  getValid(inputType) {
+    const value = this.state.values[inputType] ?? '';
+    const schema = {
+      userid: {
+        get valid() {
+          return /^[a-z|A-Z|0-9|]{6,12}$/.test(value);
+        },
+      },
+      password: {
+        get valid() {
+          return /^[A-Za-z0-9]{6,12}$/.test(value);
+        },
+      },
+    };
+    return inputType !== undefined
+      ? schema[inputType].valid
+      : this.formInfoArr.every(formInfo => this.getValid(formInfo[0]));
+  }
+
+  getError(inputType) {
+    const Errors = {
+      userid: '아이디 영문 또는 숫자를 6~12자 입력하세요.',
+      password: '비밀번호 영문 또는 숫자를 6~12자 입력하세요.',
+    };
+    return this.state.values[inputType] !== '' &&
+      this.state.values[inputType] !== undefined &&
+      !this.getValid(inputType)
+      ? Errors[inputType]
+      : '';
+  }
+
   validate(e) {
+    if (!e.target.matches('.auth.login .auth-input')) return;
     const { name, value } = e.target;
-    schema[name].value = value.trim();
-    schema[name].dirty = schema[name].value !== '';
-    // 수정!!!
+    const trimedValue = value.trim();
+
+    const values = { ...this.state.values };
+    values[name] = trimedValue;
+
     this.setState({
-      errorMessages: Object.keys(schema)
-        .filter(name => name !== 'valid')
-        .map(e => (schema[e].dirty && !schema[e].valid ? schema[e].error : '')),
+      values,
     });
-    console.log(this);
   }
 
   request(e) {
     e.preventDefault();
+    if (!e.target.matches('.auth.login')) return;
     const $signinForm = e.target;
     const payload = { email: $signinForm.userid.value, password: $signinForm.password.value };
-    if (schema.valid) {
+    if (this.getValid()) {
       // 요청
       // 페이지 이동
       console.log(`POST /signin`, payload);
