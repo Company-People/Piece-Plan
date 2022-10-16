@@ -12,8 +12,6 @@ class Component {
    * 컴포넌트의 state를 업데이트한다. state가 변경되면 컴포넌트는 re-rendering된다.
    */
 
-  initState() {}
-
   setState(newState) {
     this.state = { ...this.state, ...newState };
 
@@ -21,7 +19,16 @@ class Component {
   }
 
   async patchState(callback, param) {
-    await callback(param);
+    try {
+      await callback(param);
+      render();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  changePage(path) {
+    window.history.pushState(null, null, path);
     render();
   }
 

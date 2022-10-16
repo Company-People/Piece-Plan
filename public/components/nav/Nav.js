@@ -1,5 +1,4 @@
 import Component from '../../core/Component.js';
-import render from '../../libs/render.js';
 
 class Nav extends Component {
   render() {
@@ -22,8 +21,7 @@ class Nav extends Component {
         selector: '.logo',
         handler: ({ target }) => {
           if (!target.matches('.logo')) return;
-          window.history.pushState(null, null, '/calendar');
-          render();
+          this.changePage('/calendar');
         },
       },
       {
@@ -33,8 +31,7 @@ class Nav extends Component {
         handler: ({ target }) => {
           if (!target.matches('.logout')) return;
           // logout 처리 요청 보낸 후 완료되면 메인으로
-          window.history.pushState(null, null, '/');
-          render();
+          this.changePage('/');
         },
       },
     ];
