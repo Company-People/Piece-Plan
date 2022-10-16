@@ -107,7 +107,7 @@ const pieces = [
 const getFilterPieces = (userId, filterId, search) => {
   if (search) return pieces.filter(piece => piece.title.includes(search));
   if (filterId === 'all') {
-    return pieces;
+    return pieces.filter(piece => piece.share);
   }
   if (filterId === 'my') {
     return pieces.filter(piece => piece.userId === userId);
@@ -120,16 +120,3 @@ const getFilterPieces = (userId, filterId, search) => {
 };
 
 module.exports = { pieces, getFilterPieces };
-
-// category
-
-// - 운동
-// - 공부
-// - 데이트
-// - 여행
-// - 예술
-// - 놀이
-// - 휴식
-// - 업무
-// - 육아
-// - 꿀팁

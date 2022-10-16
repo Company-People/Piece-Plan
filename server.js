@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const users = require('./models/users.js');
 const { pieces, getFilterPieces } = require('./models/pieces.js');
-const { addPlans, getMyPlans, getSelectPlan } = require('./models/plans.js');
+const { createPlan, patchPlan, getMyPlans, getSelectPlan } = require('./models/plans.js');
 
 require('dotenv').config();
 
@@ -62,6 +62,14 @@ app.get('/calender', (req, res) => {
   res.send({ name: tokenName, pieces, plans: getMyPlans(tokenId) });
 });
 
+app.post('/plan', (req, res) => {
+  // 로그인 된 id, 닉네임 토큰 해석해서 사용
+  const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
+  const { date } = req.body;
+
+  res.send(createPlan(date, tokenId));
+});
+
 app.post('/plan/:date', (req, res) => {
   // 로그인 된 id, 닉네임 토큰 해석해서 사용
   const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
@@ -72,11 +80,12 @@ app.post('/plan/:date', (req, res) => {
   res.send({ name: tokenName, pieces: getFilterPieces(tokenId, filterId, searchText), plan: getSelectPlan(date) });
 });
 
-app.patch('/plan', (req, res) => {
-  // 로그인 된 id, 닉네임 토큰 해석해서 사용
-  const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
+app.patch('/plan/:planId', (req, res) => {
+  const { planId } = req.params;
+  const { pieces } = req.body;
 
-  addPlans(req.body, tokenId);
+  patchPlan(planId, pieces);
+
   res.send();
 });
 

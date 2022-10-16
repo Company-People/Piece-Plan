@@ -2,9 +2,9 @@ import Component from '../../core/Component.js';
 
 class PlanDaily extends Component {
   render() {
-    const [{ pieces }] = this.props.plan.length !== 0 ? this.props.plan : [{}];
+    const { pieces } = this.props.plan || {};
 
-    const date = this.props.selectDate;
+    const date = this.props.selectedDate;
 
     const [yy, mm, dd] = date.split('-');
 
@@ -39,14 +39,16 @@ class PlanDaily extends Component {
   }
 
   setEvent() {
-    const { hoverPlan, leavePlan, dropPiece, leavePiece, useDrop } = this.props.events;
+    const { hoverPlan, leavePlan, addPiece, leavePiece, useDrop, completeEdit, removePiece } = this.props.events;
 
     return [
       { type: 'mouseover', selector: '.plan-daily-piece', handler: hoverPlan },
       { type: 'mouseout', selector: '.plan-daily-piece', handler: leavePlan },
       { type: 'dragover', selector: '.plan-daily-piece', handler: useDrop },
       { type: 'dragleave', selector: '.plan-daily-piece', handler: leavePiece },
-      { type: 'drop', selector: '.plan-daily-piece', handler: dropPiece },
+      { type: 'drop', selector: '.plan-daily-piece', handler: addPiece },
+      { type: 'click', selector: '.plan-submit-btn', handler: completeEdit },
+      { type: 'click', selector: '.plan-daily-remove', handler: removePiece },
     ];
   }
 }

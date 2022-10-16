@@ -7,23 +7,6 @@ class Plan extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filters: [
-        ['all', '전체보기'],
-        ['my', 'MY 피스'],
-        ['favorite', '즐겨찾기'],
-      ],
-      categories: [
-        ['all', '전체'],
-        ['exercise', '운동'],
-        ['study', '공부'],
-        ['love', '데이트'],
-        ['trip', '여행'],
-        ['art', '예술'],
-        ['play', '놀이'],
-        ['rest', '휴식'],
-        ['work', '업무'],
-        ['parenting', '육아'],
-      ],
       filterId: 'all',
       categoryId: 'all',
       searchText: null,
@@ -31,11 +14,14 @@ class Plan extends Component {
   }
 
   async render() {
-    const { data } = await axios.post('/plan/2022-09-23', {
+    const selectedDate = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
+
+    const { data } = await axios.post(`/plan/${selectedDate}`, {
       filterId: this.state.filterId,
       searchText: this.state.searchText,
     });
-    this.state = { ...this.state, pieces: data.pieces, plan: data.plan, selectDate: '2022-09-23' };
+
+    this.state = { ...this.state, pieces: data.pieces, plan: data.plan, selectedDate };
 
     const nav = new Nav({ name: data.name }).render();
 
@@ -51,13 +37,15 @@ class Plan extends Component {
 
     const planDaily = new PlanDaily({
       plan: this.state.plan,
-      selectDate: this.state.selectDate,
+      selectedDate: this.state.selectedDate,
       events: {
         hoverPlan: this.hoverPlan,
         leavePlan: this.leavePlan,
-        dropPiece: this.dropPiece.bind(this),
         leavePiece: this.leavePiece,
         useDrop: this.useDrop,
+        completeEdit: this.completeEdit.bind(this),
+        addPiece: this.addPiece.bind(this),
+        removePiece: this.removePiece.bind(this),
       },
     }).render();
 
@@ -70,9 +58,7 @@ class Plan extends Component {
     `;
   }
 
-  async patchPlan({ date, pieceId, startTime }) {
-    await axios.patch('plan', { date, pieceId, startTime });
-  }
+  // =============== hover 관련 이벤트 ===============
 
   hoverPlan(e) {
     if (e.target.matches('.plan-daily-piece')) {
@@ -83,13 +69,28 @@ class Plan extends Component {
       e.target.parentNode.classList.add('hover');
       e.target.classList.remove('hidden');
     }
+    if (e.target.matches('.plan-daily-link')) {
+      e.target.lastElementChild.classList.remove('hidden');
+    }
+    if (e.target.matches('.plan-daily-piece-title')) {
+      e.target.nextElementSibling.classList.remove('hidden');
+    }
+    if (e.target.matches('.plan-daily-remove')) {
+      e.target.classList.remove('hidden');
+    }
   }
 
   leavePlan(e) {
-    if (!e.target.matches('.plan-daily-piece')) return;
-    e.target.classList.remove('hover');
-    e.target.lastElementChild.classList.add('hidden');
+    if (e.target.matches('.plan-daily-piece')) {
+      e.target.classList.remove('hover');
+      e.target.lastElementChild.classList.add('hidden');
+    }
+    if (e.target.matches('.plan-daily-link')) {
+      e.target.lastElementChild.classList.add('hidden');
+    }
   }
+
+  // =============== drag & drop 이벤트 ===============
 
   useDrop(e) {
     e.preventDefault();
@@ -117,22 +118,18 @@ class Plan extends Component {
 
   leavePiece(e) {
     if (!e.target.matches('.plan-daily-piece')) return;
+
     e.target.classList.remove('hover');
   }
 
-  dropPiece(e) {
-    if (!e.target.matches('.plan-daily-piece')) return;
-    const date = '2022-09-23';
-    const pieceId = e.dataTransfer.getData('text');
-
-    this.patchState(this.patchPlan, { date, pieceId, startTime: e.target.id });
-  }
+  // =============== piece filter 관련 이벤트 ===============
 
   searchPieces(e) {
     if (!e.target.matches('.plan-search-form')) return;
     e.preventDefault();
 
     const [$input] = e.target;
+
     if ($input.value.trim() === '') return;
     this.setState({ searchText: $input.value });
     $input.value = '';
@@ -147,7 +144,78 @@ class Plan extends Component {
 
   filterCategory(e) {
     if (!e.target.matches('.plan-category')) return;
+
     this.setState({ categoryId: e.target.value });
+  }
+
+  // =============== page 전환 이벤트 ===============
+
+  completeEdit(e) {
+    if (!e.target.matches('.plan-cancel-btn') && !e.target.matches('.plan-submit-btn')) return;
+
+    this.changePage('/calendar');
+  }
+
+  // =============== plan piece 관련 메서드 ===============
+
+  createPlan() {
+    return axios.post('/plan', { date: this.state.selectedDate });
+  }
+
+  // 추가될 피스와 기존 피스의 중복 여부를 체크하여 불리언 반환
+  isOverlap(plan, startTime, time) {
+    const newTimes = Array.from({ length: time }).map((_, i) => i + +startTime);
+
+    return !plan.pieces.every(({ startTime, endTime }) => {
+      const times = Array.from({ length: endTime - startTime }).map((_, i) => i + startTime);
+      return newTimes.length + times.length === new Set([...newTimes, ...times]).size;
+    });
+  }
+
+  async addPiece(e) {
+    if (!e.target.matches('.plan-daily-piece')) return;
+
+    // 드랍된 piece의 정보를 가져옴
+    const { pieceId, title, category, time } = this.state.pieces.find(
+      piece => piece.pieceId === e.dataTransfer.getData('text')
+    );
+
+    // plan이 존재하지 않을 경우 새로운 plan을 만든다.
+    if (!this.state.plan) {
+      const { data } = await this.createPlan();
+      this.state.plan = data;
+    }
+
+    // plan에 추가될 piece 생성
+    const newPiece = {
+      pieceId,
+      title,
+      category,
+      startTime: +e.target.id,
+      endTime: +e.target.id + time,
+    };
+
+    // 생성된 piece가 기존의 plan에 있는 piece들과 중복되거나 하루 일정이 넘어갈 경우 리턴
+    if (this.isOverlap(this.state.plan, +e.target.id, time) || newPiece.endTime > 24) return;
+
+    // 서버에 업데이트 된 pieces를 보내 서버 상태 패치
+    this.patchState(({ planId, pieces }) => axios.patch(`/plan/${planId}`, { pieces }), {
+      planId: this.state.plan.planId,
+      pieces: [...this.state.plan.pieces, newPiece],
+    });
+  }
+
+  removePiece(e) {
+    if (!e.target.matches('.plan-daily-remove')) return;
+
+    const pieceId = e.target.parentNode.id;
+    const startTime = e.target.parentNode.parentNode.id;
+
+    // 서버에 업데이트 된 pieces를 보내 서버 상태 패치
+    this.patchState(({ planId, pieces }) => axios.patch(`/plan/${planId}`, { pieces }), {
+      planId: this.state.plan.planId,
+      pieces: this.state.plan.pieces.filter(piece => piece.pieceId !== pieceId || piece.startTime !== +startTime),
+    });
   }
 }
 

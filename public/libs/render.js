@@ -20,7 +20,12 @@ class NotFound {
 }
 
 const render = async path => {
-  const _path = path ?? window.location.pathname;
+  let _path = path ?? window.location.pathname;
+
+  if (_path.lastIndexOf('/') !== 0) {
+    _path = _path.substring(0, _path.lastIndexOf('/'));
+  }
+  console.log(_path);
 
   const CurrentComponent = routes.find(route => route.path === _path)?.component || NotFound;
 

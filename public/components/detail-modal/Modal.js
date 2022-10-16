@@ -67,7 +67,7 @@ class Modal extends Component {
   goToEditPage({ target }) {
     if (!target.matches('.btn-edit')) return;
 
-    window.history.pushState(null, null, `/plan/${this.props.selectedDate}`);
+    this.changePage(`/plan/${this.props.selectedDate}`);
   }
 }
 
