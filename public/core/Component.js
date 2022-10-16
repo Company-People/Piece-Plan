@@ -24,6 +24,11 @@ class Component {
     await callback(param);
     render();
   }
+
+  changePage(path) {
+    window.history.pushState(null, null, path);
+    render();
+  }
 }
 
 export default Component;
