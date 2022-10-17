@@ -1,6 +1,6 @@
 const reconciliation = (realNode, virtualNode) => {
   // 넘어온 노드가 요소 노드일 때
-  console.log(virtualNode);
+
   if (realNode instanceof Element) {
     const rAttributes = [...realNode.attributes];
     const vAttributes = [...virtualNode.attributes];
