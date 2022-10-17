@@ -177,7 +177,7 @@ class Plan extends Component {
   // =============== plan piece 관련 메서드 ===============
 
   createPlan() {
-    return axios.post('/plan', { date: this.state.selectedDate });
+    return axios.post('/plans', { date: this.state.selectedDate });
   }
 
   // 추가될 피스와 기존 피스의 중복 여부를 체크하여 불리언 반환
