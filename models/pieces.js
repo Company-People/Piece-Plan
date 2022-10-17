@@ -1,6 +1,7 @@
+const { v4: uuid } = require('uuid');
 const favorites = require('./favorites.js');
 
-const pieces = [
+let pieces = [
   {
     pieceId: '88ef1bc9-f037-4eaa-aaaa-5f94b0997285',
     category: 'trip',
@@ -104,6 +105,29 @@ const pieces = [
   },
 ];
 
+const getPieces = () => pieces;
+
+const addPiece = formData => {
+  const { category, title, subtitle, content, mypiece, startTime, userId } = formData;
+  const writeDate = new Date().toLocaleString('ko-KR', { timeZone: 'UTC' }).split('. ').slice(0, 3).join('-');
+
+  pieces = [
+    {
+      pieceId: uuid(),
+      category,
+      title,
+      subTitle: subtitle,
+      content,
+      share: !mypiece,
+      favoriteCnt: 0,
+      time: +startTime,
+      writeDate,
+      userId,
+    },
+    ...pieces,
+  ];
+};
+
 const getFilterPieces = (userId, filterId, search) => {
   if (search !== '') return pieces.filter(piece => piece.title.includes(search));
 
@@ -117,4 +141,4 @@ const getFilterPieces = (userId, filterId, search) => {
     );
 };
 
-module.exports = { pieces, getFilterPieces };
+module.exports = { getPieces, addPiece, getFilterPieces };

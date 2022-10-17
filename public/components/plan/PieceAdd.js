@@ -6,11 +6,11 @@ class PieceAdd extends Component {
     const categoryArr = [
       ['exercise', '운동'],
       ['study', '공부'],
-      ['date', '데이트'],
+      ['love', '데이트'],
       ['trip', '여행'],
       ['art', '예술'],
       ['play', '놀이'],
-      ['reset', '휴식'],
+      ['rest', '휴식'],
       ['work', '업무'],
       ['parenting', '육아'],
     ];
@@ -22,19 +22,17 @@ class PieceAdd extends Component {
       subtitle: '소제목 1~30자 입력해 주세요.',
       content: '내용을 입력해 주세요.',
     };
+    // prettier-ignore
     return `
       <div class="modal-background">
         <form action="#" method="post" class="inputmodal">
           <h1 class="inputmodal-title text-gradient">피스 등록</h1>
           <div class="inputmodal-item-container">
-            <input type="text" id="piece-title" class="piece-input" name="title" placeholder="제목을 입력해 주세요."  autocomplete="off" value="${
-              values[formInfoArr[0]] ?? ''
-            }"/>
-            <label for="piece-title" class="pieceadd-error-messages ${isErrorMessageArr[0] ? '' : 'hidden'}">${
-      errors.title
-    }</label>
+            <input type="text" id="piece-title" class="piece-input" name="title" placeholder="제목을 입력해 주세요."  autocomplete="off" value="${values[formInfoArr[0]] ?? ''}"/>
+            <label for="piece-title" class="pieceadd-error-messages ${isErrorMessageArr[0] ? '' : 'hidden'}">
+            ${errors.title}
+            </label>
           </div>
-          
           <ul class="piece-dropdown-list">
             <li class="piece-dropdown-item"> 
               <select name="time" id="piece-time-select" class="piece-input" >
@@ -48,9 +46,7 @@ class PieceAdd extends Component {
                   )
                   .join('')}
               </select>
-              <label for="piece-time-select" class="pieceadd-error-messages ${isErrorMessageArr[1] ? '' : 'hidden'}">${
-      errors.time
-    }</label>
+              <label for="piece-time-select" class="pieceadd-error-messages ${isErrorMessageArr[1] ? '' : 'hidden'}">${errors.time}</label>
             </li>
             <li class="piece-dropdown-item">
               <select name="category" id="piece-category-select" class="piece-input" >
@@ -64,30 +60,21 @@ class PieceAdd extends Component {
                   )
                   .join('')}
               </select>
-              <label for="piece-category-select" class="pieceadd-error-messages ${
-                isErrorMessageArr[2] ? '' : 'hidden'
-              }">${errors.category}</label>
+              <label for="piece-category-select" class="pieceadd-error-messages ${isErrorMessageArr[2] ? '' : 'hidden'}">${errors.category}</label>
             </li>
           </ul>
-          
           <div class="inputmodal-item-container">
             <input type="text" id="piece-subtitle" class="piece-input" name="subtitle" placeholder="소제목을 입력해 주세요."  autocomplete="off" value="${
               values[formInfoArr[3]] ?? ''
             }"/>
-            <label for="piece-subtitle" class="pieceadd-error-messages ${isErrorMessageArr[3] ? '' : 'hidden'}">${
-      errors.subtitle
-    }</label>
+            <label for="piece-subtitle" class="pieceadd-error-messages ${isErrorMessageArr[3] ? '' : 'hidden'}">${errors.subtitle}</label>
           </div>
           <div class="inputmodal-item-container">
-            <textarea name="content" id="piece-content" class="piece-input" cols="30" rows="10" placeholder="내용을 입력해 주세요." value="${
-              values[formInfoArr[4]] ?? ''
-            }"></textarea>
-            <label for="piece-content" class="pieceadd-error-messages ${isErrorMessageArr[4] ? '' : 'hidden'}">${
-      errors.content
-    }</label>
+            <textarea name="content" id="piece-content" class="piece-input" cols="30" rows="10" placeholder="내용을 입력해 주세요." value="${values[formInfoArr[4]] ?? ''}"></textarea>
+            <label for="piece-content" class="pieceadd-error-messages ${isErrorMessageArr[4] ? '' : 'hidden'}">${errors.content}</label>
           </div>
           <div class="checkbox-container">
-            <input type="checkbox" id="my-piece" name="my-piece" ${values[formInfoArr[5]] ? 'checked' : ''}>
+            <input type="checkbox" id="my-piece" name="mypiece" ${values[formInfoArr[5]] ? 'checked' : ''}>
             <label for="my-piece" class="my-piece-desc text-gradient">나만의 피스로 등록</label>
           </div>
           <button class="piece-add-button button">등록</button>
