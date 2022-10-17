@@ -18,8 +18,8 @@ class Main extends Component {
           <a href="#"><div class="main-logo"></div></a>
           <h1 class="hidden">피플</h1>
           <ul class="main-catchphrase">
-            <li class="former">모두의 플랜,</li>
-            <li class="latter">Piece Plan</li>
+            <li class="former text-gradient-main">모두의 플랜,</li>
+            <li class="latter text-gradient-main">Piece Plan</li>
           </ul>
           <ul class="main-button-list">
             <li><button class="button longin-button">로그인</button></li>
