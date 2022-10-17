@@ -92,6 +92,8 @@ app.patch('/plans/:planId', (req, res) => {
   const { planId } = req.params;
   const { pieces } = req.body;
 
+  pieces.sort((a, b) => a.startTime - b.startTime);
+
   patchPlan(planId, pieces);
 
   res.send();
