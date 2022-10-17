@@ -21,10 +21,10 @@ class PieceAdd extends Component {
       ['parenting', '육아'],
     ];
     this.errors = {
-      title: '제목 1~20자 입력해 주세요.',
+      title: '제목 1~15자 입력해 주세요.',
       time: '시간을 선택해 주세요',
       category: '카테고리를 선택해 주세요',
-      subtitle: '소제목 1~20자 입력해 주세요.',
+      subtitle: '소제목 1~30자 입력해 주세요.',
       content: '내용을 입력해 주세요.',
     };
     this.timerId = 0;
@@ -139,7 +139,7 @@ class PieceAdd extends Component {
     const schema = {
       title: {
         get valid() {
-          return /^.{1,20}$/.test(value);
+          return /^.{1,15}$/.test(value);
         },
       },
       time: {
@@ -154,7 +154,7 @@ class PieceAdd extends Component {
       },
       subtitle: {
         get valid() {
-          return /^.{1,20}$/.test(value);
+          return /^.{1,30}$/.test(value);
         },
       },
       content: {
