@@ -1,4 +1,4 @@
-import Component from './Component.js';
+import Component from '../../core/Component.js';
 
 class PieceAdd extends Component {
   // constructor(props) {
@@ -32,12 +32,32 @@ class PieceAdd extends Component {
 
   // 2. render 정하기
   render() {
-    const { values, isErrorMessageArr, errors, timeArr, categoryArr, formInfoArr } = this.props;
+    const { values, isErrorMessageArr, formInfoArr } = this.props;
+    // console.log('피스 추가 렌더');
+    // VALUE 변경 후 여기서 isErrorMessageArr 설정
+    const categoryArr = [
+      ['exercise', '운동'],
+      ['study', '공부'],
+      ['date', '데이트'],
+      ['trip', '여행'],
+      ['art', '예술'],
+      ['play', '놀이'],
+      ['reset', '휴식'],
+      ['work', '업무'],
+      ['parenting', '육아'],
+    ];
+    const timeArr = Array.from({ length: 24 }, (_, index) => index + 1);
+    const errors = {
+      title: '제목 1~15자 입력해 주세요.',
+      time: '시간을 선택해 주세요',
+      category: '카테고리를 선택해 주세요',
+      subtitle: '소제목 1~30자 입력해 주세요.',
+      content: '내용을 입력해 주세요.',
+    };
     return `
       <div class="modal-background">
         <form action="#" method="post" class="inputmodal">
           <h1 class="inputmodal-title text-gradient">피스 등록</h1>
-
           <div class="inputmodal-item-container">
             <input type="text" id="piece-title" class="piece-input" name="title" placeholder="제목을 입력해 주세요."  autocomplete="off" value="${
               values[formInfoArr[0]] ?? ''
@@ -46,7 +66,6 @@ class PieceAdd extends Component {
       errors.title
     }</label>
           </div>
-
           
           <ul class="piece-dropdown-list">
             <li class="piece-dropdown-item"> 
@@ -65,7 +84,6 @@ class PieceAdd extends Component {
       errors.time
     }</label>
             </li>
-
             <li class="piece-dropdown-item">
               <select name="category" id="piece-category-select" class="piece-input" >
                 <option value="">카테고리 선택</option>
@@ -82,7 +100,6 @@ class PieceAdd extends Component {
                 isErrorMessageArr[2] ? '' : 'hidden'
               }">${errors.category}</label>
             </li>
-
           </ul>
           
           <div class="inputmodal-item-container">
@@ -93,7 +110,6 @@ class PieceAdd extends Component {
       errors.subtitle
     }</label>
           </div>
-
           <div class="inputmodal-item-container">
             <textarea name="content" id="piece-content" class="piece-input" cols="30" rows="10" placeholder="내용을 입력해 주세요." value="${
               values[formInfoArr[4]] ?? ''
@@ -102,12 +118,10 @@ class PieceAdd extends Component {
       errors.content
     }</label>
           </div>
-
           <div class="checkbox-container">
-            <input type="checkbox" id="my-piece" name="my-piece" checked>
+            <input type="checkbox" id="my-piece" name="my-piece" ${values[formInfoArr[5]] ? 'checked' : ''}>
             <label for="my-piece" class="my-piece-desc text-gradient">나만의 피스로 등록</label>
           </div>
-
           <button class="piece-add-button button">등록</button>
           <button type="button" class="piece-close-button"></button>
         </form>
@@ -121,128 +135,26 @@ class PieceAdd extends Component {
     return [
       {
         type: 'click',
-        seletor: '.modal-background',
+        selector: '.modal-background',
         handler: closeAdd,
       },
       {
         type: 'input',
-        seletor: '.inputmodal',
+        selector: '.inputmodal',
         handler: validate,
       },
       {
         type: 'submit',
-        seletor: '.inputmodal',
+        selector: '.inputmodal',
         handler: request,
       },
       {
         type: 'click',
-        seletor: 'window',
+        selector: '.modal-background .inputmodal',
         handler: hideErrorMsg,
       },
     ];
   }
-
-  // getValid(inputType) {
-  //   const value = this.state.values[inputType] ?? '';
-  //   const schema = {
-  //     title: {
-  //       get valid() {
-  //         return /^.{1,20}$/.test(value);
-  //       },
-  //     },
-  //     time: {
-  //       get valid() {
-  //         return !!value;
-  //       },
-  //     },
-  //     category: {
-  //       get valid() {
-  //         return !!value;
-  //       },
-  //     },
-  //     subtitle: {
-  //       get valid() {
-  //         return /^.{1,20}$/.test(value);
-  //       },
-  //     },
-  //     content: {
-  //       get valid() {
-  //         return !!value;
-  //       },
-  //     },
-  //   };
-  //   return inputType !== undefined
-  //     ? schema[inputType].valid
-  //     : this.formInfoArr.every(formInfo => this.getValid(formInfo));
-  // }
-
-  // hideErrorMsg() {
-  //   if (this.state.isErrorMessageArr.some(errMsg => errMsg === true)) {
-  //     this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map(() => false) });
-  //     clearTimeout(this.timerId);
-  //   }
-  // }
-
-  // validate(e) {
-  //   if (e.target.matches('#my-piece')) return;
-  //   const { value, name } = e.target;
-  //   const trimedValue = value.trim();
-
-  //   const values = { ...this.state.values };
-  //   values[name] = trimedValue;
-
-  //   this.setState({
-  //     values,
-  //   });
-  // }
-
-  // // !this.getValid(formInfo)
-  // showErrorMsg() {
-  //   const setErrorMsg = index => {
-  //     this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map((_, idx) => index === idx) });
-  //     this.timerId = setTimeout(() => {
-  //       this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map(() => false) });
-  //       clearTimeout(this.timerId);
-  //     }, 4000);
-  //   };
-
-  //   // eslint-disable-next-line no-unused-expressions
-  //   !this.formInfoArr.some((formInfo, index) => {
-  //     if (this.state.values[formInfo] === '' || this.state.values[formInfo] === undefined) {
-  //       setErrorMsg(index);
-  //       return true;
-  //     }
-  //     return false;
-  //   })
-  //     ? this.formInfoArr.some((formInfo, index) => {
-  //         if (!this.getValid(formInfo)) {
-  //           setErrorMsg(index);
-  //           return true;
-  //         }
-  //         return false;
-  //       })
-  //     : null;
-  // }
-
-  // request(e) {
-  //   e.preventDefault();
-  //   const $PieceAdd = e.target;
-  //   // 수정해야함
-  //   const payload = {
-  //     title: $PieceAdd.title.value,
-  //     time: $PieceAdd.time.value,
-  //     category: $PieceAdd.category.value,
-  //     subtitle: $PieceAdd.subtitle.value,
-  //   };
-  //   if (this.getValid()) {
-  //     // 요청
-  //     // 페이지 이동
-  //     this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map(() => false) }); // 필요한가?
-  //     console.log(`POST /signin`, payload);
-  //   } else {
-  //     // 실패 처리
-  //     this.showErrorMsg();
-  //   }
 }
 
 export default PieceAdd;
