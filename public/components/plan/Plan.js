@@ -3,6 +3,7 @@ import Nav from '../nav/Nav.js';
 import PlanDaily from './PlanDaily.js';
 import PlanPiece from './PlanPiece.js';
 import PieceDetail from './PieceDetail.js';
+import PieceAdd from '../inputmodal/PieceAdd.js';
 
 class Plan extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class Plan extends Component {
       categoryId: 'all',
       searchText: '',
       selectedPiece: null,
+      isAddOpen: false,
     };
   }
 
@@ -54,12 +56,19 @@ class Plan extends Component {
           completeEdit: this.completeEdit.bind(this),
           addPiece: this.addPiece.bind(this),
           removePiece: this.removePiece.bind(this),
+          openAdd: this.openAdd.bind(this),
         },
       }).render();
 
       const pieceDetail = new PieceDetail({
         selectedPiece: this.state.selectedPiece,
         events: { closeDetail: this.closeDetail.bind(this) },
+      }).render();
+
+      const pieceAdd = new PieceAdd({
+        events: {
+          closeAdd: this.closeAdd.bind(this),
+        },
       }).render();
 
       return `
@@ -69,6 +78,7 @@ class Plan extends Component {
     ${planDaily}
     </div>
     ${pieceDetail}
+    ${this.state.isAddOpen ? pieceAdd : ''}
     `;
     } catch (e) {
       console.error(e);
@@ -250,6 +260,18 @@ class Plan extends Component {
     if (!e.target.matches('.detail-bg') && !e.target.matches('.detail-close')) return;
 
     this.setState({ selectedPiece: null });
+  }
+
+  openAdd(e) {
+    if (!e.target.matches('.plan-daily-add')) return;
+
+    this.setState({ isAddOpen: true });
+  }
+
+  closeAdd(e) {
+    if (!e.target.matches('.modal-background') && !e.target.matches('.piece-close-button')) return;
+
+    this.setState({ isAddOpen: false });
   }
 }
 

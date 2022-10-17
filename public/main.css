@@ -777,13 +777,17 @@ span[data-time='23'] {
 
 .modal-background {
   display: flex;
+  position: absolute;
   justify-content: center;
   align-items: center;
-  position: fixed;
+  left: 0;
+  top: 0;
+  /* position: fixed; */
   width: 100%;
   height: 100%;
   background: var(--gradient-bg-modal);
   backdrop-filter: blur(4px);
+  z-index: 30;
 }
 
 .inputmodal {
