@@ -1,40 +1,8 @@
 import Component from '../../core/Component.js';
 
 class PieceAdd extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     values: {},
-  //     isErrorMessageArr: [false, false, false, false, false],
-  //   };
-  //   this.formInfoArr = ['title', 'time', 'category', 'subtitle', 'content'];
-  //   this.timeArr = Array.from({ length: 24 }, (_, index) => index + 1);
-  //   this.categoryArr = [
-  //     ['exercise', '운동'],
-  //     ['study', '공부'],
-  //     ['date', '데이트'],
-  //     ['trip', '여행'],
-  //     ['art', '예술'],
-  //     ['play', '놀이'],
-  //     ['reset', '휴식'],
-  //     ['work', '업무'],
-  //     ['parenting', '육아'],
-  //   ];
-  //   this.errors = {
-  //     title: '제목 1~20자 입력해 주세요.',
-  //     time: '시간을 선택해 주세요',
-  //     category: '카테고리를 선택해 주세요',
-  //     subtitle: '소제목 1~20자 입력해 주세요.',
-  //     content: '내용을 입력해 주세요.',
-  //   };
-  //   this.timerId = 0;
-  // }
-
-  // 2. render 정하기
   render() {
     const { values, isErrorMessageArr, formInfoArr } = this.props;
-    // console.log('피스 추가 렌더');
-    // VALUE 변경 후 여기서 isErrorMessageArr 설정
     const categoryArr = [
       ['exercise', '운동'],
       ['study', '공부'],

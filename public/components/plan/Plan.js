@@ -3,7 +3,7 @@ import Nav from '../nav/Nav.js';
 import PlanDaily from './PlanDaily.js';
 import PlanPiece from './PlanPiece.js';
 import PieceDetail from './PieceDetail.js';
-import PieceAdd from '../inputmodal/PieceAdd.js';
+import PieceAdd from './PieceAdd.js';
 
 class Plan extends Component {
   constructor(props) {
