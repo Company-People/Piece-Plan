@@ -596,12 +596,8 @@ legend {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: var(--xxl);
+  font-size: 36px;
   font-weight: 700;
-}
-
-.daily-date {
-  margin-bottom: 32px;
 }
 
 .daily-plan-wrapper {
@@ -733,21 +729,21 @@ span[data-time='23'] {
 }
 
 .piece-content {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 360px;
   margin: 20px 40px 20px;
 }
 
 .piece-subtitle {
   margin-bottom: 16px;
   overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-  white-space: nowrap;
   font-size: 28px;
 }
 
 .piece-describtion {
+  flex-grow: 2;
   overflow-y: scroll;
-  height: 310px;
   padding: 20px;
   background: var(--gray-2);
   border-radius: 12px;
