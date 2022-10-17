@@ -4,7 +4,7 @@ import Detail from './Detail.js';
 
 class Modal extends Component {
   render() {
-    if (this.props.selectedDate === undefined) return '';
+    if (!this.props.selectedDate) return '';
 
     const daily = new Daily({
       ...this.props,
