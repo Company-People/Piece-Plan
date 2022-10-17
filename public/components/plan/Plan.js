@@ -3,7 +3,7 @@ import Nav from '../nav/Nav.js';
 import PlanDaily from './PlanDaily.js';
 import PlanPiece from './PlanPiece.js';
 import PieceDetail from './PieceDetail.js';
-import PieceAdd from '../inputmodal/PieceAdd.js';
+import PieceAdd from './PieceAdd.js';
 
 class Plan extends Component {
   constructor(props) {
@@ -18,32 +18,12 @@ class Plan extends Component {
       values: {},
       isErrorMessageArr: [false, false, false, false, false],
     };
-    this.formInfoArr = ['title', 'time', 'category', 'subtitle', 'content'];
-    this.timeArr = Array.from({ length: 24 }, (_, index) => index + 1);
-    this.categoryArr = [
-      ['exercise', '운동'],
-      ['study', '공부'],
-      ['date', '데이트'],
-      ['trip', '여행'],
-      ['art', '예술'],
-      ['play', '놀이'],
-      ['reset', '휴식'],
-      ['work', '업무'],
-      ['parenting', '육아'],
-    ];
-    this.errors = {
-      title: '제목 1~20자 입력해 주세요.',
-      time: '시간을 선택해 주세요',
-      category: '카테고리를 선택해 주세요',
-      subtitle: '소제목 1~20자 입력해 주세요.',
-      content: '내용을 입력해 주세요.',
-    };
+    this.formInfoArr = ['title', 'time', 'category', 'subtitle', 'content', 'my-piece'];
     this.timerId = 0;
   }
 
   async render() {
     const selectedDate = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
-
     try {
       const {
         data: { pieces },
@@ -92,15 +72,12 @@ class Plan extends Component {
       const pieceAdd = new PieceAdd({
         values: this.state.values,
         isErrorMessageArr: this.state.isErrorMessageArr,
-        errors: this.errors,
-        timeArr: this.timeArr,
-        categoryArr: this.categoryArr,
         formInfoArr: this.formInfoArr,
         events: {
           closeAdd: this.closeAdd.bind(this),
           validate: this.validate.bind(this),
           request: this.request.bind(this),
-          hideErrorMsg: this.hideErrorMsg(this),
+          hideErrorMsg: this.hideErrorMsg.bind(this),
         },
       }).render();
 
@@ -304,8 +281,11 @@ class Plan extends Component {
 
   closeAdd(e) {
     if (!e.target.matches('.modal-background') && !e.target.matches('.piece-close-button')) return;
-
-    this.setState({ isAddOpen: false });
+    this.setState({
+      values: Object.fromEntries(Object.entries(this.state.values).map(value => [value[0], ''])),
+      isErrorMessageArr: [false, false, false, false, false],
+      isAddOpen: false,
+    });
   }
 
   getValid(inputType) {
@@ -313,7 +293,7 @@ class Plan extends Component {
     const schema = {
       title: {
         get valid() {
-          return /^.{1,20}$/.test(value);
+          return /^.{1,15}$/.test(value);
         },
       },
       time: {
@@ -328,7 +308,7 @@ class Plan extends Component {
       },
       subtitle: {
         get valid() {
-          return /^.{1,20}$/.test(value);
+          return /^.{1,30}$/.test(value);
         },
       },
       content: {
@@ -339,7 +319,7 @@ class Plan extends Component {
     };
     return inputType !== undefined
       ? schema[inputType].valid
-      : this.formInfoArr.every(formInfo => this.getValid(formInfo));
+      : Object.keys(schema).every(formInfo => this.getValid(formInfo));
   }
 
   hideErrorMsg() {
@@ -350,61 +330,50 @@ class Plan extends Component {
   }
 
   validate(e) {
-    if (e.target.matches('#my-piece')) return;
-    const { value, name } = e.target;
-    const trimedValue = value.trim();
-
+    if (!(e.target.matches('#my-piece') || e.target.matches('.piece-input'))) return;
+    const { value, name, checked } = e.target;
     const values = { ...this.state.values };
-    values[name] = trimedValue;
+    values[name] = name === 'my-piece' ? checked : value;
 
     this.setState({
       values,
     });
   }
 
-  // !this.getValid(formInfo)
   showErrorMsg() {
     const setErrorMsg = index => {
       this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map((_, idx) => index === idx) });
+
       this.timerId = setTimeout(() => {
         this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map(() => false) });
         clearTimeout(this.timerId);
       }, 4000);
     };
 
-    // eslint-disable-next-line no-unused-expressions
     !this.formInfoArr.some((formInfo, index) => {
       if (this.state.values[formInfo] === '' || this.state.values[formInfo] === undefined) {
         setErrorMsg(index);
         return true;
       }
       return false;
-    })
-      ? this.formInfoArr.some((formInfo, index) => {
-          if (!this.getValid(formInfo)) {
-            setErrorMsg(index);
-            return true;
-          }
-          return false;
-        })
-      : null;
+    }) &&
+      this.formInfoArr.some((formInfo, index) => {
+        if (!this.getValid(formInfo)) {
+          setErrorMsg(index);
+          return true;
+        }
+        return false;
+      });
   }
 
   request(e) {
     e.preventDefault();
-    const $PieceAdd = e.target;
-    // 수정해야함
-    const payload = {
-      title: $PieceAdd.title.value,
-      time: $PieceAdd.time.value,
-      category: $PieceAdd.category.value,
-      subtitle: $PieceAdd.subtitle.value,
-    };
+    if (!e.target.matches('.inputmodal')) return;
     if (this.getValid()) {
       // 요청
       // 페이지 이동
       this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map(() => false) }); // 필요한가?
-      console.log(`POST /signin`, payload);
+      console.log(`POST /signin`, this.state.values);
     } else {
       // 실패 처리
       this.showErrorMsg();
