@@ -65,7 +65,7 @@ class Calendar extends Component {
           </div>
         </div>
       </div>
-      ${new Modal({ ...this.state, filteredPlan, pieces, filterPieces: this.filterPieces.bind(this), resetModalData: this.resetModalData.bind(this) }).render()}
+      ${new Modal({ ...this.state, filteredPlan, pieces, filterPieces: this.filterPieces.bind(this), resetModalData: this.resetModalData.bind(this), changeDatePage: this.changeDatePage.bind(this) }).render()}
       `;
   }
   // ${this.initializeDate()}
@@ -141,6 +141,11 @@ class Calendar extends Component {
 
   resetModalData() {
     this.setState({ selectedDate: undefined, targetPiece: undefined });
+  }
+
+  // Modal - Click edit button
+  changeDatePage() {
+    this.changePage(`/plan/${this.state.selectedDate}`);
   }
 
   // Event handlers
