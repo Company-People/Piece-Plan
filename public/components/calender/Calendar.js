@@ -26,7 +26,7 @@ class Calendar extends Component {
 
     const dayList = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-    const { data } = await axios.get('/calender');
+    const { data } = await axios.get('/mycalendar');
     const { pieces, plans } = data;
 
     this.state.pieces = pieces;

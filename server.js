@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const users = require('./models/users.js');
 const { pieces, getFilterPieces } = require('./models/pieces.js');
-const { createPlan, patchPlan, getMyPlans, getSelectPlan } = require('./models/plans.js');
+const { createPlan, removePlan, patchPlan, getMyPlans, getSelectPlan } = require('./models/plans.js');
 
 require('dotenv').config();
 
@@ -22,18 +22,18 @@ app.use(cookieParser());
  * 1. 로그인 사용자인 경우, 메인 페이지로 이동
  * 2. 미로그인 사용자인 경우, 로그인 페이지로 이동
  */
-// const auth = (req, res, next) => {
-//   const accessToken = req.headers.authorization || req.cookies.accessToken;
+const auth = (req, res, next) => {
+  const accessToken = req.headers.authorization || req.cookies.accessToken;
 
-//   try {
-//     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-//     console.log('인증 성공', decoded);
-//     next();
-//   } catch (e) {
-//     console.error('사용자 인증 실패', e);
-//     res.redirect('/login');
-//   }
-// };
+  try {
+    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+    console.log('인증 성공', decoded);
+    next();
+  } catch (e) {
+    // console.error('사용자 인증 실패', e);
+    res.redirect('/login');
+  }
+};
 
 // app.post('/login', (req, res) => {
 //   const { email, password } = req.body;
@@ -55,7 +55,24 @@ app.use(cookieParser());
 //   res.send({ userId: user.userId, name: user.name });
 // });
 
-app.get('/calender', (req, res) => {
+// -----------------------
+// app.get('/auth', (req, res) => {
+//   const accessToken = req.headers.authorization || req.cookies.accessToken;
+
+//   try {
+//     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+//     res.send({ auth: true });
+//   } catch (e) {
+//     res.send({ auth: false });
+//   }
+// });
+
+app.get('/login', (req, res) => {
+  console.log('!!');
+  res.end();
+});
+
+app.get('/mycalendar', auth, (req, res) => {
   // 로그인 된 id, 닉네임 토큰 해석해서 사용
   const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
   const tokenName = '김팀장';
@@ -94,12 +111,13 @@ app.patch('/plans/:planId', (req, res) => {
 
   pieces.sort((a, b) => a.startTime - b.startTime);
 
-  patchPlan(planId, pieces);
+  pieces.length === 0 ? removePlan(planId) : patchPlan(planId, pieces);
 
-  res.send();
+  res.end();
 });
 
 app.get('*', (req, res) => {
+  console.log(req.params);
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 

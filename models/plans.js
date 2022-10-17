@@ -37,6 +37,12 @@ const createPlan = (date, userId) => {
   return newPlan;
 };
 
+const removePlan = planId => {
+  console.log(plans);
+  plans = plans.filter(plan => plan.planId !== planId);
+  console.log(plans);
+};
+
 const getMyPlans = id => plans.filter(plan => plan.userId === id);
 
 const getSelectPlan = (userId, date) => plans.find(plan => plan.date === date && plan.userId === userId);
@@ -46,4 +52,4 @@ const patchPlan = (planId, pieces) => {
   plan.pieces = pieces;
 };
 
-module.exports = { createPlan, patchPlan, getMyPlans, getSelectPlan };
+module.exports = { createPlan, removePlan, patchPlan, getMyPlans, getSelectPlan };

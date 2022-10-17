@@ -1255,6 +1255,7 @@ select {
 .plan-piece-time {
   width: 45px;
   right: 87px;
+  margin-top: 4px;
 }
 
 .plan-piece-fav {
@@ -1262,6 +1263,7 @@ select {
   align-items: center;
   width: 71px;
   right: 8px;
+  margin-top: 4px;
 }
 
 .plan-piece-fav::before {
