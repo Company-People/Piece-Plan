@@ -1,16 +1,10 @@
 import Component from '../../core/Component.js';
-import Daily from './js/Daily.js';
-import Detail from './js/Detail.js';
+import Daily from './Daily.js';
+import Detail from './Detail.js';
 
 class Modal extends Component {
   render() {
     if (this.props.selectedDate === undefined) return '';
-
-    // this.state = this.props;
-    // console.log(this.state);
-
-    // const targetPiece = this.filterPieces();
-    // console.log(targetPiece);
 
     const daily = new Daily({
       ...this.props,
@@ -56,7 +50,7 @@ class Modal extends Component {
   goToEditPage({ target }) {
     if (!target.matches('.btn-edit')) return;
 
-    this.changePage(`/plan/${this.props.selectedDate}`);
+    this.props.changeDatePage();
   }
 }
 
