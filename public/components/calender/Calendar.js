@@ -20,7 +20,7 @@ class Calendar extends Component {
       12: 'December',
     };
     this.dayList = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    this.state = { currentDate: new Date(), selectedDate: undefined, targetPiece: undefined };
+    this.state = { pieces: null, currentDate: new Date(), selectedDate: null, targetPiece: null };
   }
 
   async render() {
@@ -124,7 +124,7 @@ class Calendar extends Component {
   }
 
   resetModalData() {
-    this.setState({ selectedDate: undefined, targetPiece: undefined });
+    this.setState({ selectedDate: null, targetPiece: null });
   }
 
   // Modal - Click edit button
@@ -137,7 +137,7 @@ class Calendar extends Component {
     if (!e.target.matches('.calendar-year-prev')) return;
     this.setState({
       currentDate: new Date(this.state.currentDate.getFullYear() - 1, this.state.currentDate.getMonth()),
-      selectedDate: undefined,
+      selectedDate: null,
     });
     console.log('this.state: ', this.state);
   }
@@ -146,7 +146,7 @@ class Calendar extends Component {
     if (!e.target.matches('.calendar-year-next')) return;
     this.setState({
       currentDate: new Date(this.state.currentDate.getFullYear() + 1, this.state.currentDate.getMonth()),
-      selectedDate: undefined,
+      selectedDate: null,
     });
     console.log('this.state: ', this.state);
   }
@@ -155,7 +155,7 @@ class Calendar extends Component {
     if (!e.target.matches('.calendar-month > li')) return;
     this.setState({
       currentDate: new Date(this.state.currentDate.getFullYear(), e.target.dataset.month - 1),
-      selectedDate: undefined,
+      selectedDate: null,
     });
     console.log('this.state: ', this.state);
   }
