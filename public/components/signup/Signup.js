@@ -112,7 +112,6 @@ class Signup extends Component {
   }
 
   validate(e) {
-    console.log('회원가입 validate');
     if (!e.target.matches('.auth.signup .auth-input')) return;
     const { name, value } = e.target;
     const trimedValue = value.trim();
@@ -126,8 +125,8 @@ class Signup extends Component {
   }
 
   request(e) {
-    e.preventDefault();
     if (!e.target.matches('.auth.signup')) return;
+    e.preventDefault();
     const $signinForm = e.target;
     const payload = { email: $signinForm.userid.value, password: $signinForm.password.value };
     if (this.getValid()) {

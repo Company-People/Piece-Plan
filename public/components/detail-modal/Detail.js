@@ -1,4 +1,4 @@
-import Component from '../../../core/Component.js';
+import Component from '../../core/Component.js';
 
 const CATEGORY_LIST = {
   exercise: '운동',

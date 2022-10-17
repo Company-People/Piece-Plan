@@ -31,7 +31,7 @@ class Calendar extends Component {
 
     this.state.pieces = pieces;
 
-    const [filteredPlan] = data.plans.filter(({ date }) => date === this.state.selectedDate);
+    const filteredPlan = data.plans.find(({ date }) => date === this.state.selectedDate);
 
     const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
 
@@ -54,21 +54,18 @@ class Calendar extends Component {
         <div class="calendar-main">
           <div class="calendar-current-month text-gradient">${monthList[this.currentMonth + 1]}</div>
           <div class="calendar-grid">
-            ${dayList.map(day => `<div class='day'>${day}</div>`).join('')}
+            ${dayList.map(day => `<div class="day">${day}</div>`).join('')}
             ${this.getCalendarDate().map((date, i) =>
-              `<div ${i >= firstDay ? `class="${this.classNames(date, plans)}"` : ''} 
-              ${i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''}>
-                <div ${i >= firstDay ? `class="date-day ${this.planClassNames(date, plans)}"`:''} 
-                  ${i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''}>${i >= firstDay ? date.getDate() : ''}</div>
-              </div>`
-              ).join('')}
+            `<div ${i >= firstDay ? `class="date${this.isToday(date) ? ' today':''}"` : ''} 
+            ${i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''}>${i>= firstDay ? `<div class="date-day${this.CategoryClassName(date, plans)}">${date.getDate()}</div>` : ''}</div>`
+            ).join('')}
           </div>
         </div>
       </div>
-      ${new Modal({ ...this.state, filteredPlan, pieces, filterPieces: this.filterPieces.bind(this), resetModalData: this.resetModalData.bind(this) }).render()}
+      ${new Modal({ ...this.state, filteredPlan, pieces, filterPieces: this.filterPieces.bind(this), resetModalData: this.resetModalData.bind(this), changeDatePage: this.changeDatePage.bind(this) }).render()}
       `;
   }
-  // ${this.initializeDate()}
+  // ${this.initializeDate()
 
   initializeDate() {
     this.state.selectedDate = undefined;
@@ -111,23 +108,18 @@ class Calendar extends Component {
     );
   }
 
-  classNames(date) {
+  isToday(date) {
     const today = new Date();
-    const classList = ['date'];
 
-    if (this.isEqualDate(today, date)) classList.push('today');
-
-    return classList.join(' ');
+    return this.isEqualDate(today, date);
   }
 
-  planClassNames(date, plans) {
-    const classList = [];
+  CategoryClassName(date, plans) {
+    const findedPlan = plans.find(plan => plan.date === this.formatDate(date));
 
-    plans.forEach(plan =>
-      plan.date === this.formatDate(date) ? classList.push(`${plan.pieces[0].category}-schedule`) : ''
-    );
+    if (findedPlan) return `${' ' + findedPlan.pieces[0].category}-schedule`;
 
-    return classList.join(' ');
+    return '';
   }
 
   // Modal - Click piece
@@ -141,6 +133,11 @@ class Calendar extends Component {
 
   resetModalData() {
     this.setState({ selectedDate: undefined, targetPiece: undefined });
+  }
+
+  // Modal - Click edit button
+  changeDatePage() {
+    this.changePage(`/plan/${this.state.selectedDate}`);
   }
 
   // Event handlers
@@ -172,9 +169,9 @@ class Calendar extends Component {
   }
 
   selectDate(e) {
-    if (!e.target.matches('.date') && !e.target.matches('.date-day')) return;
-    console.log(e.target.dataset.date);
-    this.setState({ selectedDate: e.target.dataset.date });
+    if (!e.target.closest('.date')) return;
+    console.log(e.target.closest('.date').dataset.date);
+    this.setState({ selectedDate: e.target.closest('.date').dataset.date });
   }
 
   setEvent() {
