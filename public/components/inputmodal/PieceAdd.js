@@ -176,7 +176,7 @@ class PieceAdd extends Component {
   }
 
   validate(e) {
-    if (e.target.matches('#my-piece')) return;
+    if (!e.target.matches('.inputmodal .piece-input')) return;
     const { value, name } = e.target;
     const trimedValue = value.trim();
 
@@ -217,6 +217,7 @@ class PieceAdd extends Component {
   }
 
   request(e) {
+    if (!e.target.matches('.inputmodal')) return;
     e.preventDefault();
     const $PieceAdd = e.target;
     // 수정해야함
