@@ -18,7 +18,8 @@ class Plan extends Component {
       values: {},
       isErrorMessageArr: [false, false, false, false, false],
     };
-    this.formInfoArr = ['title', 'time', 'category', 'subtitle', 'content', 'my-piece'];
+    this.startTime = null;
+    this.formInfoArr = ['title', 'time', 'category', 'subtitle', 'content', 'mypiece'];
     this.timerId = 0;
   }
 
@@ -28,7 +29,7 @@ class Plan extends Component {
       const {
         data: { pieces },
       } = await axios.get(`/pieces?filterId=${this.state.filterId}&searchText=${this.state.searchText}`);
-
+      console.log(pieces);
       const {
         data: { plan, name },
       } = await axios.get(`/plans?date=${selectedDate}`);
@@ -276,6 +277,7 @@ class Plan extends Component {
   openAdd(e) {
     if (!e.target.matches('.plan-daily-add')) return;
 
+    this.startTime = e.target.parentNode.id;
     this.setState({ isAddOpen: true });
   }
 
@@ -333,7 +335,7 @@ class Plan extends Component {
     if (!(e.target.matches('#my-piece') || e.target.matches('.piece-input'))) return;
     const { value, name, checked } = e.target;
     const values = { ...this.state.values };
-    values[name] = name === 'my-piece' ? checked : value;
+    values[name] = name === 'mypiece' ? checked : value;
 
     this.setState({
       values,
@@ -370,10 +372,10 @@ class Plan extends Component {
     e.preventDefault();
     if (!e.target.matches('.inputmodal')) return;
     if (this.getValid()) {
-      // 요청
-      // 페이지 이동
-      this.setState({ isErrorMessageArr: this.state.isErrorMessageArr.map(() => false) }); // 필요한가?
-      console.log(`POST /signin`, this.state.values);
+      this.state.values.mypiece = this.state.values.mypiece || false;
+      this.state.isAddOpen = false;
+      this.patchState(formData => axios.post('/pieces', formData), { ...this.state.values, startTime: this.startTime });
+      this.state.values = {};
     } else {
       // 실패 처리
       this.showErrorMsg();

@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
 const users = require('./models/users.js');
-const { pieces, getFilterPieces } = require('./models/pieces.js');
+const { getPieces, addPiece, getFilterPieces } = require('./models/pieces.js');
 const { createPlan, removePlan, patchPlan, getMyPlans, getSelectPlan } = require('./models/plans.js');
 
 require('dotenv').config();
@@ -72,7 +72,7 @@ app.get('/mycalendar', (req, res) => {
   const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
   const tokenName = '김팀장';
 
-  res.send({ name: tokenName, pieces, plans: getMyPlans(tokenId) });
+  res.send({ name: tokenName, pieces: getPieces(), plans: getMyPlans(tokenId) });
 });
 
 app.get('/pieces', (req, res) => {
@@ -80,7 +80,21 @@ app.get('/pieces', (req, res) => {
   const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
   const { filterId, searchText } = req.query;
 
+  console.log(getFilterPieces(tokenId, filterId, searchText).length);
+
   res.send({ pieces: getFilterPieces(tokenId, filterId, searchText) });
+});
+
+app.post('/pieces', (req, res) => {
+  // 로그인 된 id, 닉네임 토큰 해석해서 사용
+  const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
+  const formData = req.body;
+
+  console.log(formData);
+
+  addPiece({ ...formData, userId: tokenId });
+
+  res.end();
 });
 
 app.post('/plans', (req, res) => {
