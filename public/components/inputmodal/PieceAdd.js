@@ -1,4 +1,4 @@
-import Component from './Component.js';
+import Component from '../../core/Component.js';
 
 class PieceAdd extends Component {
   constructor() {
