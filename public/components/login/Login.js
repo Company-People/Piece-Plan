@@ -110,8 +110,8 @@ class Login extends Component {
   }
 
   request(e) {
-    e.preventDefault();
     if (!e.target.matches('.auth.login')) return;
+    e.preventDefault();
     const $signinForm = e.target;
     const payload = { email: $signinForm.userid.value, password: $signinForm.password.value };
     if (this.getValid()) {
