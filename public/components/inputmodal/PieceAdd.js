@@ -1,8 +1,8 @@
 import Component from '../../core/Component.js';
 
 class PieceAdd extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       values: {},
       isErrorMessageArr: [false, false, false, false, false],
@@ -115,7 +115,14 @@ class PieceAdd extends Component {
   }
 
   setEvent() {
+    const { closeAdd } = this.props.events;
+
     return [
+      {
+        type: 'click',
+        seletor: '.modal-background',
+        handler: closeAdd,
+      },
       {
         type: 'input',
         seletor: '.inputmodal',

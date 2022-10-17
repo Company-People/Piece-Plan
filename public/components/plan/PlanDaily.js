@@ -39,7 +39,8 @@ class PlanDaily extends Component {
   }
 
   setEvent() {
-    const { hoverPlan, leavePlan, addPiece, leavePiece, useDrop, completeEdit, removePiece } = this.props.events;
+    const { hoverPlan, leavePlan, addPiece, leavePiece, useDrop, completeEdit, removePiece, openAdd } =
+      this.props.events;
 
     return [
       { type: 'mouseover', selector: '.plan-daily-piece', handler: hoverPlan },
@@ -49,6 +50,7 @@ class PlanDaily extends Component {
       { type: 'drop', selector: '.plan-daily-piece', handler: addPiece },
       { type: 'click', selector: '.plan-submit-btn', handler: completeEdit },
       { type: 'click', selector: '.plan-daily-remove', handler: removePiece },
+      { type: 'click', selector: '.plan-daily-add', handler: openAdd },
     ];
   }
 }
