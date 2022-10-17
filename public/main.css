@@ -361,7 +361,8 @@ legend {
 
 .calendar-current-month {
   margin-top: 32px;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
   font-size: var(--xxl);
   font-weight: 700;
   text-align: center;
