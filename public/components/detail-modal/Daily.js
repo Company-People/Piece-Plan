@@ -1,8 +1,8 @@
-import Component from '../../../core/Component.js';
+import Component from '../../core/Component.js';
 
 class Daily extends Component {
   render() {
-    const TIME_COUNT = 24;
+    const TIME_COUNT = 25;
     const PLAN_HEIGHT = 48;
 
     const pieces = this.props.filteredPlan ? this.props.filteredPlan.pieces : '';
@@ -15,7 +15,7 @@ class Daily extends Component {
         <div class="daily-plan-wrapper">
           <div class="daily-plan">
             ${Array.from({length: TIME_COUNT}).map((_, index) => `
-            <span class="daily-time">${index / 12 < 1 ? '오전' : '오후'} ${index % 12 === 0 ? '12' : index}시</span>
+            <span class="daily-time">${index < 12 ? '오전' : '오후'} ${index % 12 === 0 ? '12' : index % 12}시</span>
             <div data-time="${index}" class="daily-plan-container">
               ${!pieces ? '' : pieces.map(piece => {
                 const { pieceId, title, category, startTime, endTime} = piece;

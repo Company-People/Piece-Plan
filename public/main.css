@@ -592,7 +592,7 @@ legend {
 .daily-date,
 .piece-title {
   width: 460px;
-  margin: 24px 0 0 24px;
+  margin: 24px 0 24px 24px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
