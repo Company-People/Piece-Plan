@@ -369,14 +369,6 @@ class Plan extends Component {
   request(e) {
     e.preventDefault();
     if (!e.target.matches('.inputmodal')) return;
-    const $PieceAdd = e.target;
-    // 수정해야함
-    const payload = {
-      title: $PieceAdd.title.value,
-      time: $PieceAdd.time.value,
-      category: $PieceAdd.category.value,
-      subtitle: $PieceAdd.subtitle.value,
-    };
     if (this.getValid()) {
       // 요청
       // 페이지 이동
