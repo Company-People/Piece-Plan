@@ -5,11 +5,7 @@ import Modal from '../detail-modal/Modal.js';
 class Calendar extends Component {
   constructor() {
     super();
-    this.state = { currentDate: new Date(), selectedDate: undefined, targetPiece: undefined };
-  }
-
-  async render() {
-    const monthList = {
+    this.monthList = {
       1: 'January',
       2: 'February',
       3: 'March',
@@ -23,10 +19,13 @@ class Calendar extends Component {
       11: 'November',
       12: 'December',
     };
+    this.dayList = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    this.state = { pieces: null, currentDate: new Date(), selectedDate: null, targetPiece: null };
+  }
 
-    const dayList = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  async render() {
+    const { data } = await axios.get('/mycalendar');
 
-    const { data } = await axios.get('/calender');
     const { pieces, plans } = data;
 
     this.state.pieces = pieces;
@@ -46,15 +45,15 @@ class Calendar extends Component {
             <button class="calendar-year-next"></button>
           </div>
           <ol class="calendar-month">
-            ${Object.values(monthList).map((month, i) =>
+            ${Object.values(this.monthList).map((month, i) =>
               `<li data-month=${i + 1} ${this.currentMonth === i ? `class="is-selected"` : ''}>${month}</li>`
               ).join('')}
           </ol>
         </div>
         <div class="calendar-main">
-          <div class="calendar-current-month text-gradient">${monthList[this.currentMonth + 1]}</div>
+          <div class="calendar-current-month text-gradient">${this.monthList[this.currentMonth + 1]}</div>
           <div class="calendar-grid">
-            ${dayList.map(day => `<div class="day">${day}</div>`).join('')}
+            ${this.dayList.map(day => `<div class="day">${day}</div>`).join('')}
             ${this.getCalendarDate().map((date, i) =>
             `<div ${i >= firstDay ? `class="date${this.isToday(date) ? ' today':''}"` : ''} 
             ${i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''}>${i>= firstDay ? `<div class="date-day${this.CategoryClassName(date, plans)}">${date.getDate()}</div>` : ''}</div>`
@@ -64,13 +63,6 @@ class Calendar extends Component {
       </div>
       ${new Modal({ ...this.state, filteredPlan, pieces, filterPieces: this.filterPieces.bind(this), resetModalData: this.resetModalData.bind(this), changeDatePage: this.changeDatePage.bind(this) }).render()}
       `;
-  }
-  // ${this.initializeDate()
-
-  initializeDate() {
-    this.state.selectedDate = undefined;
-
-    return '';
   }
 
   get currentYear() {
@@ -132,7 +124,7 @@ class Calendar extends Component {
   }
 
   resetModalData() {
-    this.setState({ selectedDate: undefined, targetPiece: undefined });
+    this.setState({ selectedDate: null, targetPiece: null });
   }
 
   // Modal - Click edit button
@@ -145,7 +137,7 @@ class Calendar extends Component {
     if (!e.target.matches('.calendar-year-prev')) return;
     this.setState({
       currentDate: new Date(this.state.currentDate.getFullYear() - 1, this.state.currentDate.getMonth()),
-      selectedDate: undefined,
+      selectedDate: null,
     });
     console.log('this.state: ', this.state);
   }
@@ -154,7 +146,7 @@ class Calendar extends Component {
     if (!e.target.matches('.calendar-year-next')) return;
     this.setState({
       currentDate: new Date(this.state.currentDate.getFullYear() + 1, this.state.currentDate.getMonth()),
-      selectedDate: undefined,
+      selectedDate: null,
     });
     console.log('this.state: ', this.state);
   }
@@ -163,7 +155,7 @@ class Calendar extends Component {
     if (!e.target.matches('.calendar-month > li')) return;
     this.setState({
       currentDate: new Date(this.state.currentDate.getFullYear(), e.target.dataset.month - 1),
-      selectedDate: undefined,
+      selectedDate: null,
     });
     console.log('this.state: ', this.state);
   }

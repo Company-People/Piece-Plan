@@ -2,15 +2,24 @@ import Component from '../../core/Component.js';
 
 class Main extends Component {
   // 2. render 정하기
-  render() {
+  async render() {
+    const {
+      data: { auth },
+    } = await axios.get('/auth');
+
+    if (auth) {
+      this.changePage('/calendar');
+      return '';
+    }
+
     return `
       <div class="main-wrapper">
         <div class="main-container">
           <a href="#"><div class="main-logo"></div></a>
           <h1 class="hidden">피플</h1>
           <ul class="main-catchphrase">
-            <li class="former">모두의 플랜,</li>
-            <li class="latter">Piece Plan</li>
+            <li class="former text-gradient-main">모두의 플랜,</li>
+            <li class="latter text-gradient-main">Piece Plan</li>
           </ul>
           <ul class="main-button-list">
             <li><button class="button longin-button">로그인</button></li>

@@ -195,6 +195,12 @@ legend {
   -webkit-text-fill-color: transparent;
 }
 
+.text-gradient-main {
+  background: var(--gradient-button-1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .exercise {
   background: var(--blue-3);
 }
@@ -249,6 +255,7 @@ legend {
   background: url(./../../assets/logo_color.png) no-repeat;
   background-size: cover;
   margin-bottom: 16px;
+  cursor: pointer;
 }
 
 .user-container {
@@ -361,7 +368,8 @@ legend {
 
 .calendar-current-month {
   margin-top: 32px;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
   font-size: var(--xxl);
   font-weight: 700;
   text-align: center;
@@ -800,10 +808,10 @@ span[data-time='23'] {
   border-radius: 12px;
 }
 .inputmodal-title {
-  margin-bottom: 26px;
+  margin-bottom: 16px;
   margin-top: 0;
 
-  font-weight: 500;
+  font-weight: 700;
   font-size: var(--xxl);
   letter-spacing: -0.04em;
 }
@@ -826,11 +834,25 @@ span[data-time='23'] {
 
 .pieceadd-error-messages {
   position: absolute;
-  background-color: #89dcff;
-  padding: 10px;
-  bottom: -50px;
+  background: var(--gradient-button-1);
+  box-shadow: var(--shadow-purple-2);
+  padding: 12px 16px;
+  bottom: -58px;
+  border-radius: 4px;
+  color: var(--white);
   z-index: 2;
   white-space: nowrap;
+}
+
+.pieceadd-error-messages::before {
+  border-top: 0px solid transparent;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 12px solid #9ab6fb;
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 12px;
 }
 
 .piece-input {
@@ -856,10 +878,12 @@ select {
 }
 
 #piece-content {
+  margin-bottom: 8px;
   resize: none;
 }
 
 #my-piece {
+  width: 16px;
   accent-color: #9176ff;
   appearance: auto;
 }
@@ -867,7 +891,7 @@ select {
 .my-piece-desc {
   margin-left: 8px;
   font-weight: 400;
-  font-size: var(--md);
+  font-size: var(--lmd);
   letter-spacing: -0.08em;
 }
 
@@ -898,8 +922,8 @@ select {
   position: absolute;
   top: 24px;
   right: 24px;
-  width: 21px;
-  height: 21px;
+  width: 32px;
+  height: 32px;
   background: url('../../assets/btn_close.png') no-repeat center/contain;
   border: none;
   cursor: pointer;
@@ -1046,7 +1070,7 @@ select {
 .main-catchphrase .former {
   margin-left: 18px;
   margin-bottom: 16px;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 40px;
   letter-spacing: -0.08em;
   color: #5c82da;
@@ -1056,7 +1080,7 @@ select {
 .main-catchphrase .latter {
   margin-right: 18px;
   align-self: flex-end;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 56px;
   letter-spacing: -0.04em;
   color: #9275ef;
@@ -1255,6 +1279,7 @@ select {
 .plan-piece-time {
   width: 45px;
   right: 87px;
+  margin-top: 4px;
 }
 
 .plan-piece-fav {
@@ -1262,6 +1287,7 @@ select {
   align-items: center;
   width: 71px;
   right: 8px;
+  margin-top: 4px;
 }
 
 .plan-piece-fav::before {
