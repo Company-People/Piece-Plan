@@ -28,9 +28,10 @@ class Nav extends Component {
         // 로그아웃
         type: 'click',
         selector: '.logout',
-        handler: ({ target }) => {
+        handler: async ({ target }) => {
           if (!target.matches('.logout')) return;
           // logout 처리 요청 보낸 후 완료되면 메인으로
+          await axios.get('/logout');
           this.changePage('/');
         },
       },

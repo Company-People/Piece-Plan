@@ -6,8 +6,8 @@ const routes = [
   { path: '/', component: Main },
   { path: '/login', component: Login },
   { path: '/signup', component: Signup },
-  { path: '/calendar', component: Calendar },
-  { path: '/plan', component: Plan },
+  { path: '/calendar', component: Calendar, guard: true },
+  { path: '/plan', component: Plan, guard: true },
 ];
 
 const components = {};
@@ -15,7 +15,7 @@ let prevPath = null;
 
 class NotFound {
   render() {
-    return '';
+    return '없는 페이지에여~';
   }
 }
 
@@ -24,8 +24,18 @@ const render = async path => {
   if (_path.lastIndexOf('/') !== 0) {
     _path = _path.substring(0, _path.lastIndexOf('/'));
   }
-  console.log(_path);
-  const CurrentComponent = routes.find(route => route.path === _path)?.component || NotFound;
+
+  const route = routes.find(route => route.path === _path);
+
+  let CurrentComponent = route?.component || NotFound;
+
+  const { data: auth } = await axios.get('/auth');
+
+  if (route?.guard && !auth) {
+    _path = '/login';
+    CurrentComponent = Login;
+    window.history.pushState(null, null, '/login');
+  }
 
   try {
     const $root = document.getElementById('root');

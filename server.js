@@ -3,7 +3,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
-const { log } = require('console');
 const users = require('./models/users.js');
 const { getPieces, addPiece, getFilterPieces } = require('./models/pieces.js');
 const { createPlan, removePlan, addPlan, patchPlan, getMyPlans, getSelectedPlan } = require('./models/plans.js');
@@ -18,13 +17,8 @@ app.use('/plan', express.static('public'));
 app.use(express.json());
 app.use(cookieParser());
 
-/**
- * 로그인 여부 체크 미들웨어
- * 1. 로그인 사용자인 경우, 메인 페이지로 이동
- * 2. 미로그인 사용자인 경우, 로그인 페이지로 이동
- */
 const auth = (req, res, next) => {
-  const accessToken = req.headers.authorization || req.cookies.accessToken;
+  const { accessToken } = req.cookies;
 
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
@@ -35,6 +29,12 @@ const auth = (req, res, next) => {
     res.redirect('/login');
   }
 };
+
+app.get('/auth', (req, res) => {
+  const { accessToken } = req.cookies;
+
+  res.send(!!accessToken);
+});
 
 // 로그인 요청
 app.post('/login', (req, res) => {
@@ -59,17 +59,10 @@ app.post('/login', (req, res) => {
   res.send({ userId: user.userId, name: user.name });
 });
 
-// -----------------------
-// app.get('/auth', (req, res) => {
-//   const accessToken = req.headers.authorization || req.cookies.accessToken;
-
-//   try {
-//     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-//     res.send({ auth: true });
-//   } catch (e) {
-//     res.send({ auth: false });
-//   }
-// });
+app.get('/logout', (req, res) => {
+  res.clearCookie('accessToken');
+  res.end();
+});
 
 // 로그인 요청
 app.get('/mycalendar', auth, (req, res) => {
@@ -124,6 +117,7 @@ app.patch('/plans/:planId', auth, (req, res) => {
 });
 
 app.get('*', (req, res) => {
+  console.log(req.params);
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 

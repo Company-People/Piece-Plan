@@ -3,9 +3,7 @@ import Component from '../../core/Component.js';
 class Main extends Component {
   // 2. render 정하기
   async render() {
-    const {
-      data: { auth },
-    } = await axios.get('/auth');
+    const { data: auth } = await axios.get('/auth');
 
     if (auth) {
       this.changePage('/calendar');
