@@ -16,12 +16,14 @@ class PieceDetail extends Component {
       parenting: '육아',
     };
 
-    const { category, title, subTitle, content, favoriteCnt, time } = this.props.selectedPiece;
-
+    const { pieceId, category, title, subTitle, content, favoriteCnt, time } = this.props.selectedPiece;
+    const { favorites } = this.props;
+    const isFavorite = favorites.find(favorite => favorite.pieceId === pieceId);
+    console.log(favoriteCnt);
     // prettier-ignore
     return `
       <div class="detail-bg">
-        <section class="piece">
+        <section id="${pieceId}" ${isFavorite ? 'data-fav=fav' : ''}  class="piece">
           <h2 class="piece-title text-gradient">${title}</h2>
           <div class="piece-info">
             <div class="piece-label">
@@ -29,7 +31,7 @@ class PieceDetail extends Component {
               <span class="${category}">${CATEGORY_LIST[category]}</span>
             </div>
             <button class="detail-favorite">
-              <span class="detail-star"></span>
+              <span class="detail-star ${isFavorite ? 'fill' : ''}"></span>
               <span>${favoriteCnt}</span>
             </button>
           </div>
@@ -46,9 +48,12 @@ class PieceDetail extends Component {
   }
 
   setEvent() {
-    const { closeDetail } = this.props.events;
+    const { closeDetail, toggleFavorite } = this.props.events;
 
-    return [{ type: 'click', selector: '.detail-bg', handler: closeDetail }];
+    return [
+      { type: 'click', selector: '.detail-bg', handler: closeDetail },
+      { type: 'click', selector: '.detail-favorite', handler: toggleFavorite },
+    ];
   }
 }
 
