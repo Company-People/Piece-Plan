@@ -1473,3 +1473,27 @@ select {
 }
 
 /* ------------------ */
+/* 404 페이지 */
+.notFound {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 500px;
+  padding-top: 400px;
+  margin: 0 auto;
+  letter-spacing: -4px;
+}
+
+.notFound span {
+  text-align: center;
+  text-shadow: var(--shadow-purple-1);
+}
+
+.notFound-title {
+  font-weight: 700;
+  font-size: 64px;
+  margin-bottom: 12px;
+}
+
+.notFound-content {
+  font-size: 40px;
+}
