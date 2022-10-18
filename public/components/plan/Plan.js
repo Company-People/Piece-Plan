@@ -14,7 +14,6 @@ class Plan extends Component {
       searchText: '',
       selectedPiece: null,
       isAddOpen: false,
-      //----------------
       values: {},
       isErrorMessageArr: [false, false, false, false, false],
     };
@@ -235,7 +234,10 @@ class Plan extends Component {
     };
 
     // 생성된 piece가 기존의 plan에 있는 piece들과 중복되거나 하루 일정이 넘어갈 경우 리턴
-    if (this.isOverlap(this.state.plan, +e.target.id, time) || newPiece.endTime > 24) return;
+    if (this.isOverlap(this.state.plan, +e.target.id, time) || newPiece.endTime > 24) {
+      window.alert('일정과 피스의 시간을 확인하여 배치해주세요!');
+      return;
+    }
 
     // 서버에 업데이트 된 pieces를 보내 서버 상태 패치
     this.patchState(({ planId, pieces }) => axios.patch(`/plans/${planId}`, { pieces }), {
@@ -292,33 +294,16 @@ class Plan extends Component {
 
   getValid(inputType) {
     const value = this.state.values[inputType] ?? '';
+
+    // prettier-ignore
     const schema = {
-      title: {
-        get valid() {
-          return /^.{1,15}$/.test(value);
-        },
-      },
-      time: {
-        get valid() {
-          return !!value;
-        },
-      },
-      category: {
-        get valid() {
-          return !!value;
-        },
-      },
-      subtitle: {
-        get valid() {
-          return /^.{1,30}$/.test(value);
-        },
-      },
-      content: {
-        get valid() {
-          return !!value;
-        },
-      },
+      title: { get valid() { return /^.{1,15}$/.test(value); }, },
+      time: { get valid() { return !!value; }, },
+      category: { get valid() { return !!value; }, },
+      subtitle: { get valid() { return /^.{1,30}$/.test(value); }, },
+      content: { get valid() { return !!value; }, },
     };
+
     return inputType !== undefined
       ? schema[inputType].valid
       : Object.keys(schema).every(formInfo => this.getValid(formInfo));
@@ -337,9 +322,7 @@ class Plan extends Component {
     const values = { ...this.state.values };
     values[name] = name === 'mypiece' ? checked : value;
 
-    this.setState({
-      values,
-    });
+    this.setState({ values });
   }
 
   showErrorMsg() {
@@ -371,10 +354,15 @@ class Plan extends Component {
   request(e) {
     e.preventDefault();
     if (!e.target.matches('.inputmodal')) return;
+
     if (this.getValid()) {
       this.state.values.mypiece = this.state.values.mypiece || false;
       this.state.isAddOpen = false;
-      this.patchState(formData => axios.post('/pieces', formData), { ...this.state.values, startTime: this.startTime });
+      this.patchState(formData => axios.post('/pieces', formData), {
+        ...this.state.values,
+        startTime: this.startTime,
+        date: this.state.selectedDate,
+      });
       this.state.values = {};
     } else {
       // 실패 처리

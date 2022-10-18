@@ -31,25 +31,44 @@ let plans = [
   },
 ];
 
-const createPlan = (date, userId) => {
+const createPlan = (userId, date) => {
   const newPlan = { date, planId: uuid(), pieces: [], userId };
   plans = [...plans, newPlan];
   return newPlan;
 };
 
 const removePlan = planId => {
-  console.log(plans);
   plans = plans.filter(plan => plan.planId !== planId);
-  console.log(plans);
 };
 
 const getMyPlans = id => plans.filter(plan => plan.userId === id);
 
-const getSelectPlan = (userId, date) => plans.find(plan => plan.date === date && plan.userId === userId);
+const getSelectedPlan = (userId, date) => plans.find(plan => plan.date === date && plan.userId === userId);
+
+const isOverlap = (plan, startTime, time) => {
+  const newTimes = Array.from({ length: time }).map((_, i) => i + +startTime);
+
+  return !plan.pieces.every(({ startTime, endTime }) => {
+    const times = Array.from({ length: endTime - startTime }).map((_, i) => i + startTime);
+    return newTimes.length + times.length === new Set([...newTimes, ...times]).size;
+  });
+};
+
+const addPlan = formData => {
+  const { category, title, time, startTime, userId, date, pieceId } = formData;
+
+  const selectedPlan = getSelectedPlan(userId, date) || createPlan(userId, date);
+
+  const newPiece = { pieceId, title, category, startTime: +startTime, endTime: +startTime + +time };
+
+  if (isOverlap(selectedPlan, +startTime, time) || newPiece.endTime > 24) return;
+
+  selectedPlan.pieces = [...selectedPlan.pieces, newPiece];
+};
 
 const patchPlan = (planId, pieces) => {
   const plan = plans.find(plan => plan.planId === planId);
   plan.pieces = pieces;
 };
 
-module.exports = { createPlan, removePlan, patchPlan, getMyPlans, getSelectPlan };
+module.exports = { createPlan, removePlan, addPlan, patchPlan, getMyPlans, getSelectedPlan };

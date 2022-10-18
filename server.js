@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const users = require('./models/users.js');
 const { getPieces, addPiece, getFilterPieces } = require('./models/pieces.js');
-const { createPlan, removePlan, patchPlan, getMyPlans, getSelectPlan } = require('./models/plans.js');
+const { createPlan, removePlan, addPlan, patchPlan, getMyPlans, getSelectedPlan } = require('./models/plans.js');
 
 require('dotenv').config();
 
@@ -80,8 +80,6 @@ app.get('/pieces', (req, res) => {
   const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
   const { filterId, searchText } = req.query;
 
-  console.log(getFilterPieces(tokenId, filterId, searchText).length);
-
   res.send({ pieces: getFilterPieces(tokenId, filterId, searchText) });
 });
 
@@ -90,9 +88,8 @@ app.post('/pieces', (req, res) => {
   const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
   const formData = req.body;
 
-  console.log(formData);
-
-  addPiece({ ...formData, userId: tokenId });
+  const pieceId = addPiece({ ...formData, userId: tokenId });
+  addPlan({ ...formData, userId: tokenId, pieceId });
 
   res.end();
 });
@@ -102,7 +99,7 @@ app.post('/plans', (req, res) => {
   const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
   const { date } = req.body;
 
-  res.send(createPlan(date, tokenId));
+  res.send(createPlan(tokenId, date));
 });
 
 app.get('/plans', (req, res) => {
@@ -111,7 +108,7 @@ app.get('/plans', (req, res) => {
   const tokenName = '김팀장';
   const { date } = req.query;
 
-  res.send({ name: tokenName, plan: getSelectPlan(tokenId, date) });
+  res.send({ name: tokenName, plan: getSelectedPlan(tokenId, date) });
 });
 
 app.patch('/plans/:planId', (req, res) => {
@@ -126,7 +123,6 @@ app.patch('/plans/:planId', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  console.log(req.params);
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
