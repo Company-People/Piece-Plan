@@ -3,10 +3,11 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
-const users = require('./models/users.js');
+let { users } = require('./models/users.js');
 const { getPieces, addPiece, getFilterPieces, calcFavorite } = require('./models/pieces.js');
 const { createPlan, removePlan, addPlan, patchPlan, getMyPlans, getSelectedPlan } = require('./models/plans.js');
 const { getMyFavorites, toggleFavorite } = require('./models/favorites.js');
+
 
 require('dotenv').config();
 
@@ -43,7 +44,7 @@ app.post('/login', (req, res) => {
 
   const user = users.find(user => user.id === id && user.password === password);
 
-  if (!user) return res.status(401).send({ error: '등록되지 않은 사용자입니다.' });
+  if (!user) res.send(false);
 
   const accessToken = jwt.sign({ userId: user.userId, name: user.name }, process.env.JWT_SECRET_KEY, {
     expiresIn: '1d',
@@ -56,8 +57,7 @@ app.post('/login', (req, res) => {
     httpOnly: true,
   });
 
-  // 로그인 성공
-  res.send({ userId: user.userId, name: user.name });
+  res.send(true);
 });
 
 app.get('/logout', (req, res) => {
@@ -66,7 +66,16 @@ app.get('/logout', (req, res) => {
   res.end();
 });
 
-// 로그인 요청
+// 회원가입 요청
+app.post('/signup', (req, res) => {
+  const { userid: id, username: name, password } = req.body;
+
+  if (isDuplicateUser(id, name)) res.send(false);
+
+  users = createNewUser(id, name, password);
+  res.send(true);
+});
+
 app.get('/mycalendar', auth, (req, res) => {
   const { userId, name } = jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET_KEY);
 

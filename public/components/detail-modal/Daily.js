@@ -11,7 +11,7 @@ class Daily extends Component {
     // prettier-ignore
     return `
       <section class="daily">
-        <h2 class="daily-date text-gradient">${yy.slice(-2)}. ${mm.padStart(2, '0')}. ${dd.padStart(2, '0')}</h2>
+        <h2 class="daily-date text-gradient">${yy}. ${mm.padStart(2, '0')}. ${dd.padStart(2, '0')}</h2>
         <div class="daily-plan-wrapper">
           <div class="daily-plan">
             ${Array.from({length: TIME_COUNT}).map((_, index) => `
