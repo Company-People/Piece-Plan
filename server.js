@@ -42,7 +42,7 @@ app.post('/login', (req, res) => {
 
   const user = users.find(user => user.id === id && user.password === password);
 
-  if (!user) return res.status(401).send({ error: '등록되지 않은 사용자입니다.' });
+  if (!user) return res.send(false);
 
   const accessToken = jwt.sign({ userId: user.userId, name: user.name }, process.env.JWT_SECRET_KEY, {
     expiresIn: '1d',

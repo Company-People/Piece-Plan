@@ -12,8 +12,8 @@ class Login extends Component {
       ['password', '비밀번호', 'password'],
     ];
     this.errors = {
-      userid: '아이디 영문 또는 숫자를 6~12자 입력하세요.',
-      password: '비밀번호 영문 또는 숫자를 6~12자 입력하세요.',
+      userid: '아이디는 영문 또는 숫자를 6~12자 이상 입력해야 합니다.',
+      password: '비밀번호는 영문 또는 숫자를 6~12자 이상 입력해야 합니다.',
     };
   }
 
@@ -118,15 +118,23 @@ class Login extends Component {
 
     if (this.getValid()) {
       // 요청
-      await axios.post('/login', payload, { withCredentials: true });
+      const { userid: id, password } = this.state.values;
+
+      const { data: isSuccess } = await axios.post('/login', { id, password }, { withCredentials: true });
+
       // 페이지 이동
+      if (!isSuccess) {
+        alert('아이디 또는 비밀번호를 확인해주세요.');
+        return;
+      }
+
       this.changePage('/calendar');
       console.log(`POST /signin`, payload);
     } else {
       // 실패 처리
       this.setState({ isLoginError: true });
       const timerId = setTimeout(() => {
-        alert('이메일 또는 비밀번호를 확인해주세요.');
+        alert('아이디 또는 비밀번호를 확인해주세요.');
         this.setState({ isLoginError: false });
         clearTimeout(timerId);
       }, 100);
