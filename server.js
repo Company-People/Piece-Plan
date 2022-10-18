@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const { getPieces, addPiece, getFilterPieces } = require('./models/pieces.js');
 const { createPlan, removePlan, addPlan, patchPlan, getMyPlans, getSelectedPlan } = require('./models/plans.js');
-let users = require('./models/users.js');
+let { users } = require('./models/users.js');
 const { createNewUser, isDuplicateUser } = require('./models/users.js');
 
 require('dotenv').config();
@@ -43,7 +43,7 @@ app.post('/login', (req, res) => {
 
   const user = users.find(user => user.id === id && user.password === password);
 
-  if (!user) return res.send(false);
+  if (!user) res.send(false);
 
   const accessToken = jwt.sign({ userId: user.userId, name: user.name }, process.env.JWT_SECRET_KEY, {
     expiresIn: '1d',
@@ -69,7 +69,7 @@ app.get('/logout', (req, res) => {
 app.post('/signup', (req, res) => {
   const { userid: id, username: name, password } = req.body;
 
-  if (isDuplicateUser(id, name)) return res.send(false);
+  if (isDuplicateUser(id, name)) res.send(false);
 
   users = createNewUser(id, name, password);
   res.send(true);
