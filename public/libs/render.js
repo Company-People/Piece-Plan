@@ -1,6 +1,6 @@
 import reconciliation from './diff.js';
 
-import { Main, Plan, Login, Signup, Calendar } from '../components/index.js';
+import { Main, Plan, Login, Signup, Calendar, NotFound } from '../components/index.js';
 
 const routes = [
   { path: '/', component: Main },
@@ -12,12 +12,6 @@ const routes = [
 
 const components = {};
 let prevPath = null;
-
-class NotFound {
-  render() {
-    return '없는 페이지에여~';
-  }
-}
 
 const render = async path => {
   let _path = path ?? window.location.pathname;
