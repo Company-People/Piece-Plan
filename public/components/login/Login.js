@@ -109,14 +109,18 @@ class Login extends Component {
     });
   }
 
-  request(e) {
+  async request(e) {
     if (!e.target.matches('.auth.login')) return;
     e.preventDefault();
+
     const $signinForm = e.target;
-    const payload = { email: $signinForm.userid.value, password: $signinForm.password.value };
+    const payload = { id: $signinForm.userid.value, password: $signinForm.password.value };
+
     if (this.getValid()) {
       // 요청
+      await axios.post('/login', payload, { withCredentials: true });
       // 페이지 이동
+      this.changePage('/calendar');
       console.log(`POST /signin`, payload);
     } else {
       // 실패 처리
