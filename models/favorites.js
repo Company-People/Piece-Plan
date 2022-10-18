@@ -14,7 +14,7 @@ const getMyFavorites = userId => favorites.filter(favorite => favorite.userId ==
 
 const toggleFavorite = (userId, pieceId, isFavorite) => {
   if (isFavorite) {
-    favorites = favorites.filter(favorite => favorite.userId !== userId && favorite.pieceId !== pieceId);
+    favorites = favorites.filter(favorite => favorite.userId !== userId || favorite.pieceId !== pieceId);
   } else {
     favorites = [...favorites, { favoriteId: uuid(), userId, pieceId }];
   }
