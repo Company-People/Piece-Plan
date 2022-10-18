@@ -126,7 +126,6 @@ class Login extends Component {
       }
 
       this.changePage('/calendar');
-  =
     } else {
       // 실패 처리
       this.setState({ isLoginError: true });
