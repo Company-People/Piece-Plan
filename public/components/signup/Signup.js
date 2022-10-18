@@ -127,8 +127,7 @@ class Signup extends Component {
   async request(e) {
     if (!e.target.matches('.auth.signup')) return;
     e.preventDefault();
-    const $signinForm = e.target;
-    const payload = { id: $signinForm.userid.value, password: $signinForm.password.value };
+
     if (this.getValid()) {
       // 요청
       const { data: isSuccess } = await axios.post('/signup', this.state.values);
@@ -141,8 +140,6 @@ class Signup extends Component {
       // 페이지 이동
       alert('회원가입이 완료되었습니다!');
       this.changePage('/login');
-
-      console.log(`POST /signin`, payload);
     } else {
       // 실패 처리
       this.setState({ isSignupError: true });

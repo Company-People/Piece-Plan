@@ -56,8 +56,7 @@ app.post('/login', (req, res) => {
     httpOnly: true,
   });
 
-  // 로그인 성공
-  res.send({ userId: user.userId, name: user.name });
+  res.send(true);
 });
 
 app.get('/logout', (req, res) => {
