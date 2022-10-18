@@ -1294,15 +1294,19 @@ select {
   margin-top: 4px;
 }
 
-.plan-piece-fav::before {
+.plan-piece-star {
   content: '';
   display: inline-block;
   width: 13px;
   height: 13px;
   margin-right: 5px;
   vertical-align: middle;
-  background-image: url('../../assets/icon_star_fill.png');
+  background-image: url('../../assets/icon_star_nofill.png');
   background-size: contain;
+}
+
+.plan-piece-star.fill {
+  background-image: url('../../assets/icon_star_fill.png');
 }
 
 .plan-daily {
@@ -1465,15 +1469,13 @@ select {
 .detail-star {
   width: 20px;
   height: 20px;
-  background: url(../../assets/icon_star_nofill.png) no-repeat;
+  background-image: url(../../assets/icon_star_nofill.png);
+  background-repeat: no-repeat;
   background-size: contain;
 }
 
 .detail-star.fill {
-  width: 20px;
-  height: 20px;
-  background: url(../../assets/icon_star_fill.png) no-repeat;
-  background-size: contain;
+  background-image: url(../../assets/icon_star_fill.png);
 }
 
 /* ------------------ */

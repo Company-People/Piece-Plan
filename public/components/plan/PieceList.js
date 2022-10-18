@@ -3,13 +3,13 @@ import PieceItem from './PieceItem.js';
 
 class PieceList extends Component {
   render() {
-    const { pieces, categoryId } = this.props;
+    const { pieces, categoryId, favorites } = this.props;
 
     const filteredPieces = pieces.filter(piece => (categoryId === 'all' ? true : piece.category === categoryId));
 
     return `
       <ul class="plan-piece-list">
-        ${filteredPieces.map(piece => new PieceItem(piece).render()).join('')}
+        ${filteredPieces.map(piece => new PieceItem({ ...piece, favorites }).render()).join('')}
       </ul>
     `;
   }

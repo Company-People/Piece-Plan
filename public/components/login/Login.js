@@ -113,9 +113,6 @@ class Login extends Component {
     if (!e.target.matches('.auth.login')) return;
     e.preventDefault();
 
-    const $signinForm = e.target;
-    const payload = { id: $signinForm.userid.value, password: $signinForm.password.value };
-
     if (this.getValid()) {
       // 요청
       const { userid: id, password } = this.state.values;
@@ -129,7 +126,6 @@ class Login extends Component {
       }
 
       this.changePage('/calendar');
-      console.log(`POST /signin`, payload);
     } else {
       // 실패 처리
       this.setState({ isLoginError: true });

@@ -28,18 +28,23 @@ class Plan extends Component {
       const {
         data: { pieces },
       } = await axios.get(`/pieces?filterId=${this.state.filterId}&searchText=${this.state.searchText}`);
-      console.log(pieces);
+
       const {
         data: { plan, name },
       } = await axios.get(`/plans?date=${selectedDate}`);
 
-      this.state = { ...this.state, pieces, plan, selectedDate };
+      const {
+        data: { favorites },
+      } = await axios.get('/favorites');
+
+      this.state = { ...this.state, pieces, plan, favorites, selectedDate, searchText: '' };
 
       const nav = new Nav({ name }).render();
 
       const planPiece = new PlanPiece({
         pieces: this.state.pieces,
         categoryId: this.state.categoryId,
+        favorites: this.state.favorites,
         events: {
           dragPiece: this.dragPiece,
           searchPieces: this.searchPieces.bind(this),
@@ -66,7 +71,8 @@ class Plan extends Component {
 
       const pieceDetail = new PieceDetail({
         selectedPiece: this.state.selectedPiece,
-        events: { closeDetail: this.closeDetail.bind(this) },
+        favorites: this.state.favorites,
+        events: { closeDetail: this.closeDetail.bind(this), toggleFavorite: this.toggleFavorite.bind(this) },
       }).render();
 
       const pieceAdd = new PieceAdd({
@@ -171,7 +177,6 @@ class Plan extends Component {
 
     this.setState({ searchText: $input.value });
     $input.value = '';
-    this.state.searchText = '';
   }
 
   filterPieces(e) {
@@ -273,6 +278,18 @@ class Plan extends Component {
     if (!e.target.matches('.detail-bg') && !e.target.matches('.detail-close')) return;
 
     this.setState({ selectedPiece: null });
+  }
+
+  toggleFavorite(e) {
+    if (!e.target.closest('.detail-favorite')) return;
+
+    const pieceId = e.target.closest('section').id;
+    const isFavorite = !!e.target.closest('section').dataset.fav;
+
+    this.patchState(({ pieceId, isFavorite }) => axios.patch(`/favorites/${pieceId}`, { isFavorite }), {
+      pieceId,
+      isFavorite,
+    });
   }
 
   // =============== addmodal 관련 메서드 ===============
