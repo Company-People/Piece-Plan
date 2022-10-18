@@ -1,5 +1,5 @@
 const { v4: uuid } = require('uuid');
-const favorites = require('./favorites.js');
+const { getFavorites } = require('./favorites.js');
 
 let pieces = [
   {
@@ -137,8 +137,19 @@ const getFilterPieces = (userId, filterId, search) => {
 
   if (filterId === 'favorite')
     return pieces.filter(piece =>
-      favorites.filter(favorite => favorite.userId === userId).find(favorite => favorite.pieceId === piece.pieceId)
+      getFavorites()
+        .filter(favorite => favorite.userId === userId)
+        .find(favorite => favorite.pieceId === piece.pieceId)
     );
 };
 
-module.exports = { getPieces, addPiece, getFilterPieces };
+const calcFavorite = (pieceId, isFavorite) => {
+  const piece = pieces.find(piece => piece.pieceId === pieceId);
+
+  console.log(piece);
+  piece.favoriteCnt += !isFavorite ? 1 : -1;
+
+  console.log(piece);
+};
+
+module.exports = { getPieces, addPiece, getFilterPieces, calcFavorite };

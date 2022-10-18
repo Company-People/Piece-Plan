@@ -4,8 +4,9 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
 const users = require('./models/users.js');
-const { getPieces, addPiece, getFilterPieces } = require('./models/pieces.js');
+const { getPieces, addPiece, getFilterPieces, calcFavorite } = require('./models/pieces.js');
 const { createPlan, removePlan, addPlan, patchPlan, getMyPlans, getSelectedPlan } = require('./models/plans.js');
+const { getMyFavorites, toggleFavorite } = require('./models/favorites.js');
 
 require('dotenv').config();
 
@@ -22,7 +23,7 @@ const auth = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-    console.log('인증 성공', decoded);
+    // console.log('인증 성공', decoded);
     next();
   } catch (e) {
     // console.error('사용자 인증 실패', e);
@@ -61,6 +62,7 @@ app.post('/login', (req, res) => {
 
 app.get('/logout', (req, res) => {
   res.clearCookie('accessToken');
+
   res.end();
 });
 
@@ -116,8 +118,24 @@ app.patch('/plans/:planId', auth, (req, res) => {
   res.end();
 });
 
+app.get('/favorites', auth, (req, res) => {
+  const { userId } = jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET_KEY);
+
+  res.send({ favorites: getMyFavorites(userId) });
+});
+
+app.patch('/favorites/:pieceId', (req, res) => {
+  const { userId } = jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET_KEY);
+  const { pieceId } = req.params;
+  const { isFavorite } = req.body;
+
+  toggleFavorite(userId, pieceId, isFavorite);
+  calcFavorite(pieceId, isFavorite);
+
+  res.end();
+});
+
 app.get('*', (req, res) => {
-  console.log(req.params);
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
