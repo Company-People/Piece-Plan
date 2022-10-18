@@ -60,16 +60,15 @@ app.post('/login', (req, res) => {
 });
 
 // -----------------------
-// app.get('/', (req, res) => {
-//   console.log(req);
+// app.get('/auth', (req, res) => {
 //   const accessToken = req.headers.authorization || req.cookies.accessToken;
 
-//   const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-//   console.log(decoded);
-
-//   // res.send({ auth: true });
-
-//   // res.send({ auth: false });
+//   try {
+//     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+//     res.send({ auth: true });
+//   } catch (e) {
+//     res.send({ auth: false });
+//   }
 // });
 
 // 로그인 요청
