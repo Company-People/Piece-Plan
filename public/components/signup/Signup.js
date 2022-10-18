@@ -49,8 +49,8 @@ class Signup extends Component {
             .join('')}
           <button class="main-button signup-button button">가입하기</button>
           <div class="auth-callout">
-            <div class="auth-callout-desc">계정이 없으신가요?</div>
-            <button type="button" class="signup-button button">로그인</button>
+            <div class="auth-callout-desc">이미 계정이 있으신가요?</div>
+            <button type="button" class="login-button button">로그인</button>
           </div>
         </form>
       </div>
@@ -143,6 +143,8 @@ class Signup extends Component {
       }, 100);
     }
   }
+
+  goLoginPage() {}
 }
 
 export default Signup;

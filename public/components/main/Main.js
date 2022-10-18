@@ -22,12 +22,41 @@ class Main extends Component {
             <li class="latter text-gradient-main">Piece Plan</li>
           </ul>
           <ul class="main-button-list">
-            <li><button class="button longin-button">로그인</button></li>
+            <li><button class="button login-button">로그인</button></li>
             <li><button class="button signup-button">회원가입</button></li>
           </ul>
         </div>
       </div>
     `;
+  }
+
+  goLoginPage(e) {
+    if (!e.target.matches('.login-button')) return;
+
+    this.changePage('/login');
+  }
+
+  goSignupPage(e) {
+    if (!e.target.matches('.signup-button')) return;
+
+    this.changePage('/signup');
+  }
+
+  setEvent() {
+    return [
+      // 로그인 페이지 가기
+      {
+        type: 'click',
+        selector: '.login-button',
+        handler: e => this.goLoginPage(e),
+      },
+      // 회원가입 페이지 가기
+      {
+        type: 'click',
+        selector: '.signup-button',
+        handler: e => this.goSignupPage(e),
+      },
+    ];
   }
 }
 
