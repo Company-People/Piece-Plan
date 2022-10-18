@@ -108,24 +108,24 @@ let pieces = [
 const getPieces = () => pieces;
 
 const addPiece = formData => {
-  const { category, title, subtitle, content, mypiece, startTime, userId } = formData;
+  const { category, title, subtitle, content, mypiece, time, userId } = formData;
   const writeDate = new Date().toLocaleString('ko-KR', { timeZone: 'UTC' }).split('. ').slice(0, 3).join('-');
 
-  pieces = [
-    {
-      pieceId: uuid(),
-      category,
-      title,
-      subTitle: subtitle,
-      content,
-      share: !mypiece,
-      favoriteCnt: 0,
-      time: +startTime,
-      writeDate,
-      userId,
-    },
-    ...pieces,
-  ];
+  const newPiece = {
+    pieceId: uuid(),
+    category,
+    title,
+    subTitle: subtitle,
+    content,
+    share: !mypiece,
+    favoriteCnt: 0,
+    time: +time,
+    writeDate,
+    userId,
+  };
+  pieces = [newPiece, ...pieces];
+
+  return newPiece.pieceId;
 };
 
 const getFilterPieces = (userId, filterId, search) => {
