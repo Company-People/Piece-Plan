@@ -3,6 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
+const { log } = require('console');
 const users = require('./models/users.js');
 const { getPieces, addPiece, getFilterPieces } = require('./models/pieces.js');
 const { createPlan, removePlan, addPlan, patchPlan, getMyPlans, getSelectedPlan } = require('./models/plans.js');
@@ -35,83 +36,84 @@ const auth = (req, res, next) => {
   }
 };
 
-// app.post('/login', (req, res) => {
-//   const { email, password } = req.body;
+// 로그인 요청
+app.post('/login', (req, res) => {
+  const { id, password } = req.body;
 
-//   const user = users.find(user => user.email === email && user.password === password);
+  const user = users.find(user => user.id === id && user.password === password);
 
-//   if (!user) return res.status(401).send({ error: '등록되지 않은 사용자입니다.' });
+  if (!user) return res.status(401).send({ error: '등록되지 않은 사용자입니다.' });
 
-//   const accessToken = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET_KEY, {
-//     expiresIn: '1d',
-//   });
+  const accessToken = jwt.sign({ userId: user.userId, name: user.name }, process.env.JWT_SECRET_KEY, {
+    expiresIn: '1d',
+  });
 
-//   res.cookie('accessToken', accessToken, {
-//     maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
-//     httpOnly: true,
-//   });
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-//   // 로그인 성공
-//   res.send({ userId: user.userId, name: user.name });
-// });
+  res.cookie('accessToken', accessToken, {
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
+    httpOnly: true,
+  });
+
+  // 로그인 성공
+  res.send({ userId: user.userId, name: user.name });
+});
 
 // -----------------------
-// app.get('/auth', (req, res) => {
+// app.get('/', (req, res) => {
+//   console.log(req);
 //   const accessToken = req.headers.authorization || req.cookies.accessToken;
 
-//   try {
-//     const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-//     res.send({ auth: true });
-//   } catch (e) {
-//     res.send({ auth: false });
-//   }
+//   const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+//   console.log(decoded);
+
+//   // res.send({ auth: true });
+
+//   // res.send({ auth: false });
 // });
 
-app.get('/mycalendar', (req, res) => {
-  // 로그인 된 id, 닉네임 토큰 해석해서 사용
-  const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
-  const tokenName = '김팀장';
+// 로그인 요청
+app.get('/mycalendar', auth, (req, res) => {
+  const { userId, name } = jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET_KEY);
 
-  res.send({ name: tokenName, pieces: getPieces(), plans: getMyPlans(tokenId) });
+  res.send({ name, pieces: getPieces(), plans: getMyPlans(userId) });
 });
 
-app.get('/pieces', (req, res) => {
-  // 로그인 된 id, 닉네임 토큰 해석해서 사용
-  const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
+// 전체 피스 취득 요청
+app.get('/pieces', auth, (req, res) => {
+  const { userId } = jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET_KEY);
   const { filterId, searchText } = req.query;
 
-  res.send({ pieces: getFilterPieces(tokenId, filterId, searchText) });
+  res.send({ pieces: getFilterPieces(userId, filterId, searchText) });
 });
 
-app.post('/pieces', (req, res) => {
-  // 로그인 된 id, 닉네임 토큰 해석해서 사용
-  const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
+// 개별 피스 등록 요청
+app.post('/pieces', auth, (req, res) => {
+  const { userId } = jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET_KEY);
   const formData = req.body;
 
-  const pieceId = addPiece({ ...formData, userId: tokenId });
-  addPlan({ ...formData, userId: tokenId, pieceId });
+  const pieceId = addPiece({ ...formData, userId });
+  addPlan({ ...formData, userId, pieceId });
 
   res.end();
 });
 
-app.post('/plans', (req, res) => {
-  // 로그인 된 id, 닉네임 토큰 해석해서 사용
-  const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
+app.post('/plans', auth, (req, res) => {
+  const { userId } = jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET_KEY);
   const { date } = req.body;
 
-  res.send(createPlan(tokenId, date));
+  res.send(createPlan(userId, date));
 });
 
-app.get('/plans', (req, res) => {
-  // 로그인 된 id, 닉네임 토큰 해석해서 사용
-  const tokenId = 'f3c01bd3-c491-4034-a961-bf63e988ccbf';
-  const tokenName = '김팀장';
+app.get('/plans', auth, (req, res) => {
+  const { userId, name } = jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET_KEY);
   const { date } = req.query;
 
-  res.send({ name: tokenName, plan: getSelectedPlan(tokenId, date) });
+  res.send({ name, plan: getSelectedPlan(userId, date) });
 });
 
-app.patch('/plans/:planId', (req, res) => {
+//
+app.patch('/plans/:planId', auth, (req, res) => {
   const { planId } = req.params;
   const { pieces } = req.body;
 
