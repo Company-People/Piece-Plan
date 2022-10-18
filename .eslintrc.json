@@ -44,6 +44,7 @@
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "import/extensions": ["off"],
     "import/no-cycle": ["off"],
+    "class-methods-use-this": ["off"],
     "max-len": [
       "error",
       {
