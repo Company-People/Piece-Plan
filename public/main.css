@@ -882,6 +882,10 @@ select {
   resize: none;
 }
 
+#piece-content::placeholder {
+  font-size: 16px;
+}
+
 #my-piece {
   width: 16px;
   accent-color: #9176ff;
