@@ -3,9 +3,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
-const users = require('./models/users.js');
 const { getPieces, addPiece, getFilterPieces } = require('./models/pieces.js');
 const { createPlan, removePlan, addPlan, patchPlan, getMyPlans, getSelectedPlan } = require('./models/plans.js');
+let users = require('./models/users.js');
+const { createNewUser, isDuplicateUser } = require('./models/users.js');
 
 require('dotenv').config();
 
@@ -64,7 +65,16 @@ app.get('/logout', (req, res) => {
   res.end();
 });
 
-// 로그인 요청
+// 회원가입 요청
+app.post('/signup', (req, res) => {
+  const { userid: id, username: name, password } = req.body;
+
+  if (isDuplicateUser(id, name)) return res.send(false);
+
+  users = createNewUser(id, name, password);
+  res.send(true);
+});
+
 app.get('/mycalendar', auth, (req, res) => {
   const { userId, name } = jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET_KEY);
 
@@ -117,7 +127,6 @@ app.patch('/plans/:planId', auth, (req, res) => {
 });
 
 app.get('*', (req, res) => {
-  console.log(req.params);
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 

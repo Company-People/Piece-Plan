@@ -26,7 +26,7 @@ class Login extends Component {
           <h1 class="hidden">로그인</h1>
           ${this.formInfoArr
             .map(
-              formInfo => `
+              (formInfo, idx) => `
               <div class="auth-input-container">
               <input
                 type="${formInfo[2]}"
@@ -36,7 +36,7 @@ class Login extends Component {
                 placeholder="${formInfo[1]}"
                 required
                 autocomplete="off" 
-                value='${this.state.values[formInfo[0]] ?? ''}'/>
+                value='${this.state.values[formInfo[0]] ?? ''}'${idx === 0 ? ' autofocus' : ''}/>
               <label for="login-${formInfo[0]}" class="hidden">${formInfo[1]}</label>
               <div class="auth-error error">${this.getError(formInfo[0])}</div>
             </div> 

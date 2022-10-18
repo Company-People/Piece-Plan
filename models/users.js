@@ -1,4 +1,6 @@
-const users = [
+const { v4: uuid } = require('uuid');
+
+let users = [
   {
     userId: 'ef1f1539-286f-4aa0-acd7-9ddc5aa8efac',
     id: 'nalsae0207',
@@ -25,4 +27,12 @@ const users = [
   },
 ];
 
-module.exports = users;
+const createNewUser = (id, name, password) => {
+  const newUser = { userid: uuid(), id, name, password };
+  users = [...users, newUser];
+  return users;
+};
+
+const isDuplicateUser = (id, name) => users.some(({ originId, originName }) => originId === id && originName === name);
+
+module.exports = { users, createNewUser, isDuplicateUser };
