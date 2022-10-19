@@ -1,0 +1,32 @@
+- name: Deploy to App Engine
+  # You may pin to the exact commit or the version.
+  # uses: google-github-actions/deploy-appengine@c0374ce7602000a1b1dbcf28f7a4ab4361464b5f
+  uses: google-github-actions/deploy-appengine@v0.8.0
+  with:
+    # The GCP project ID. Overrides project ID set by credentials.
+    project_id: 
+    # The path to set the working directory. The deliverables will be referenced
+from this path.
+    working_directory: # optional
+    # The yaml files for the services or configurations you want to deploy.
+If not given, defaults to app.yaml in the current directory. If that is
+not found, attempts to automatically generate necessary configuration
+files (such as app.yaml) in the current directory.
+    deliverables: # optional
+    # Deploy with a specific container image. The image URL must be from one of
+the valid GCR host names.
+    image_url: # optional
+    # The version of the app that will be created or replaced by this
+deployment. If you do not specify a version, one will be generated for
+you.
+    version: # optional
+    # Promote the deployed version to receive all traffic.
+    promote: # optional, default is true
+    # Service account key to use for authentication. This should be the JSON
+formatted private key which can be exported from the Cloud Console. The
+value can be raw or base64-encoded.
+    credentials: # optional
+    # Space separated list of other App Engine flags, examples can be found:
+https://cloud.google.com/sdk/gcloud/reference/app/deploy#FLAGS. Ex
+--service-account=my-account@project.iam.gserviceaccount.com --no-cache
+    flags: # optional
