@@ -70,7 +70,18 @@ class Signup extends Component {
         selector: '.auth.signup',
         handler: this.request.bind(this),
       },
+      {
+        type: 'click',
+        selector: '.login-button',
+        handler: e => this.goLoginPage(e),
+      },
     ];
+  }
+
+  goLoginPage(e) {
+    if (!e.target.matches('.login-button')) return;
+
+    this.changePage('/login');
   }
 
   getValid(inputType) {
@@ -147,11 +158,9 @@ class Signup extends Component {
         alert('이미 등록된 아이디입니다.');
         this.setState({ isSignupError: false });
         clearTimeout(timerId);
-      }, 100);
+      }, 300);
     }
   }
-
-  goLoginPage() {}
 }
 
 export default Signup;
