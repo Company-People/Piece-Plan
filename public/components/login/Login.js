@@ -19,6 +19,7 @@ class Login extends Component {
 
   // 2. render 정하기
   render() {
+    console.log(this.state.values);
     return `
       <div class="auth-wrapper">
         <form class="auth login ${this.state.isLoginError ? 'vibration' : ''}" novalidate>
@@ -131,7 +132,12 @@ class Login extends Component {
 
       // 페이지 이동
       if (!isSuccess) {
-        alert('아이디 또는 비밀번호를 확인해주세요.');
+        this.setState({ isLoginError: true });
+        const timerId = setTimeout(() => {
+          alert('아이디 또는 비밀번호를 확인해주세요.');
+          this.setState({ isLoginError: false });
+          clearTimeout(timerId);
+        }, 300);
         return;
       }
 

@@ -368,15 +368,15 @@ class Plan extends Component {
         clearTimeout(this.timerId);
       }, 4000);
     };
-
-    !this.formInfoArr.some((formInfo, index) => {
+    const formInfoArr = [...this.formInfoArr].filter(formInfo => formInfo !== 'mypiece');
+    !formInfoArr.some((formInfo, index) => {
       if (this.state.values[formInfo] === '' || this.state.values[formInfo] === undefined) {
         setErrorMsg(index);
         return true;
       }
       return false;
     }) &&
-      this.formInfoArr.some((formInfo, index) => {
+      formInfoArr.some((formInfo, index) => {
         if (!this.getValid(formInfo)) {
           setErrorMsg(index);
           return true;
