@@ -100,7 +100,7 @@ class Signup extends Component {
       },
       username: {
         get valid() {
-          return !value.match(/[\W]/g);
+          return !value.match(/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|\w]/g);
         },
       },
       'confirm-password': {
