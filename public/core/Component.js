@@ -11,7 +11,6 @@ class Component {
    * @public
    * 컴포넌트의 state를 업데이트한다. state가 변경되면 컴포넌트는 re-rendering된다.
    */
-
   setState(newState) {
     this.state = { ...this.state, ...newState };
 

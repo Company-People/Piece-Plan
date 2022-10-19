@@ -1,7 +1,6 @@
 import Component from '../../core/Component.js';
 
 class Main extends Component {
-  // 2. render 정하기
   async render() {
     const { data: auth } = await axios.get('/auth');
 
@@ -42,13 +41,11 @@ class Main extends Component {
 
   setEvent() {
     return [
-      // 로그인 페이지 가기
       {
         type: 'click',
         selector: '.login-button',
         handler: e => this.goLoginPage(e),
       },
-      // 회원가입 페이지 가기
       {
         type: 'click',
         selector: '.signup-button',

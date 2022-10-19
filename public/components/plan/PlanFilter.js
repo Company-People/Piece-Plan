@@ -20,13 +20,11 @@ class PlanFilter extends Component {
       ['parenting', '육아'],
     ];
 
+    // prettier-ignore
     return `
       <div class="plan-filter">
-        ${filters
-          .map(
-            ([filter, content]) => `<button data-filter="${filter}" class="plan-filter-${filter}">${content}</button>`
-          )
-          .join('')}
+        ${filters.map(([filter, content]) => `
+          <button data-filter="${filter}" class="plan-filter-${filter}">${content}</button>`).join('')}
         <select class="plan-category">
           ${categories.map(([cate, content]) => `<option value="${cate}">${content}</option>`).join('')}
         </select>

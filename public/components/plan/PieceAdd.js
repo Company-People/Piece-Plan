@@ -22,6 +22,7 @@ class PieceAdd extends Component {
       subtitle: '소제목 1~30자 입력해 주세요.',
       content: '내용을 입력해 주세요.',
     };
+
     // prettier-ignore
     return `
       <div class="modal-background">
@@ -37,36 +38,22 @@ class PieceAdd extends Component {
             <li class="piece-dropdown-item"> 
               <select name="time" id="piece-time-select" class="piece-input" >
                 <option value="">시간 선택</option>
-                ${timeArr
-                  .map(
-                    time =>
-                      `<option value="${time}" ${
-                        +time === +values[formInfoArr[1]] ? 'selected' : ''
-                      }>${time} 시간</option>`
-                  )
-                  .join('')}
+                ${timeArr.map(time => `
+                  <option value="${time}" ${+time === +values[formInfoArr[1]] ? 'selected' : ''}>${time} 시간</option>`).join('')}
               </select>
               <label for="piece-time-select" class="pieceadd-error-messages ${isErrorMessageArr[1] ? '' : 'hidden'}">${errors.time}</label>
             </li>
             <li class="piece-dropdown-item">
               <select name="category" id="piece-category-select" class="piece-input" >
                 <option value="">카테고리 선택</option>
-                ${categoryArr
-                  .map(
-                    category =>
-                      `<option value="${category[0]}" ${category[0] === values[formInfoArr[2]] ? 'selected' : ''}>${
-                        category[1]
-                      }</option>`
-                  )
-                  .join('')}
+                ${categoryArr.map(category => `
+                <option value="${category[0]}" ${category[0] === values[formInfoArr[2]] ? 'selected' : ''}>${category[1]}</option>`).join('')}
               </select>
               <label for="piece-category-select" class="pieceadd-error-messages ${isErrorMessageArr[2] ? '' : 'hidden'}">${errors.category}</label>
             </li>
           </ul>
           <div class="inputmodal-item-container">
-            <input type="text" id="piece-subtitle" class="piece-input" name="subtitle" placeholder="소제목을 입력해 주세요."  autocomplete="off" value="${
-              values[formInfoArr[3]] ?? ''
-            }"/>
+            <input type="text" id="piece-subtitle" class="piece-input" name="subtitle" placeholder="소제목을 입력해 주세요."  autocomplete="off" value="${values[formInfoArr[3]] ?? ''}"/>
             <label for="piece-subtitle" class="pieceadd-error-messages ${isErrorMessageArr[3] ? '' : 'hidden'}">${errors.subtitle}</label>
           </div>
           <div class="inputmodal-item-container">
