@@ -3,11 +3,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
-let { users } = require('./models/users.js');
+let { users, createNewUser, isDuplicateUser } = require('./models/users.js');
 const { getPieces, addPiece, getFilterPieces, calcFavorite } = require('./models/pieces.js');
 const { createPlan, removePlan, addPlan, patchPlan, getMyPlans, getSelectedPlan } = require('./models/plans.js');
 const { getMyFavorites, toggleFavorite } = require('./models/favorites.js');
-
 
 require('dotenv').config();
 
