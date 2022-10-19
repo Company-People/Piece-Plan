@@ -24,7 +24,8 @@ class Calendar extends Component {
   }
 
   async render() {
-    // window.history.pushState(null, null, '/');
+    window.history.pushState(null, null, '/');
+
     const { data } = await axios.get('/mycalendar');
 
     const { pieces, plans } = data;
