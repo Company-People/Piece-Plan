@@ -325,7 +325,7 @@ class Plan extends Component {
   }
 
   getValid(inputType) {
-    const value = this.state.values[inputType] ?? '';
+    const value = this.state.values[inputType]?.replace(/&quot;/g, '"') ?? '';
 
     // prettier-ignore
     const schema = {
@@ -335,7 +335,6 @@ class Plan extends Component {
       subtitle: { get valid() { return /^.{1,30}$/.test(value); }, },
       content: { get valid() { return !!value; }, },
     };
-
     return inputType !== undefined
       ? schema[inputType].valid
       : Object.keys(schema).every(formInfo => this.getValid(formInfo));
@@ -350,8 +349,11 @@ class Plan extends Component {
 
   validate(e) {
     if (!(e.target.matches('#my-piece') || e.target.matches('.piece-input'))) return;
-    const { value, name, checked } = e.target;
+    const { name, checked } = e.target;
+    let { value } = e.target;
+
     const values = { ...this.state.values };
+    value = value.replace(/"/g, '&quot;');
     values[name] = name === 'mypiece' ? checked : value;
 
     this.setState({ values });
@@ -389,6 +391,11 @@ class Plan extends Component {
 
     if (this.getValid()) {
       this.state.values.mypiece = this.state.values.mypiece || false;
+
+      this.state.values.title = this.protectXSS(this.state.values.title);
+      this.state.values.subtitle = this.protectXSS(this.state.values.subtitle);
+      this.state.values.content = this.protectXSS(this.state.values.content);
+
       this.state.isAddOpen = false;
       this.patchState(formData => axios.post('/pieces', formData), {
         ...this.state.values,
@@ -398,8 +405,20 @@ class Plan extends Component {
       this.state.values = {};
     } else {
       // 실패 처리
+      console.log('실패~');
       this.showErrorMsg();
     }
+  }
+
+  protectXSS(content) {
+    return content
+      .replace(/'/g, '&apos;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\(/g, '&#40;')
+      .replace(/\)/g, '&#41;')
+      .replace(/\//, '&#x2F;');
   }
 }
 
