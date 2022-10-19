@@ -50,29 +50,27 @@
 }
 
 /* font */
+/* 폰트 */
 @font-face {
   font-family: 'Gmarket Sans';
-  font-style: normal;
   font-weight: 700;
-  src: local('Gmarket Sans Bold'), local('GmarketSans-Bold'),
-    url('http://script.ebay.co.kr/fonts/GmarketSansBold.woff2') format('woff2'),
-    /* Chrome 26+, Opera 23+, Firefox 39+ */ url('http://script.ebay.co.kr/fonts/GmarketSansBold.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  font-style: normal;
+  src: url('./assets/fonts/GmarketSansBold.woff2') format('woff2');
+  font-display: swap;
 }
 @font-face {
   font-family: 'Gmarket Sans';
-  font-style: normal;
   font-weight: 500;
-  src: local('Gmarket Sans Medium'), local('GmarketSans-Medium'),
-    url('http://script.ebay.co.kr/fonts/GmarketSansMedium.woff2') format('woff2'),
-    /* Chrome 26+, Opera 23+, Firefox 39+ */ url('http://script.ebay.co.kr/fonts/GmarketSansMedium.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  font-style: normal;
+  src: url('./assets/fonts/GmarketSansMedium.woff2') format('woff2');
+  font-display: swap;
 }
 @font-face {
   font-family: 'Gmarket Sans';
-  font-style: normal;
   font-weight: 300;
-  src: local('Gmarket Sans Light'), local('GmarketSans-Light'),
-    url('http://script.ebay.co.kr/fonts/GmarketSansLight.woff2') format('woff2'),
-    /* Chrome 26+, Opera 23+, Firefox 39+ */ url('http://script.ebay.co.kr/fonts/GmarketSansLight.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  font-style: normal;
+  src: url('./assets/fonts/GmarketSansLight.woff2') format('woff2');
+  font-display: swap;
 }
 
 /* normalize */
@@ -252,7 +250,7 @@ legend {
 .logo {
   width: 68px;
   height: 68px;
-  background: url(./../../assets/logo_color.png) no-repeat;
+  background: url(./../../assets/img/logo_color.png) no-repeat;
   background-size: cover;
   margin-bottom: 16px;
   cursor: pointer;
@@ -322,14 +320,14 @@ legend {
 .calendar-year-prev {
   width: 10px;
   height: 18px;
-  background: url('./../../assets/btn_prev.png') no-repeat;
+  background: url('./../../assets/img/btn_prev.png') no-repeat;
   border: 0;
 }
 
 .calendar-year-next {
   width: 10px;
   height: 18px;
-  background: url('./../../assets/btn_next.png') no-repeat;
+  background: url('./../../assets/img/btn_next.png') no-repeat;
   border: 0;
 }
 
@@ -685,7 +683,7 @@ span[data-time='23'] {
   width: 32px;
   height: 32px;
   margin: 16px;
-  background: url(../../assets/btn_close.png);
+  background: url(../../assets/img/btn_close.png);
 }
 
 /* piece modal */
@@ -733,7 +731,7 @@ span[data-time='23'] {
   height: 20px;
   margin-left: -26px;
   margin-top: -2px;
-  background: url(../../assets/icon_star_fill_big.png);
+  background: url(../../assets/img/icon_star_fill_big.png);
 }
 
 .piece-content {
@@ -869,7 +867,7 @@ span[data-time='23'] {
 
 select {
   padding-right: 38px !important;
-  background: url('../../assets/btn_dropdown.png') no-repeat 91% 50%/15px auto;
+  background: url('../../assets/img/btn_dropdown.png') no-repeat 91% 50%/15px auto;
 }
 
 .checkbox-container {
@@ -928,7 +926,7 @@ select {
   right: 24px;
   width: 32px;
   height: 32px;
-  background: url('../../assets/btn_close.png') no-repeat center/contain;
+  background: url('../../assets/img/btn_close.png') no-repeat center/contain;
   border: none;
   cursor: pointer;
 }
@@ -955,7 +953,7 @@ select {
 .auth-logo {
   width: 72px;
   height: 80px;
-  background: url(./assets/logo_white_neon.png);
+  background: url(./assets/img/logo_white_neon.png);
   background-size: cover;
   margin-top: 24px;
   margin-bottom: 16px;
@@ -1059,7 +1057,7 @@ select {
 .main-logo {
   width: 200px;
   height: 220px;
-  background: url(../../assets/logo_shadow.png) no-repeat;
+  background: url(../../assets/img/logo_shadow.png) no-repeat;
   background-size: cover;
   margin-bottom: 28px;
 }
@@ -1169,7 +1167,7 @@ select {
 .plan-search-btn {
   width: 68px;
   border-radius: 0px var(--xl) var(--xl) 0px;
-  background: url('../../assets/icon_search.png') no-repeat 45%, var(--gradient-button-2);
+  background: url('../../assets/img/icon_search.png') no-repeat 45%, var(--gradient-button-2);
 }
 
 .plan-filter {
@@ -1193,7 +1191,7 @@ select {
   padding: 7px 12px 6px;
   border-radius: 4px;
   border: 1px solid #9176ff;
-  background-image: url('../../assets/btn_dropdown.png');
+  background-image: url('../../assets/img/btn_dropdown.png');
   background-repeat: no-repeat;
   background-position: 90% 50%;
 }
@@ -1302,12 +1300,12 @@ select {
   height: 13px;
   margin-right: 5px;
   vertical-align: middle;
-  background-image: url('../../assets/icon_star_nofill.png');
+  background-image: url('../../assets/img/icon_star_nofill.png');
   background-size: contain;
 }
 
 .plan-piece-star.fill {
-  background-image: url('../../assets/icon_star_fill.png');
+  background-image: url('../../assets/img/icon_star_fill.png');
 }
 
 .plan-daily {
@@ -1388,12 +1386,12 @@ select {
 
 .plan-daily-add {
   right: 34px;
-  background-image: url('../../assets/btn_add.png');
+  background-image: url('../../assets/img/btn_add.png');
 }
 
 .plan-daily-remove {
   right: 20px;
-  background-image: url('../../assets/btn_remove.png');
+  background-image: url('../../assets/img/btn_remove.png');
 }
 
 .plan-daily-link {
@@ -1438,7 +1436,7 @@ select {
   height: 24px;
   top: 21px;
   right: 21px;
-  background-image: url('../../assets/btn_close.png');
+  background-image: url('../../assets/img/btn_close.png');
   background-size: contain;
 }
 
@@ -1470,13 +1468,13 @@ select {
 .detail-star {
   width: 20px;
   height: 20px;
-  background-image: url(../../assets/icon_star_nofill.png);
+  background-image: url(../../assets/img/icon_star_nofill.png);
   background-repeat: no-repeat;
   background-size: contain;
 }
 
 .detail-star.fill {
-  background-image: url(../../assets/icon_star_fill.png);
+  background-image: url(../../assets/img/icon_star_fill.png);
 }
 
 /* ------------------ */
