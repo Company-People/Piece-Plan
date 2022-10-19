@@ -37,7 +37,7 @@ class Login extends Component {
                 placeholder="${formInfo[1]}"
                 required
                 autocomplete="off" 
-                value='${this.state.values[formInfo[0]] ?? ''}'${idx === 0 ? ' autofocus' : ''}/>
+                value="${this.state.values[formInfo[0]] ?? ''}"${idx === 0 ? ' autofocus' : ''}/>
               <label for="login-${formInfo[0]}" class="hidden">${formInfo[1]}</label>
               <div class="auth-error error">${this.getError(formInfo[0])}</div>
             </div> 
@@ -75,7 +75,7 @@ class Login extends Component {
   }
 
   getValid(inputType) {
-    const value = this.state.values[inputType] ?? '';
+    const value = this.state.values[inputType]?.replace(/&quot;/g, '"') ?? '';
     const schema = {
       userid: {
         get valid() {
@@ -110,9 +110,10 @@ class Login extends Component {
   validate(e) {
     if (!e.target.matches('.auth.login .auth-input')) return;
     const { name, value } = e.target;
-    const trimedValue = value.trim();
+    let trimedValue = value.trim();
 
     const values = { ...this.state.values };
+    trimedValue = trimedValue.replace(/"/g, '&quot;');
     values[name] = trimedValue;
 
     this.setState({
