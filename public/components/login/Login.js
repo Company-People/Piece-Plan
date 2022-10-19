@@ -54,7 +54,6 @@ class Login extends Component {
   }
 
   setEvent() {
-    // console.log(this);
     return [
       {
         type: 'input',
@@ -65,6 +64,11 @@ class Login extends Component {
         type: 'submit',
         selector: '.auth.login',
         handler: this.request.bind(this),
+      },
+      {
+        type: 'click',
+        selector: '.signup-button',
+        handler: e => this.goSignupPage(e),
       },
     ];
   }
@@ -86,6 +90,12 @@ class Login extends Component {
     return inputType !== undefined
       ? schema[inputType].valid
       : this.formInfoArr.every(formInfo => this.getValid(formInfo[0]));
+  }
+
+  goSignupPage(e) {
+    if (!e.target.matches('.signup-button')) return;
+
+    this.changePage('/signup');
   }
 
   getError(inputType) {
@@ -133,7 +143,7 @@ class Login extends Component {
         alert('아이디 또는 비밀번호를 확인해주세요.');
         this.setState({ isLoginError: false });
         clearTimeout(timerId);
-      }, 100);
+      }, 300);
     }
   }
 }

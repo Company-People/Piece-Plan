@@ -15,11 +15,12 @@ class PieceList extends Component {
   }
 
   setEvent() {
-    const { dragPiece, openDetail } = this.props.events;
+    const { dragPiece, openDetail, toggleItemFavorite } = this.props.events;
 
     return [
       { type: 'dragstart', selector: '.plan-piece-item', handler: dragPiece },
       { type: 'click', selector: '.plan-piece-item', handler: openDetail },
+      { type: 'click', selector: '.plan-piece-fav', handler: toggleItemFavorite },
     ];
   }
 }

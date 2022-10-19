@@ -3,7 +3,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
-let { users, createNewUser, isDuplicateUser } = require('./models/users.js');
+let { users } = require('./models/users.js');
+const { createNewUser, isDuplicateUser } = require('./models/users.js');
 const { getPieces, addPiece, getFilterPieces, calcFavorite } = require('./models/pieces.js');
 const { createPlan, removePlan, addPlan, patchPlan, getMyPlans, getSelectedPlan } = require('./models/plans.js');
 const { getMyFavorites, toggleFavorite } = require('./models/favorites.js');
@@ -22,7 +23,7 @@ const auth = (req, res, next) => {
   const { accessToken } = req.cookies;
 
   try {
-    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+    jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
     // console.log('인증 성공', decoded);
     next();
   } catch (e) {
@@ -43,7 +44,10 @@ app.post('/login', (req, res) => {
 
   const user = users.find(user => user.id === id && user.password === password);
 
-  if (!user) res.send(false);
+  if (!user) {
+    res.send(false);
+    return;
+  }
 
   const accessToken = jwt.sign({ userId: user.userId, name: user.name }, process.env.JWT_SECRET_KEY, {
     expiresIn: '1d',
@@ -69,7 +73,10 @@ app.get('/logout', (req, res) => {
 app.post('/signup', (req, res) => {
   const { userid: id, username: name, password } = req.body;
 
-  if (isDuplicateUser(id, name)) res.send(false);
+  if (isDuplicateUser(id)) {
+    res.send(false);
+    return;
+  }
 
   users = createNewUser(id, name, password);
   res.send(true);
@@ -138,9 +145,8 @@ app.patch('/favorites/:pieceId', (req, res) => {
   const { isFavorite } = req.body;
 
   toggleFavorite(userId, pieceId, isFavorite);
-  calcFavorite(pieceId, isFavorite);
 
-  res.end();
+  res.send(calcFavorite(pieceId, isFavorite));
 });
 
 app.get('*', (req, res) => {

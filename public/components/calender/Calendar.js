@@ -24,7 +24,8 @@ class Calendar extends Component {
   }
 
   async render() {
-    // window.history.pushState(null, null, '/');
+    window.history.pushState(null, null, '/');
+
     const { data } = await axios.get('/mycalendar');
 
     const { pieces, plans } = data;
@@ -57,7 +58,7 @@ class Calendar extends Component {
             ${this.dayList.map(day => `<div class="day">${day}</div>`).join('')}
             ${this.getCalendarDate().map((date, i) =>
             `<div ${i >= firstDay ? `class="date${this.isToday(date) ? ' today':''}"` : ''} 
-            ${i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''}>${i>= firstDay ? `<div class="date-day${this.CategoryClassName(date, plans)}">${date.getDate()}</div>` : ''}</div>`
+            ${i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''}>${i>= firstDay ? `<div class="date-day${this.categoryClassName(date, plans)}">${date.getDate()}</div>` : ''}</div>`
             ).join('')}
           </div>
         </div>
@@ -107,7 +108,7 @@ class Calendar extends Component {
     return this.isEqualDate(today, date);
   }
 
-  CategoryClassName(date, plans) {
+  categoryClassName(date, plans) {
     const findedPlan = plans.find(plan => plan.date === this.formatDate(date));
 
     if (findedPlan) return `${' ' + findedPlan.pieces[0].category}-schedule`;
@@ -140,7 +141,6 @@ class Calendar extends Component {
       currentDate: new Date(this.state.currentDate.getFullYear() - 1, this.state.currentDate.getMonth()),
       selectedDate: null,
     });
-    console.log('this.state: ', this.state);
   }
 
   moveNextYear(e) {
@@ -149,7 +149,6 @@ class Calendar extends Component {
       currentDate: new Date(this.state.currentDate.getFullYear() + 1, this.state.currentDate.getMonth()),
       selectedDate: null,
     });
-    console.log('this.state: ', this.state);
   }
 
   selectMonth(e) {
@@ -158,12 +157,10 @@ class Calendar extends Component {
       currentDate: new Date(this.state.currentDate.getFullYear(), e.target.dataset.month - 1),
       selectedDate: null,
     });
-    console.log('this.state: ', this.state);
   }
 
   selectDate(e) {
     if (!e.target.closest('.date')) return;
-    console.log(e.target.closest('.date').dataset.date);
     this.setState({ selectedDate: e.target.closest('.date').dataset.date });
   }
 

@@ -12,7 +12,7 @@ class Plan extends Component {
       filterId: 'all',
       categoryId: 'all',
       searchText: '',
-      selectedPiece: null,
+      selectedPieceId: null,
       isAddOpen: false,
       values: {},
       isErrorMessageArr: [false, false, false, false, false],
@@ -24,6 +24,7 @@ class Plan extends Component {
 
   async render() {
     const selectedDate = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
+
     try {
       const {
         data: { pieces },
@@ -38,6 +39,8 @@ class Plan extends Component {
       } = await axios.get('/favorites');
 
       this.state = { ...this.state, pieces, plan, favorites, selectedDate, searchText: '' };
+      this.state.selectedPieceId =
+        this.state.pieces.find(piece => piece.pieceId === this.state.selectedPieceId)?.pieceId || null;
 
       const nav = new Nav({ name }).render();
 
@@ -51,6 +54,7 @@ class Plan extends Component {
           filterPieces: this.filterPieces.bind(this),
           filterCategory: this.filterCategory.bind(this),
           openDetail: this.openDetail.bind(this),
+          toggleItemFavorite: this.toggleItemFavorite.bind(this),
         },
       }).render();
 
@@ -70,7 +74,7 @@ class Plan extends Component {
       }).render();
 
       const pieceDetail = new PieceDetail({
-        selectedPiece: this.state.selectedPiece,
+        selectedPiece: this.state.pieces.find(piece => piece.pieceId === this.state.selectedPieceId),
         favorites: this.state.favorites,
         events: { closeDetail: this.closeDetail.bind(this), toggleFavorite: this.toggleFavorite.bind(this) },
       }).render();
@@ -264,20 +268,31 @@ class Plan extends Component {
     });
   }
 
+  toggleItemFavorite(e) {
+    if (!e.target.closest('.plan-piece-fav')) return;
+
+    const pieceId = e.target.closest('li').id;
+    const isFavorite = !!e.target.closest('li').dataset.fav;
+
+    this.patchState(({ pieceId, isFavorite }) => axios.patch(`/favorites/${pieceId}`, { isFavorite }), {
+      pieceId,
+      isFavorite,
+    });
+  }
+
   // =============== detailmodal 관련 메서드 ===============
 
   openDetail(e) {
-    if (!e.target.closest('.plan-piece-item')) return;
+    if (e.target.closest('.plan-piece-fav') || !e.target.closest('.plan-piece-item')) return;
 
     const pieceId = e.target.closest('.plan-piece-item').id;
-
-    this.setState({ selectedPiece: this.state.pieces.find(piece => piece.pieceId === pieceId) });
+    this.setState({ selectedPieceId: pieceId });
   }
 
   closeDetail(e) {
     if (!e.target.matches('.detail-bg') && !e.target.matches('.detail-close')) return;
 
-    this.setState({ selectedPiece: null });
+    this.setState({ selectedPieceId: null });
   }
 
   toggleFavorite(e) {
@@ -310,7 +325,7 @@ class Plan extends Component {
   }
 
   getValid(inputType) {
-    const value = this.state.values[inputType] ?? '';
+    const value = this.state.values[inputType]?.replace(/&quot;/g, '"') ?? '';
 
     // prettier-ignore
     const schema = {
@@ -320,7 +335,6 @@ class Plan extends Component {
       subtitle: { get valid() { return /^.{1,30}$/.test(value); }, },
       content: { get valid() { return !!value; }, },
     };
-
     return inputType !== undefined
       ? schema[inputType].valid
       : Object.keys(schema).every(formInfo => this.getValid(formInfo));
@@ -335,8 +349,11 @@ class Plan extends Component {
 
   validate(e) {
     if (!(e.target.matches('#my-piece') || e.target.matches('.piece-input'))) return;
-    const { value, name, checked } = e.target;
+    const { name, checked } = e.target;
+    let { value } = e.target;
+
     const values = { ...this.state.values };
+    value = value.replace(/"/g, '&quot;');
     values[name] = name === 'mypiece' ? checked : value;
 
     this.setState({ values });
@@ -374,6 +391,11 @@ class Plan extends Component {
 
     if (this.getValid()) {
       this.state.values.mypiece = this.state.values.mypiece || false;
+
+      this.state.values.title = this.protectXSS(this.state.values.title);
+      this.state.values.subtitle = this.protectXSS(this.state.values.subtitle);
+      this.state.values.content = this.protectXSS(this.state.values.content);
+
       this.state.isAddOpen = false;
       this.patchState(formData => axios.post('/pieces', formData), {
         ...this.state.values,
@@ -383,8 +405,20 @@ class Plan extends Component {
       this.state.values = {};
     } else {
       // 실패 처리
+      console.log('실패~');
       this.showErrorMsg();
     }
+  }
+
+  protectXSS(content) {
+    return content
+      .replace(/'/g, '&apos;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\(/g, '&#40;')
+      .replace(/\)/g, '&#41;')
+      .replace(/\//, '&#x2F;');
   }
 }
 

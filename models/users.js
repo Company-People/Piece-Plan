@@ -28,11 +28,11 @@ let users = [
 ];
 
 const createNewUser = (id, name, password) => {
-  const newUser = { userid: uuid(), id, name, password };
+  const newUser = { userId: uuid(), id, name, password };
   users = [...users, newUser];
   return users;
 };
 
-const isDuplicateUser = (id, name) => users.some(({ originId, originName }) => originId === id && originName === name);
+const isDuplicateUser = id => users.some(user => user.id === id);
 
 module.exports = { users, createNewUser, isDuplicateUser };

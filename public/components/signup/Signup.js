@@ -16,7 +16,7 @@ class Signup extends Component {
     this.errors = {
       userid: '아이디는 영문 또는 숫자를 6~12자 이상 입력해야 합니다.',
       password: '비밀번호는 영문 또는 숫자를 6~12자 이상 입력해야 합니다.',
-      username: '이름을 입력해 주세요.',
+      username: '닉네임은 특수문자를 포함할 수 없습니다.',
       'confirm-password': '비밀번호가 일치하지 않습니다.',
     };
   }
@@ -70,7 +70,18 @@ class Signup extends Component {
         selector: '.auth.signup',
         handler: this.request.bind(this),
       },
+      {
+        type: 'click',
+        selector: '.login-button',
+        handler: e => this.goLoginPage(e),
+      },
     ];
+  }
+
+  goLoginPage(e) {
+    if (!e.target.matches('.login-button')) return;
+
+    this.changePage('/login');
   }
 
   getValid(inputType) {
@@ -89,7 +100,7 @@ class Signup extends Component {
       },
       username: {
         get valid() {
-          return !!value;
+          return !value.match(/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|\w]/g);
         },
       },
       'confirm-password': {
@@ -131,9 +142,8 @@ class Signup extends Component {
     if (this.getValid()) {
       // 요청
       const { data: isSuccess } = await axios.post('/signup', this.state.values);
-
       if (!isSuccess) {
-        alert('이미 등록된 아이디 혹은 닉네임입니다.');
+        alert('이미 등록된 아이디입니다.');
         return;
       }
 
@@ -144,14 +154,12 @@ class Signup extends Component {
       // 실패 처리
       this.setState({ isSignupError: true });
       const timerId = setTimeout(() => {
-        alert('이미 등록된 아이디 혹은 닉네임입니다.');
+        alert('이미 등록된 아이디입니다.');
         this.setState({ isSignupError: false });
         clearTimeout(timerId);
-      }, 100);
+      }, 300);
     }
   }
-
-  goLoginPage() {}
 }
 
 export default Signup;
