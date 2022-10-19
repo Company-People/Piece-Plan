@@ -146,10 +146,9 @@ const getFilterPieces = (userId, filterId, search) => {
 const calcFavorite = (pieceId, isFavorite) => {
   const piece = pieces.find(piece => piece.pieceId === pieceId);
 
-  console.log(piece);
   piece.favoriteCnt += !isFavorite ? 1 : -1;
 
-  console.log(piece);
+  return piece;
 };
 
 module.exports = { getPieces, addPiece, getFilterPieces, calcFavorite };

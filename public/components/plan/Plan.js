@@ -12,7 +12,7 @@ class Plan extends Component {
       filterId: 'all',
       categoryId: 'all',
       searchText: '',
-      selectedPiece: null,
+      selectedPieceId: null,
       isAddOpen: false,
       values: {},
       isErrorMessageArr: [false, false, false, false, false],
@@ -24,6 +24,7 @@ class Plan extends Component {
 
   async render() {
     const selectedDate = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
+
     try {
       const {
         data: { pieces },
@@ -38,6 +39,8 @@ class Plan extends Component {
       } = await axios.get('/favorites');
 
       this.state = { ...this.state, pieces, plan, favorites, selectedDate, searchText: '' };
+      this.state.selectedPieceId =
+        this.state.pieces.find(piece => piece.pieceId === this.state.selectedPieceId)?.pieceId || null;
 
       const nav = new Nav({ name }).render();
 
@@ -51,6 +54,7 @@ class Plan extends Component {
           filterPieces: this.filterPieces.bind(this),
           filterCategory: this.filterCategory.bind(this),
           openDetail: this.openDetail.bind(this),
+          toggleItemFavorite: this.toggleItemFavorite.bind(this),
         },
       }).render();
 
@@ -70,7 +74,7 @@ class Plan extends Component {
       }).render();
 
       const pieceDetail = new PieceDetail({
-        selectedPiece: this.state.selectedPiece,
+        selectedPiece: this.state.pieces.find(piece => piece.pieceId === this.state.selectedPieceId),
         favorites: this.state.favorites,
         events: { closeDetail: this.closeDetail.bind(this), toggleFavorite: this.toggleFavorite.bind(this) },
       }).render();
@@ -264,20 +268,32 @@ class Plan extends Component {
     });
   }
 
+  toggleItemFavorite(e) {
+    if (!e.target.closest('.plan-piece-fav')) return;
+
+    const pieceId = e.target.closest('li').id;
+    const isFavorite = !!e.target.closest('li').dataset.fav;
+    console.log(pieceId, isFavorite);
+
+    this.patchState(({ pieceId, isFavorite }) => axios.patch(`/favorites/${pieceId}`, { isFavorite }), {
+      pieceId,
+      isFavorite,
+    });
+  }
+
   // =============== detailmodal 관련 메서드 ===============
 
   openDetail(e) {
-    if (!e.target.closest('.plan-piece-item')) return;
+    if (e.target.closest('.plan-piece-fav') || !e.target.closest('.plan-piece-item')) return;
 
     const pieceId = e.target.closest('.plan-piece-item').id;
-
-    this.setState({ selectedPiece: this.state.pieces.find(piece => piece.pieceId === pieceId) });
+    this.setState({ selectedPieceId: pieceId });
   }
 
   closeDetail(e) {
     if (!e.target.matches('.detail-bg') && !e.target.matches('.detail-close')) return;
 
-    this.setState({ selectedPiece: null });
+    this.setState({ selectedPieceId: null });
   }
 
   toggleFavorite(e) {

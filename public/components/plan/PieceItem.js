@@ -6,7 +6,7 @@ class PieceItem extends Component {
     const isFavorite = favorites.find(favorite => favorite.pieceId === pieceId);
 
     return `
-    <li id="${pieceId}" class="plan-piece-item ${category}" draggable="true">
+    <li id="${pieceId}" ${isFavorite ? 'data-fav=fav' : ''} class="plan-piece-item ${category}" draggable="true">
       <div class="plan-piece-link">
         <p class="plan-piece-title">${title}</p>
         <p class="plan-piece-sub">${subTitle}</p>

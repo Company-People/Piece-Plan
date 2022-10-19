@@ -19,7 +19,7 @@ class PieceDetail extends Component {
     const { pieceId, category, title, subTitle, content, favoriteCnt, time } = this.props.selectedPiece;
     const { favorites } = this.props;
     const isFavorite = favorites.find(favorite => favorite.pieceId === pieceId);
-    console.log(favoriteCnt);
+
     // prettier-ignore
     return `
       <div class="detail-bg">
