@@ -1,6 +1,6 @@
 import Component from '../../core/Component.js';
-import Nav from '../nav/Nav.js';
-import Modal from '../detail-modal/Modal.js';
+import Nav from '../common/Nav.js';
+import Modal from './Modal.js';
 
 class Calendar extends Component {
   constructor() {
@@ -24,46 +24,45 @@ class Calendar extends Component {
   }
 
   async render() {
-    // window.history.pushState(null, null, '/');
-    const { data } = await axios.get('/mycalendar');
+    try {
+      const { data } = await axios.get('/mycalendar');
+      const { pieces, plans } = data;
+      this.state.pieces = pieces;
 
-    const { pieces, plans } = data;
+      const filteredPlan = data.plans.find(({ date }) => date === this.state.selectedDate);
+      const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
 
-    this.state.pieces = pieces;
-
-    const filteredPlan = data.plans.find(({ date }) => date === this.state.selectedDate);
-
-    const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
-
-    // prettier-ignore
-    return `
-      ${new Nav(data).render()}
-      <div class="calendar-container">
-        <div class="calendar-nav">
-          <div class="calendar-year">
-            <button class="calendar-year-prev"></button>
-            <div class="calendar-current-year">${this.currentYear}</div>
-            <button class="calendar-year-next"></button>
+      // prettier-ignore
+      return `
+        ${new Nav(data).render()}
+        <div class="calendar-container">
+          <div class="calendar-nav">
+            <div class="calendar-year">
+              <button class="calendar-year-prev"></button>
+              <div class="calendar-current-year">${this.currentYear}</div>
+              <button class="calendar-year-next"></button>
+            </div>
+            <ol class="calendar-month">
+              ${Object.values(this.monthList).map((month, i) =>
+                `<li data-month=${i + 1} ${this.currentMonth === i ? `class="is-selected"` : ''}>${month}</li>`
+                ).join('')}
+            </ol>
           </div>
-          <ol class="calendar-month">
-            ${Object.values(this.monthList).map((month, i) =>
-              `<li data-month=${i + 1} ${this.currentMonth === i ? `class="is-selected"` : ''}>${month}</li>`
+          <div class="calendar-main">
+            <div class="calendar-current-month text-gradient">${this.monthList[this.currentMonth + 1]}</div>
+            <div class="calendar-grid">
+              ${this.dayList.map(day => `<div class="day">${day}</div>`).join('')}
+              ${this.getCalendarDate().map((date, i) =>
+              `<div ${i >= firstDay ? `class="date${this.isToday(date) ? ' today':''}"` : ''} 
+              ${i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''}>${i >= firstDay ? `<div class="date-day${this.categoryClassName(date, plans)}">${date.getDate()}</div>` : ''}</div>`
               ).join('')}
-          </ol>
-        </div>
-        <div class="calendar-main">
-          <div class="calendar-current-month text-gradient">${this.monthList[this.currentMonth + 1]}</div>
-          <div class="calendar-grid">
-            ${this.dayList.map(day => `<div class="day">${day}</div>`).join('')}
-            ${this.getCalendarDate().map((date, i) =>
-            `<div ${i >= firstDay ? `class="date${this.isToday(date) ? ' today':''}"` : ''} 
-            ${i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''}>${i>= firstDay ? `<div class="date-day${this.categoryClassName(date, plans)}">${date.getDate()}</div>` : ''}</div>`
-            ).join('')}
+            </div>
           </div>
         </div>
-      </div>
-      ${new Modal({ ...this.state, filteredPlan, pieces, filterPieces: this.filterPieces.bind(this), resetModalData: this.resetModalData.bind(this), changeDatePage: this.changeDatePage.bind(this) }).render()}
-      `;
+        ${new Modal({ ...this.state, filteredPlan, pieces, filterPieces: this.filterPieces.bind(this), resetModalData: this.resetModalData.bind(this), changeDatePage: this.changeDatePage.bind(this) }).render()}`;
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   get currentYear() {
@@ -88,6 +87,7 @@ class Calendar extends Component {
 
     return Array.from({ length: firstDay + lastDate }, (_, i) => {
       if (i < firstDay) return '';
+
       firstDate.setDate(firstDate.getDate() + 1);
       return new Date(firstDate);
     });
@@ -118,7 +118,6 @@ class Calendar extends Component {
   // Modal - Click piece
   filterPieces(target) {
     const targetId = target.dataset.pieceId;
-
     const targetPiece = this.state.pieces.find(({ pieceId }) => pieceId === targetId);
 
     this.setState({ selectedDate: this.state.selectedDate, targetPiece });
@@ -136,6 +135,7 @@ class Calendar extends Component {
   // Event handlers
   movePrevYear(e) {
     if (!e.target.matches('.calendar-year-prev')) return;
+
     this.setState({
       currentDate: new Date(this.state.currentDate.getFullYear() - 1, this.state.currentDate.getMonth()),
       selectedDate: null,
@@ -144,6 +144,7 @@ class Calendar extends Component {
 
   moveNextYear(e) {
     if (!e.target.matches('.calendar-year-next')) return;
+
     this.setState({
       currentDate: new Date(this.state.currentDate.getFullYear() + 1, this.state.currentDate.getMonth()),
       selectedDate: null,
@@ -152,6 +153,7 @@ class Calendar extends Component {
 
   selectMonth(e) {
     if (!e.target.matches('.calendar-month > li')) return;
+
     this.setState({
       currentDate: new Date(this.state.currentDate.getFullYear(), e.target.dataset.month - 1),
       selectedDate: null,
@@ -160,30 +162,27 @@ class Calendar extends Component {
 
   selectDate(e) {
     if (!e.target.closest('.date')) return;
+
     this.setState({ selectedDate: e.target.closest('.date').dataset.date });
   }
 
   setEvent() {
     return [
-      // 이전 년도로 가기
       {
         type: 'click',
         selector: '.calendar-year-prev',
         handler: e => this.movePrevYear(e),
       },
-      // 다음 년도로 가기
       {
         type: 'click',
         selector: '.calendar-year-next',
         handler: e => this.moveNextYear(e),
       },
-      // 해당 달로 가기
       {
         type: 'click',
         selector: '.calendar-month',
         handler: e => this.selectMonth(e),
       },
-      // 각 날짜 클릭
       {
         type: 'click',
         selector: '.date',

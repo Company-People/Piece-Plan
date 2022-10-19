@@ -24,10 +24,8 @@ const auth = (req, res, next) => {
 
   try {
     jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-    // console.log('인증 성공', decoded);
     next();
   } catch (e) {
-    // console.error('사용자 인증 실패', e);
     res.redirect('/login');
   }
 };
@@ -153,7 +151,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-// listen (port번호, callback) - 언제올지 모르는 요청을 위해 무한루프를 돌며 켜져있어야 한다.
 app.listen(PORT, () => {
   console.log(`app listening on ${PORT}`);
 });

@@ -1,5 +1,5 @@
 import Component from '../../core/Component.js';
-import Nav from '../nav/Nav.js';
+import Nav from '../common/Nav.js';
 import PlanDaily from './PlanDaily.js';
 import PlanPiece from './PlanPiece.js';
 import PieceDetail from './PieceDetail.js';
@@ -106,7 +106,6 @@ class Plan extends Component {
   }
 
   // =============== hover 관련 이벤트 ===============
-
   hoverPlan(e) {
     if (e.target.matches('.plan-daily-piece')) {
       e.target.classList.add('hover');
@@ -138,7 +137,6 @@ class Plan extends Component {
   }
 
   // =============== drag & drop 이벤트 ===============
-
   useDrop(e) {
     e.preventDefault();
     if (!e.target.matches('.plan-daily-piece')) return;
@@ -170,7 +168,6 @@ class Plan extends Component {
   }
 
   // =============== piece filter 관련 이벤트 ===============
-
   searchPieces(e) {
     if (!e.target.matches('.plan-search-form')) return;
     e.preventDefault();
@@ -196,7 +193,6 @@ class Plan extends Component {
   }
 
   // =============== page 전환 이벤트 ===============
-
   completeEdit(e) {
     if (!e.target.matches('.plan-cancel-btn') && !e.target.matches('.plan-submit-btn')) return;
 
@@ -204,7 +200,6 @@ class Plan extends Component {
   }
 
   // =============== plan piece 관련 메서드 ===============
-
   createPlan() {
     return axios.post('/plans', { date: this.state.selectedDate });
   }
@@ -281,7 +276,6 @@ class Plan extends Component {
   }
 
   // =============== detailmodal 관련 메서드 ===============
-
   openDetail(e) {
     if (e.target.closest('.plan-piece-fav') || !e.target.closest('.plan-piece-item')) return;
 
@@ -368,15 +362,15 @@ class Plan extends Component {
         clearTimeout(this.timerId);
       }, 4000);
     };
-
-    !this.formInfoArr.some((formInfo, index) => {
+    const formInfoArr = [...this.formInfoArr].filter(formInfo => formInfo !== 'mypiece');
+    !formInfoArr.some((formInfo, index) => {
       if (this.state.values[formInfo] === '' || this.state.values[formInfo] === undefined) {
         setErrorMsg(index);
         return true;
       }
       return false;
     }) &&
-      this.formInfoArr.some((formInfo, index) => {
+      formInfoArr.some((formInfo, index) => {
         if (!this.getValid(formInfo)) {
           setErrorMsg(index);
           return true;
@@ -404,8 +398,6 @@ class Plan extends Component {
       });
       this.state.values = {};
     } else {
-      // 실패 처리
-      console.log('실패~');
       this.showErrorMsg();
     }
   }

@@ -34,7 +34,7 @@ class Daily extends Component {
   }
 
   setEvent() {
-    const { closeDailyModal, openDetailModal, closeDetailModal, goToEditPage } = this.props;
+    const { closeDailyModal, openDetailModal, closeDetailModal, goEditPage } = this.props;
 
     return [
       {
@@ -55,7 +55,7 @@ class Daily extends Component {
       {
         type: 'click',
         selector: '.btn-edit',
-        handler: goToEditPage,
+        handler: goEditPage,
       },
     ];
   }
