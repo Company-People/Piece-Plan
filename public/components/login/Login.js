@@ -54,7 +54,6 @@ class Login extends Component {
   }
 
   setEvent() {
-    // console.log(this);
     return [
       {
         type: 'input',

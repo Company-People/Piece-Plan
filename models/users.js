@@ -33,8 +33,6 @@ const createNewUser = (id, name, password) => {
   return users;
 };
 
-const isDuplicateUser = id => {
-  console.log(id);
-  return users.some(user => user.id === id);
-};
+const isDuplicateUser = id => users.some(user => user.id === id);
+
 module.exports = { users, createNewUser, isDuplicateUser };

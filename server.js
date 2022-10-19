@@ -23,7 +23,7 @@ const auth = (req, res, next) => {
   const { accessToken } = req.cookies;
 
   try {
-    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+    jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
     // console.log('인증 성공', decoded);
     next();
   } catch (e) {
@@ -44,7 +44,10 @@ app.post('/login', (req, res) => {
 
   const user = users.find(user => user.id === id && user.password === password);
 
-  if (!user) res.send(false);
+  if (!user) {
+    res.send(false);
+    return;
+  }
 
   const accessToken = jwt.sign({ userId: user.userId, name: user.name }, process.env.JWT_SECRET_KEY, {
     expiresIn: '1d',
