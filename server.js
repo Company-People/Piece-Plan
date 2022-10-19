@@ -70,7 +70,10 @@ app.get('/logout', (req, res) => {
 app.post('/signup', (req, res) => {
   const { userid: id, username: name, password } = req.body;
 
-  if (isDuplicateUser(id, name)) res.send(false);
+  if (isDuplicateUser(id)) {
+    res.send(false);
+    return;
+  }
 
   users = createNewUser(id, name, password);
   res.send(true);

@@ -131,9 +131,9 @@ class Signup extends Component {
     if (this.getValid()) {
       // 요청
       const { data: isSuccess } = await axios.post('/signup', this.state.values);
-
+      console.log(isSuccess);
       if (!isSuccess) {
-        alert('이미 등록된 아이디 혹은 닉네임입니다.');
+        alert('이미 등록된 아이디입니다.');
         return;
       }
 
@@ -144,7 +144,7 @@ class Signup extends Component {
       // 실패 처리
       this.setState({ isSignupError: true });
       const timerId = setTimeout(() => {
-        alert('이미 등록된 아이디 혹은 닉네임입니다.');
+        alert('이미 등록된 아이디입니다.');
         this.setState({ isSignupError: false });
         clearTimeout(timerId);
       }, 100);
