@@ -16,7 +16,7 @@ class Signup extends Component {
     this.errors = {
       userid: '아이디는 영문 또는 숫자를 6~12자 이상 입력해야 합니다.',
       password: '비밀번호는 영문 또는 숫자를 6~12자 이상 입력해야 합니다.',
-      username: '이름을 입력해 주세요.',
+      username: '닉네임은 특수문자를 포함할 수 없습니다.',
       'confirm-password': '비밀번호가 일치하지 않습니다.',
     };
   }
@@ -100,7 +100,7 @@ class Signup extends Component {
       },
       username: {
         get valid() {
-          return !!value;
+          return /[\w]+/.test(value);
         },
       },
       'confirm-password': {
