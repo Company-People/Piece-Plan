@@ -1292,6 +1292,7 @@ select {
   width: 71px;
   right: 8px;
   margin-top: 4px;
+  cursor: pointer;
 }
 
 .plan-piece-star {

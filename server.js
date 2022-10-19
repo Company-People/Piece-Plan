@@ -139,9 +139,8 @@ app.patch('/favorites/:pieceId', (req, res) => {
   const { isFavorite } = req.body;
 
   toggleFavorite(userId, pieceId, isFavorite);
-  calcFavorite(pieceId, isFavorite);
 
-  res.end();
+  res.send(calcFavorite(pieceId, isFavorite));
 });
 
 app.get('*', (req, res) => {
