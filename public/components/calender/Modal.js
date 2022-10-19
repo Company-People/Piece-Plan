@@ -11,7 +11,7 @@ class Modal extends Component {
       closeDailyModal: this.closeDailyModal.bind(this),
       openDetailModal: this.openDetailModal.bind(this),
       closeDetailModal: this.closeDetailModal,
-      goToEditPage: this.goToEditPage.bind(this),
+      goEditPage: this.goEditPage.bind(this),
     }).render();
     const detail = new Detail(this.props).render();
 
@@ -47,7 +47,7 @@ class Modal extends Component {
     }
   }
 
-  goToEditPage({ target }) {
+  goEditPage({ target }) {
     if (!target.matches('.btn-edit')) return;
 
     this.props.changeDatePage();

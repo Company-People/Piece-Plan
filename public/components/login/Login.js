@@ -17,9 +17,7 @@ class Login extends Component {
     };
   }
 
-  // 2. render 정하기
   render() {
-    console.log(this.state.values);
     return `
       <div class="auth-wrapper">
         <form class="auth login ${this.state.isLoginError ? 'vibration' : ''}" novalidate>
@@ -74,20 +72,14 @@ class Login extends Component {
     ];
   }
 
+  // prettier-ignore
   getValid(inputType) {
     const value = this.state.values[inputType]?.replace(/&quot;/g, '"') ?? '';
     const schema = {
-      userid: {
-        get valid() {
-          return /^[a-z|A-Z|0-9|]{6,12}$/.test(value);
-        },
-      },
-      password: {
-        get valid() {
-          return /^[A-Za-z0-9]{6,12}$/.test(value);
-        },
-      },
+      userid: { get valid() { return /^[a-z|A-Z|0-9|]{6,12}$/.test(value); } },
+      password: { get valid() { return /^[A-Za-z0-9]{6,12}$/.test(value); } },
     };
+    
     return inputType !== undefined
       ? schema[inputType].valid
       : this.formInfoArr.every(formInfo => this.getValid(formInfo[0]));
@@ -126,29 +118,30 @@ class Login extends Component {
     e.preventDefault();
 
     if (this.getValid()) {
-      // 요청
       const { userid: id, password } = this.state.values;
-
       const { data: isSuccess } = await axios.post('/login', { id, password }, { withCredentials: true });
 
-      // 페이지 이동
       if (!isSuccess) {
         this.setState({ isLoginError: true });
+
         const timerId = setTimeout(() => {
           alert('아이디 또는 비밀번호를 확인해주세요.');
+
           this.setState({ isLoginError: false });
           clearTimeout(timerId);
         }, 300);
+
         return;
       }
 
       this.changePage('/calendar');
     } else {
-      // 실패 처리
       this.setState({ isLoginError: true });
+
       const timerId = setTimeout(() => {
         alert('아이디 또는 비밀번호를 확인해주세요.');
         this.setState({ isLoginError: false });
+
         clearTimeout(timerId);
       }, 300);
     }
