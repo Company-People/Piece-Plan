@@ -57,7 +57,7 @@ class Calendar extends Component {
             ${this.dayList.map(day => `<div class="day">${day}</div>`).join('')}
             ${this.getCalendarDate().map((date, i) =>
             `<div ${i >= firstDay ? `class="date${this.isToday(date) ? ' today':''}"` : ''} 
-            ${i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''}>${i>= firstDay ? `<div class="date-day${this.CategoryClassName(date, plans)}">${date.getDate()}</div>` : ''}</div>`
+            ${i >= firstDay ? `data-date="${this.formatDate(date)}"` : ''}>${i>= firstDay ? `<div class="date-day${this.categoryClassName(date, plans)}">${date.getDate()}</div>` : ''}</div>`
             ).join('')}
           </div>
         </div>
@@ -107,7 +107,7 @@ class Calendar extends Component {
     return this.isEqualDate(today, date);
   }
 
-  CategoryClassName(date, plans) {
+  categoryClassName(date, plans) {
     const findedPlan = plans.find(plan => plan.date === this.formatDate(date));
 
     if (findedPlan) return `${' ' + findedPlan.pieces[0].category}-schedule`;

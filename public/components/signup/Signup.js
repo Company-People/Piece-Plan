@@ -100,7 +100,7 @@ class Signup extends Component {
       },
       username: {
         get valid() {
-          return /[\w]+/.test(value);
+          return !value.match(/[\W]/g);
         },
       },
       'confirm-password': {
@@ -142,7 +142,6 @@ class Signup extends Component {
     if (this.getValid()) {
       // 요청
       const { data: isSuccess } = await axios.post('/signup', this.state.values);
-      console.log(isSuccess);
       if (!isSuccess) {
         alert('이미 등록된 아이디입니다.');
         return;
