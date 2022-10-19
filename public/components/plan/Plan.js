@@ -273,7 +273,6 @@ class Plan extends Component {
 
     const pieceId = e.target.closest('li').id;
     const isFavorite = !!e.target.closest('li').dataset.fav;
-    console.log(pieceId, isFavorite);
 
     this.patchState(({ pieceId, isFavorite }) => axios.patch(`/favorites/${pieceId}`, { isFavorite }), {
       pieceId,
