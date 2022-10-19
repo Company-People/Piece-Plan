@@ -12,7 +12,7 @@ class Plan extends Component {
       filterId: 'all',
       categoryId: 'all',
       searchText: '',
-      selectedPiece: null,
+      selectedPieceId: null,
       isAddOpen: false,
       values: {},
       isErrorMessageArr: [false, false, false, false, false],
@@ -24,28 +24,37 @@ class Plan extends Component {
 
   async render() {
     const selectedDate = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1);
+
     try {
       const {
         data: { pieces },
       } = await axios.get(`/pieces?filterId=${this.state.filterId}&searchText=${this.state.searchText}`);
-      console.log(pieces);
+
       const {
         data: { plan, name },
       } = await axios.get(`/plans?date=${selectedDate}`);
 
-      this.state = { ...this.state, pieces, plan, selectedDate };
+      const {
+        data: { favorites },
+      } = await axios.get('/favorites');
+
+      this.state = { ...this.state, pieces, plan, favorites, selectedDate, searchText: '' };
+      this.state.selectedPieceId =
+        this.state.pieces.find(piece => piece.pieceId === this.state.selectedPieceId)?.pieceId || null;
 
       const nav = new Nav({ name }).render();
 
       const planPiece = new PlanPiece({
         pieces: this.state.pieces,
         categoryId: this.state.categoryId,
+        favorites: this.state.favorites,
         events: {
           dragPiece: this.dragPiece,
           searchPieces: this.searchPieces.bind(this),
           filterPieces: this.filterPieces.bind(this),
           filterCategory: this.filterCategory.bind(this),
           openDetail: this.openDetail.bind(this),
+          toggleItemFavorite: this.toggleItemFavorite.bind(this),
         },
       }).render();
 
@@ -65,8 +74,9 @@ class Plan extends Component {
       }).render();
 
       const pieceDetail = new PieceDetail({
-        selectedPiece: this.state.selectedPiece,
-        events: { closeDetail: this.closeDetail.bind(this) },
+        selectedPiece: this.state.pieces.find(piece => piece.pieceId === this.state.selectedPieceId),
+        favorites: this.state.favorites,
+        events: { closeDetail: this.closeDetail.bind(this), toggleFavorite: this.toggleFavorite.bind(this) },
       }).render();
 
       const pieceAdd = new PieceAdd({
@@ -171,7 +181,6 @@ class Plan extends Component {
 
     this.setState({ searchText: $input.value });
     $input.value = '';
-    this.state.searchText = '';
   }
 
   filterPieces(e) {
@@ -259,20 +268,43 @@ class Plan extends Component {
     });
   }
 
+  toggleItemFavorite(e) {
+    if (!e.target.closest('.plan-piece-fav')) return;
+
+    const pieceId = e.target.closest('li').id;
+    const isFavorite = !!e.target.closest('li').dataset.fav;
+
+    this.patchState(({ pieceId, isFavorite }) => axios.patch(`/favorites/${pieceId}`, { isFavorite }), {
+      pieceId,
+      isFavorite,
+    });
+  }
+
   // =============== detailmodal 관련 메서드 ===============
 
   openDetail(e) {
-    if (!e.target.closest('.plan-piece-item')) return;
+    if (e.target.closest('.plan-piece-fav') || !e.target.closest('.plan-piece-item')) return;
 
     const pieceId = e.target.closest('.plan-piece-item').id;
-
-    this.setState({ selectedPiece: this.state.pieces.find(piece => piece.pieceId === pieceId) });
+    this.setState({ selectedPieceId: pieceId });
   }
 
   closeDetail(e) {
     if (!e.target.matches('.detail-bg') && !e.target.matches('.detail-close')) return;
 
-    this.setState({ selectedPiece: null });
+    this.setState({ selectedPieceId: null });
+  }
+
+  toggleFavorite(e) {
+    if (!e.target.closest('.detail-favorite')) return;
+
+    const pieceId = e.target.closest('section').id;
+    const isFavorite = !!e.target.closest('section').dataset.fav;
+
+    this.patchState(({ pieceId, isFavorite }) => axios.patch(`/favorites/${pieceId}`, { isFavorite }), {
+      pieceId,
+      isFavorite,
+    });
   }
 
   // =============== addmodal 관련 메서드 ===============

@@ -3,9 +3,11 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 
-const users = require('./models/users.js');
-const { getPieces, addPiece, getFilterPieces } = require('./models/pieces.js');
+let { users } = require('./models/users.js');
+const { createNewUser, isDuplicateUser } = require('./models/users.js');
+const { getPieces, addPiece, getFilterPieces, calcFavorite } = require('./models/pieces.js');
 const { createPlan, removePlan, addPlan, patchPlan, getMyPlans, getSelectedPlan } = require('./models/plans.js');
+const { getMyFavorites, toggleFavorite } = require('./models/favorites.js');
 
 require('dotenv').config();
 
@@ -21,8 +23,8 @@ const auth = (req, res, next) => {
   const { accessToken } = req.cookies;
 
   try {
-    const decoded = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-    console.log('인증 성공', decoded);
+    jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+    // console.log('인증 성공', decoded);
     next();
   } catch (e) {
     // console.error('사용자 인증 실패', e);
@@ -42,7 +44,10 @@ app.post('/login', (req, res) => {
 
   const user = users.find(user => user.id === id && user.password === password);
 
-  if (!user) return res.status(401).send({ error: '등록되지 않은 사용자입니다.' });
+  if (!user) {
+    res.send(false);
+    return;
+  }
 
   const accessToken = jwt.sign({ userId: user.userId, name: user.name }, process.env.JWT_SECRET_KEY, {
     expiresIn: '1d',
@@ -55,16 +60,28 @@ app.post('/login', (req, res) => {
     httpOnly: true,
   });
 
-  // 로그인 성공
-  res.send({ userId: user.userId, name: user.name });
+  res.send(true);
 });
 
 app.get('/logout', (req, res) => {
   res.clearCookie('accessToken');
+
   res.end();
 });
 
-// 로그인 요청
+// 회원가입 요청
+app.post('/signup', (req, res) => {
+  const { userid: id, username: name, password } = req.body;
+
+  if (isDuplicateUser(id)) {
+    res.send(false);
+    return;
+  }
+
+  users = createNewUser(id, name, password);
+  res.send(true);
+});
+
 app.get('/mycalendar', auth, (req, res) => {
   const { userId, name } = jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET_KEY);
 
@@ -116,8 +133,23 @@ app.patch('/plans/:planId', auth, (req, res) => {
   res.end();
 });
 
+app.get('/favorites', auth, (req, res) => {
+  const { userId } = jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET_KEY);
+
+  res.send({ favorites: getMyFavorites(userId) });
+});
+
+app.patch('/favorites/:pieceId', (req, res) => {
+  const { userId } = jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET_KEY);
+  const { pieceId } = req.params;
+  const { isFavorite } = req.body;
+
+  toggleFavorite(userId, pieceId, isFavorite);
+
+  res.send(calcFavorite(pieceId, isFavorite));
+});
+
 app.get('*', (req, res) => {
-  console.log(req.params);
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 

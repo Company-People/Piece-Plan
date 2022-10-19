@@ -8,16 +8,16 @@ class Signup extends Component {
       isSignupError: false,
     };
     this.formInfoArr = [
-      ['userid', '이메일', 'text'],
+      ['userid', '아이디', 'text'],
       ['username', '닉네임', 'text'],
       ['password', '비밀번호', 'password'],
       ['confirm-password', '비밀번호 확인', 'password'],
     ];
     this.errors = {
-      userid: '아이디 영문 또는 숫자를 6~12자 입력하세요.',
-      password: '비밀번호 영문 또는 숫자를 6~12자 입력하세요.',
+      userid: '아이디는 영문 또는 숫자를 6~12자 이상 입력해야 합니다.',
+      password: '비밀번호는 영문 또는 숫자를 6~12자 이상 입력해야 합니다.',
       username: '이름을 입력해 주세요.',
-      'confirm-password': '패스워드가 일치하지 않습니다.',
+      'confirm-password': '비밀번호가 일치하지 않습니다.',
     };
   }
 
@@ -30,7 +30,7 @@ class Signup extends Component {
           <h1 class="hidden">로그인</h1>
           ${this.formInfoArr
             .map(
-              formInfo => `
+              (formInfo, idx) => `
               <div class="auth-input-container">
               <input
                 type="${formInfo[2]}"
@@ -40,7 +40,7 @@ class Signup extends Component {
                 placeholder="${formInfo[1]}"
                 required
                 autocomplete="off" 
-                value='${this.state.values[formInfo[0]] ?? ''}'/>
+                value='${this.state.values[formInfo[0]] ?? ''}'${idx === 0 ? ' autofocus' : ''}/>
               <label for="signup-${formInfo[0]}" class="hidden">${formInfo[1]}</label>
               <div class="auth-error error">${this.getError(formInfo[0])}</div>
             </div> 
@@ -124,20 +124,27 @@ class Signup extends Component {
     });
   }
 
-  request(e) {
+  async request(e) {
     if (!e.target.matches('.auth.signup')) return;
     e.preventDefault();
-    const $signinForm = e.target;
-    const payload = { email: $signinForm.userid.value, password: $signinForm.password.value };
+
     if (this.getValid()) {
       // 요청
+      const { data: isSuccess } = await axios.post('/signup', this.state.values);
+      console.log(isSuccess);
+      if (!isSuccess) {
+        alert('이미 등록된 아이디입니다.');
+        return;
+      }
+
       // 페이지 이동
-      console.log(`POST /signin`, payload);
+      alert('회원가입이 완료되었습니다!');
+      this.changePage('/login');
     } else {
       // 실패 처리
       this.setState({ isSignupError: true });
       const timerId = setTimeout(() => {
-        alert('회원정보 정확히 입력해주세요.');
+        alert('이미 등록된 아이디입니다.');
         this.setState({ isSignupError: false });
         clearTimeout(timerId);
       }, 100);

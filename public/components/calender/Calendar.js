@@ -24,6 +24,7 @@ class Calendar extends Component {
   }
 
   async render() {
+    // window.history.pushState(null, null, '/');
     const { data } = await axios.get('/mycalendar');
 
     const { pieces, plans } = data;
@@ -139,7 +140,6 @@ class Calendar extends Component {
       currentDate: new Date(this.state.currentDate.getFullYear() - 1, this.state.currentDate.getMonth()),
       selectedDate: null,
     });
-    console.log('this.state: ', this.state);
   }
 
   moveNextYear(e) {
@@ -148,7 +148,6 @@ class Calendar extends Component {
       currentDate: new Date(this.state.currentDate.getFullYear() + 1, this.state.currentDate.getMonth()),
       selectedDate: null,
     });
-    console.log('this.state: ', this.state);
   }
 
   selectMonth(e) {
@@ -157,12 +156,10 @@ class Calendar extends Component {
       currentDate: new Date(this.state.currentDate.getFullYear(), e.target.dataset.month - 1),
       selectedDate: null,
     });
-    console.log('this.state: ', this.state);
   }
 
   selectDate(e) {
     if (!e.target.closest('.date')) return;
-    console.log(e.target.closest('.date').dataset.date);
     this.setState({ selectedDate: e.target.closest('.date').dataset.date });
   }
 

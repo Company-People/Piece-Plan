@@ -12,8 +12,8 @@ class Login extends Component {
       ['password', '비밀번호', 'password'],
     ];
     this.errors = {
-      userid: '아이디 영문 또는 숫자를 6~12자 입력하세요.',
-      password: '비밀번호 영문 또는 숫자를 6~12자 입력하세요.',
+      userid: '아이디는 영문 또는 숫자를 6~12자 이상 입력해야 합니다.',
+      password: '비밀번호는 영문 또는 숫자를 6~12자 이상 입력해야 합니다.',
     };
   }
 
@@ -26,7 +26,7 @@ class Login extends Component {
           <h1 class="hidden">로그인</h1>
           ${this.formInfoArr
             .map(
-              formInfo => `
+              (formInfo, idx) => `
               <div class="auth-input-container">
               <input
                 type="${formInfo[2]}"
@@ -36,7 +36,7 @@ class Login extends Component {
                 placeholder="${formInfo[1]}"
                 required
                 autocomplete="off" 
-                value='${this.state.values[formInfo[0]] ?? ''}'/>
+                value='${this.state.values[formInfo[0]] ?? ''}'${idx === 0 ? ' autofocus' : ''}/>
               <label for="login-${formInfo[0]}" class="hidden">${formInfo[1]}</label>
               <div class="auth-error error">${this.getError(formInfo[0])}</div>
             </div> 
@@ -54,7 +54,6 @@ class Login extends Component {
   }
 
   setEvent() {
-    // console.log(this);
     return [
       {
         type: 'input',
@@ -113,20 +112,24 @@ class Login extends Component {
     if (!e.target.matches('.auth.login')) return;
     e.preventDefault();
 
-    const $signinForm = e.target;
-    const payload = { id: $signinForm.userid.value, password: $signinForm.password.value };
-
     if (this.getValid()) {
       // 요청
-      await axios.post('/login', payload, { withCredentials: true });
+      const { userid: id, password } = this.state.values;
+
+      const { data: isSuccess } = await axios.post('/login', { id, password }, { withCredentials: true });
+
       // 페이지 이동
+      if (!isSuccess) {
+        alert('아이디 또는 비밀번호를 확인해주세요.');
+        return;
+      }
+
       this.changePage('/calendar');
-      console.log(`POST /signin`, payload);
     } else {
       // 실패 처리
       this.setState({ isLoginError: true });
       const timerId = setTimeout(() => {
-        alert('이메일 또는 비밀번호를 확인해주세요.');
+        alert('아이디 또는 비밀번호를 확인해주세요.');
         this.setState({ isLoginError: false });
         clearTimeout(timerId);
       }, 100);
