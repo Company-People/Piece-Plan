@@ -28,7 +28,7 @@ let users = [
 ];
 
 const createNewUser = (id, name, password) => {
-  const newUser = { userid: uuid(), id, name, password };
+  const newUser = { userId: uuid(), id, name, password };
   users = [...users, newUser];
   return users;
 };
