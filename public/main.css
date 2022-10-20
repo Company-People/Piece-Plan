@@ -738,6 +738,8 @@ span[data-time='23'] {
 }
 
 .piece-subtitle {
+  flex-shrink: 0;
+  word-break: break-all;
   margin-bottom: 16px;
   overflow: hidden;
   font-size: 28px;
