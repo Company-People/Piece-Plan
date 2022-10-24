@@ -6,9 +6,15 @@
 
 * 완성 웹 사이트 : https://piece-plan.du.r.appspot.com/
 
+![일정 필터 및 검색](https://user-images.githubusercontent.com/101828759/197443674-9aadf377-f1b3-4025-99e9-ee662ddf223e.gif)
+
 ## 📅 진행 기간
 
 2022.10.09 ~ 2022.10.21
+
+## 🚩 진행 과정
+
+* 프로젝트 위키 : https://github.com/Company-People/Piece-Plan/wiki/
 
 ## 👨‍💻 참여 인원
 
